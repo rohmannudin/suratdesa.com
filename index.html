@@ -151,6 +151,15 @@
                     <i class="fa-solid fa-paper-plane w-6 text-lg group-hover:scale-110 transition-transform text-emerald-400 group-hover:text-emerald-500"></i> 
                     <span class="ml-1 tracking-wide">Surat Keluar</span>
                 </button>
+                
+                <button onclick="openSettings()" id="nav-settings" class="hidden w-full text-left px-4 py-3.5 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-bold transition-all flex items-center group border border-transparent">
+                    <i class="fa-solid fa-gear w-6 text-lg group-hover:scale-110 transition-transform text-slate-400 group-hover:text-slate-600"></i> 
+                    <span class="ml-1 tracking-wide">Pengaturan Akun</span>
+                </button>
+                <button onclick="logout()" id="nav-logout" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-rose-50 text-rose-500 hover:text-rose-600 font-bold transition-all flex items-center group border border-transparent mt-4">
+                    <i class="fa-solid fa-right-from-bracket w-6 text-lg group-hover:scale-110 transition-transform text-rose-400 group-hover:text-rose-500"></i> 
+                    <span class="ml-1 tracking-wide">Keluar (Logout)</span>
+                </button>
             </nav>
         </div>
 
@@ -319,7 +328,7 @@
                 <!-- Toolbar Area -->
                 <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-200/60 flex flex-col xl:flex-row justify-between items-center gap-4 no-print">
                     
-                    <div class="w-full xl:w-auto">
+                    <div class="w-full xl:w-auto" id="btn-tambah-container">
                         <button onclick="openForm()" class="w-full xl:w-auto bg-rainbow-halus text-slate-800 px-6 py-3 rounded-xl text-sm font-extrabold transition-all shadow-md shadow-rose-200/50 hover:shadow-lg hover:scale-[1.02] flex justify-center items-center gap-2 border border-white">
                             <i class="fa-solid fa-plus opacity-70"></i> <span class="tracking-wide">Tambah Data</span>
                         </button>
@@ -568,6 +577,57 @@
         </div>
     </div>
 
+    <!-- Login Modal -->
+    <div id="login-overlay" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[200] flex items-center justify-center transition-opacity duration-500 hidden pointer-events-none">
+        <div class="bg-white rounded-[2rem] shadow-2xl p-8 max-w-sm w-full mx-4 border-4 border-white/10 relative overflow-hidden text-center">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-rainbow-halus rounded-full blur-3xl opacity-30 pointer-events-none"></div>
+            <div class="w-20 h-20 mx-auto bg-slate-100 rounded-[1.5rem] flex items-center justify-center text-slate-800 text-3xl shadow-inner mb-6 relative z-10">
+                <i class="fa-solid fa-lock text-brand-500 opacity-80"></i>
+            </div>
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight mb-2 relative z-10">Masuk E-Surat</h2>
+            <p class="text-xs text-slate-500 font-medium mb-6 relative z-10">Masukkan kode akses untuk melihat dokumen.</p>
+            
+            <form onsubmit="handleLogin(event)" class="relative z-10">
+                <input type="password" id="login-pwd" required class="w-full px-4 py-4 mb-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-center text-xl font-bold tracking-widest" placeholder="••••••••" autocomplete="off">
+                <button type="submit" class="w-full py-4 rounded-xl bg-slate-800 text-white font-extrabold hover:bg-slate-900 transition-all shadow-lg hover:shadow-slate-900/30 flex justify-center items-center gap-2">
+                    Masuk Aplikasi <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="mt-5 text-[10px] text-slate-400 relative z-10 font-bold uppercase tracking-wider">
+                Super Admin, Admin & Staff
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2rem] shadow-2xl shadow-black/20 max-w-md w-full p-8 transform scale-95 transition-transform duration-300 border border-slate-100" id="settings-modal-content">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-extrabold text-slate-800 tracking-tight"><i class="fa-solid fa-gear text-brand-500 mr-2"></i> Pengaturan Akun</h3>
+                <button type="button" onclick="closeSettings()" class="text-slate-400 hover:text-rose-500 transition-colors"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            
+            <form onsubmit="saveSettings(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Kode Akses Super Admin <span class="text-rose-500">*</span></label>
+                    <input type="text" id="pwd-superadmin" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:border-brand-500 outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Kode Akses Admin <span class="text-rose-500">*</span></label>
+                    <input type="text" id="pwd-admin" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:border-brand-500 outline-none transition-colors">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Kode Akses Staff <span class="text-rose-500">*</span></label>
+                    <input type="text" id="pwd-staff" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:border-brand-500 outline-none transition-colors">
+                </div>
+                <div class="pt-4 flex gap-3">
+                    <button type="button" onclick="closeSettings()" class="flex-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 rounded-xl transition-colors shadow-sm">Batal</button>
+                    <button type="submit" class="flex-1 bg-rainbow-halus text-slate-800 font-extrabold py-3 rounded-xl transition-all shadow-md hover:scale-[1.02]">Simpan Data</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // ==========================================
         // KONFIGURASI URL GOOGLE APPS SCRIPT (GAS)
@@ -586,6 +646,89 @@
 
         const offlineQueue = localforage.createInstance({ name: "ESurat_Queue" });
         const localCache = localforage.createInstance({ name: "ESurat_Cache" });
+        
+        window.authPasswords = JSON.parse(localStorage.getItem('ESurat_Passwords')) || { superadmin: '.', admin: 'admin', staff: 'staff' };
+        window.currentUserRole = sessionStorage.getItem('ESurat_UserRole') || null;
+
+        window.handleLogin = (e) => {
+            e.preventDefault();
+            const pwd = document.getElementById('login-pwd').value;
+            if (pwd === window.authPasswords.superadmin) window.currentUserRole = 'superadmin';
+            else if (pwd === window.authPasswords.admin) window.currentUserRole = 'admin';
+            else if (pwd === window.authPasswords.staff) window.currentUserRole = 'staff';
+            else return showToast('error', 'Kode akses salah atau tidak terdaftar!');
+
+            sessionStorage.setItem('ESurat_UserRole', window.currentUserRole);
+            
+            document.getElementById('login-overlay').classList.add('opacity-0');
+            setTimeout(() => {
+                document.getElementById('login-overlay').classList.add('hidden', 'pointer-events-none');
+                applyRoleUI();
+                initWelcomeModal();
+            }, 500);
+            
+            showToast('success', `Berhasil masuk sebagai ${window.currentUserRole.toUpperCase()}`);
+            document.getElementById('login-pwd').value = '';
+        };
+
+        window.logout = () => {
+            sessionStorage.removeItem('ESurat_UserRole');
+            window.currentUserRole = null;
+            document.getElementById('login-overlay').classList.remove('hidden', 'pointer-events-none');
+            setTimeout(() => document.getElementById('login-overlay').classList.remove('opacity-0'), 10);
+            
+            if(window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+                document.getElementById('sidebar-backdrop').classList.add('hidden', 'opacity-0');
+            }
+        };
+
+        window.openSettings = () => {
+            if(window.currentUserRole !== 'superadmin') return;
+            document.getElementById('pwd-superadmin').value = window.authPasswords.superadmin;
+            document.getElementById('pwd-admin').value = window.authPasswords.admin;
+            document.getElementById('pwd-staff').value = window.authPasswords.staff;
+            
+            const modal = document.getElementById('settings-modal');
+            const content = document.getElementById('settings-modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => content.classList.replace('scale-95', 'scale-100'), 10);
+        };
+
+        window.closeSettings = () => {
+            const modal = document.getElementById('settings-modal');
+            const content = document.getElementById('settings-modal-content');
+            content.classList.replace('scale-100', 'scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        };
+
+        window.saveSettings = (e) => {
+            e.preventDefault();
+            window.authPasswords = {
+                superadmin: document.getElementById('pwd-superadmin').value,
+                admin: document.getElementById('pwd-admin').value,
+                staff: document.getElementById('pwd-staff').value
+            };
+            localStorage.setItem('ESurat_Passwords', JSON.stringify(window.authPasswords));
+            showToast('success', 'Kode akses berhasil diperbarui.');
+            closeSettings();
+        };
+
+        function applyRoleUI() {
+            const btnTambah = document.getElementById('btn-tambah-container');
+            if (btnTambah) {
+                if (window.currentUserRole === 'staff') btnTambah.classList.add('hidden');
+                else btnTambah.classList.remove('hidden');
+            }
+            
+            const navSettings = document.getElementById('nav-settings');
+            if(navSettings) {
+                if(window.currentUserRole === 'superadmin') navSettings.classList.remove('hidden');
+                else navSettings.classList.add('hidden');
+            }
+            
+            switchTab(window.currentTab);
+        }
 
         // ====== MODAL TAHUN SAAT APLIKASI DIBUKA ======
         function initWelcomeModal() {
@@ -659,8 +802,12 @@
             updateConnectionUI(isOnline);
             updateQueueBadge();
             
-            // Tampilkan Modal Pilihan Tahun
-            initWelcomeModal();
+            if (!window.currentUserRole) {
+                document.getElementById('login-overlay').classList.remove('hidden', 'pointer-events-none');
+            } else {
+                applyRoleUI();
+                initWelcomeModal();
+            }
             
             const cached = await localCache.getItem('letters');
             if(cached) {
@@ -757,6 +904,10 @@
 
         function getFilteredDataForTab(tab) {
             let data = window.letters.filter(l => l.jenis === tab);
+            
+            if (window.currentUserRole !== 'superadmin') {
+                data = data.filter(l => !l.deletedByAdmin);
+            }
             
             if (window.selectedYear !== 'all') {
                 data = data.filter(l => l.tanggal_surat && new Date(l.tanggal_surat).getFullYear().toString() === window.selectedYear);
@@ -885,10 +1036,27 @@
                         `<td class="p-4 align-top"><div class="font-bold text-slate-800 text-[13px]">${item.pengirim || '-'}</div></td><td class="p-4 align-top"><div class="text-slate-600 text-[13px] leading-relaxed max-w-xs">${item.perihal || '-'}</div></td>` : 
                         `<td class="p-4 align-top"><div class="font-bold text-slate-800 text-[13px]">${item.pemohon || '-'}</div></td><td class="p-4 align-top"><div class="text-slate-600 text-[13px] leading-relaxed max-w-xs"><span class="font-semibold text-brand-600">${item.jenis_surat || '-'}</span>: ${item.isi_surat || '-'}</div></td>`;
 
+                    let superAdminBadge = '';
+                    if (window.currentUserRole === 'superadmin' && item.deletedByAdmin) {
+                        superAdminBadge = `<div class="mt-2 inline-block px-2 py-0.5 bg-rose-100 text-rose-600 text-[9px] font-extrabold tracking-wider uppercase rounded border border-rose-200"><i class="fa-solid fa-trash-can mr-1"></i> Dihapus Admin</div>`;
+                    }
+
+                    let actionCell = '';
+                    if (window.currentUserRole !== 'staff') {
+                        actionCell = `
+                        <td class="p-4 align-top text-center w-24 no-print">
+                            <div class="flex justify-center gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="editData('${item.id}')" class="text-brand-600 bg-white hover:bg-brand-600 hover:text-white w-8 h-8 rounded-full border border-slate-200 hover:border-brand-600 flex items-center justify-center transition-all shadow-sm"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                                <button onclick="deleteData('${item.id}')" class="text-rose-600 bg-white hover:bg-rose-600 hover:text-white w-8 h-8 rounded-full border border-slate-200 hover:border-rose-600 flex items-center justify-center transition-all shadow-sm"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                            </div>
+                        </td>`;
+                    }
+
                     tr.innerHTML = `
                         <td class="p-4 align-top w-28">
                             <div class="inline-flex items-center justify-center bg-slate-100 text-slate-700 font-bold px-3 py-1 rounded-md text-xs border border-slate-200 shadow-sm">${item.nomor_urut || '-'}</div>
                             <div class="text-[10px] text-slate-400 mt-2 font-medium flex items-center gap-1"><i class="fa-regular fa-clock"></i> ${inputDate}</div>
+                            ${superAdminBadge}
                         </td>
                         <td class="p-4 align-top w-48">
                             <div class="font-bold text-brand-700 text-sm tracking-tight break-all">${item.nomor_surat}</div>
@@ -896,12 +1064,7 @@
                         </td>
                         ${middleCols}
                         <td class="p-4 align-top text-center w-32">${buktiHtml}</td>
-                        <td class="p-4 align-top text-center w-24 no-print">
-                            <div class="flex justify-center gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onclick="editData('${item.id}')" class="text-brand-600 bg-white hover:bg-brand-600 hover:text-white w-8 h-8 rounded-full border border-slate-200 hover:border-brand-600 flex items-center justify-center transition-all shadow-sm"><i class="fa-solid fa-pen text-[10px]"></i></button>
-                                <button onclick="deleteData('${item.id}')" class="text-rose-600 bg-white hover:bg-rose-600 hover:text-white w-8 h-8 rounded-full border border-slate-200 hover:border-rose-600 flex items-center justify-center transition-all shadow-sm"><i class="fa-solid fa-trash text-[10px]"></i></button>
-                            </div>
-                        </td>
+                        ${actionCell}
                     `;
                     tbody.appendChild(tr);
                 });
@@ -910,6 +1073,10 @@
 
         window.saveData = async (e) => {
             e.preventDefault();
+            
+            // Proteksi Tambahan untuk Role Staff
+            if(window.currentUserRole === 'staff') return showToast('error', 'Akses ditolak. Staff hanya dapat melihat.');
+            
             const btnSave = document.getElementById('btn-save');
             btnSave.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...';
             btnSave.disabled = true;
@@ -1006,24 +1173,48 @@
         window.deleteData = (id) => {
             showConfirmModal('Tindakan ini akan menghapus arsip secara permanen. Apakah Anda yakin ingin melanjutkan?', async () => {
                 try {
-                    window.letters = window.letters.filter(l => l.id !== id);
-                    localCache.setItem('letters', window.letters);
-                    updateYearDropdown(); refreshUI();
-                    const payload = { action: 'delete', id: id };
-
-                    if (isOnline && isGasConfigured) {
-                        document.getElementById('loading-text').innerText = 'Menghapus Data';
-                        document.getElementById('loading-overlay').classList.replace('hidden', 'flex');
-                        
-                        await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
-                        
-                        document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
-                        document.getElementById('loading-text').innerText = 'Memproses Data';
-                        showToast('success', 'Data berhasil dihapus.');
+                    if (window.currentUserRole === 'admin') {
+                        // Soft delete (Sembunyikan dari Admin, tapi tetap ada di panel Super Admin)
+                        let itemIndex = window.letters.findIndex(l => l.id === id);
+                        if (itemIndex > -1) {
+                            window.letters[itemIndex].deletedByAdmin = true;
+                            localCache.setItem('letters', window.letters);
+                            updateYearDropdown(); refreshUI();
+                            
+                            const payload = { action: 'create_or_update', data: window.letters[itemIndex] };
+                            if (isOnline && isGasConfigured) {
+                                document.getElementById('loading-text').innerText = 'Menghapus Data';
+                                document.getElementById('loading-overlay').classList.replace('hidden', 'flex');
+                                await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+                                document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
+                                showToast('success', 'Data berhasil dihapus dari panel Admin.');
+                            } else {
+                                await offlineQueue.setItem('SAVE_' + id, payload);
+                                updateQueueBadge();
+                                showToast('info', 'Penghapusan dijadwalkan secara offline.');
+                            }
+                        }
                     } else {
-                        await offlineQueue.setItem('DEL_' + id, payload);
-                        updateQueueBadge();
-                        showToast('info', 'Penghapusan dijadwalkan secara offline.');
+                        // Hard delete (Super Admin)
+                        window.letters = window.letters.filter(l => l.id !== id);
+                        localCache.setItem('letters', window.letters);
+                        updateYearDropdown(); refreshUI();
+                        const payload = { action: 'delete', id: id };
+
+                        if (isOnline && isGasConfigured) {
+                            document.getElementById('loading-text').innerText = 'Menghapus Permanen';
+                            document.getElementById('loading-overlay').classList.replace('hidden', 'flex');
+                            
+                            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
+                            
+                            document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
+                            document.getElementById('loading-text').innerText = 'Memproses Data';
+                            showToast('success', 'Data berhasil dihapus permanen.');
+                        } else {
+                            await offlineQueue.setItem('DEL_' + id, payload);
+                            updateQueueBadge();
+                            showToast('info', 'Penghapusan permanen dijadwalkan offline.');
+                        }
                     }
                 } catch(e) {
                     document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
@@ -1067,9 +1258,11 @@
                 document.getElementById('page-title').innerText = isMasuk ? 'Arsip Surat Masuk' : 'Arsip Surat Keluar';
                 document.getElementById('table-title').innerText = isMasuk ? 'Daftar Surat Masuk' : 'Daftar Surat Keluar';
                 
+                const aksiHeader = window.currentUserRole === 'staff' ? '' : '<th class="p-4 font-extrabold text-center w-24 no-print">Aksi</th>';
+                
                 document.getElementById('table-head').innerHTML = isMasuk ? 
-                    `<tr class="bg-slate-50 text-slate-500 text-[11px] uppercase tracking-widest border-b-2 border-slate-200"><th class="p-4 font-extrabold w-28">Pencatatan</th><th class="p-4 font-extrabold w-48">Surat & Tgl</th><th class="p-4 font-extrabold">Instansi</th><th class="p-4 font-extrabold">Perihal</th><th class="p-4 font-extrabold text-center w-32">Lampiran</th><th class="p-4 font-extrabold text-center w-24 no-print">Aksi</th></tr>` :
-                    `<tr class="bg-slate-50 text-slate-500 text-[11px] uppercase tracking-widest border-b-2 border-slate-200"><th class="p-4 font-extrabold w-28">Pencatatan</th><th class="p-4 font-extrabold w-48">Surat & Tgl</th><th class="p-4 font-extrabold">Tujuan</th><th class="p-4 font-extrabold">Informasi</th><th class="p-4 font-extrabold text-center w-32">Lampiran</th><th class="p-4 font-extrabold text-center w-24 no-print">Aksi</th></tr>`;
+                    `<tr class="bg-slate-50 text-slate-500 text-[11px] uppercase tracking-widest border-b-2 border-slate-200"><th class="p-4 font-extrabold w-28">Pencatatan</th><th class="p-4 font-extrabold w-48">Surat & Tgl</th><th class="p-4 font-extrabold">Instansi</th><th class="p-4 font-extrabold">Perihal</th><th class="p-4 font-extrabold text-center w-32">Lampiran</th>${aksiHeader}</tr>` :
+                    `<tr class="bg-slate-50 text-slate-500 text-[11px] uppercase tracking-widest border-b-2 border-slate-200"><th class="p-4 font-extrabold w-28">Pencatatan</th><th class="p-4 font-extrabold w-48">Surat & Tgl</th><th class="p-4 font-extrabold">Tujuan</th><th class="p-4 font-extrabold">Informasi</th><th class="p-4 font-extrabold text-center w-32">Lampiran</th>${aksiHeader}</tr>`;
                 renderTable();
             }
         };
