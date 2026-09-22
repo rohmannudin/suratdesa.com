@@ -97,7 +97,6 @@
     <!-- Modal Pilihan Tahun di Awal (Pas Buka Aplikasi) -->
     <div id="welcome-year-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none hidden">
         <div class="bg-white rounded-[2rem] shadow-2xl p-8 max-w-md w-full mx-4 transform transition-transform scale-95 duration-700 ease-out border-4 border-white/50 relative overflow-hidden" id="welcome-year-content">
-            <!-- Decorative background blob -->
             <div class="absolute -top-10 -right-10 w-40 h-40 bg-rainbow-halus rounded-full blur-3xl opacity-30 pointer-events-none"></div>
             
             <div class="text-center mb-8 relative z-10">
@@ -108,18 +107,34 @@
                 <p class="text-sm text-slate-500 font-medium leading-relaxed">Sistem arsip dengan antarmuka yang cerah dan segar. Silakan pilih tahun periode arsip Anda.</p>
             </div>
             
-            <div class="grid grid-cols-3 gap-3 relative z-10" id="welcome-year-grid">
-                <!-- Tahun akan dirender via JavaScript -->
-            </div>
-            
+            <div class="grid grid-cols-3 gap-3 relative z-10" id="welcome-year-grid"></div>
             <button onclick="selectWelcomeYear('all')" class="mt-6 w-full py-4 rounded-xl border-2 border-slate-100 text-slate-600 font-bold hover:bg-rainbow-halus hover:text-slate-800 hover:border-transparent transition-all shadow-sm relative z-10 tracking-wide">Lihat Semua Data</button>
         </div>
     </div>
 
-    <!-- Mobile Sidebar Backdrop (Animasi Transisi Opacity Halus) -->
+    <!-- Login Modal -->
+    <div id="login-overlay" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[200] flex items-center justify-center transition-opacity duration-500 hidden pointer-events-none">
+        <div class="bg-white rounded-[2rem] shadow-2xl p-8 max-w-sm w-full mx-4 border-4 border-white/10 relative overflow-hidden text-center">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-rainbow-halus rounded-full blur-3xl opacity-30 pointer-events-none"></div>
+            <div class="w-20 h-20 mx-auto bg-slate-100 rounded-[1.5rem] flex items-center justify-center text-slate-800 text-3xl shadow-inner mb-6 relative z-10">
+                <i class="fa-solid fa-lock text-brand-500 opacity-80"></i>
+            </div>
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight mb-2 relative z-10">Masuk E-Surat</h2>
+            <p class="text-xs text-slate-500 font-medium mb-6 relative z-10">Masukkan kode akses untuk melihat dokumen.</p>
+            
+            <form onsubmit="handleLogin(event)" class="relative z-10">
+                <input type="password" id="login-pwd" required class="w-full px-4 py-4 mb-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-center text-xl font-bold tracking-widest" placeholder="••••••••" autocomplete="off">
+                <button type="submit" class="w-full py-4 rounded-xl bg-slate-800 text-white font-extrabold hover:bg-slate-900 transition-all shadow-lg hover:shadow-slate-900/30 flex justify-center items-center gap-2">
+                    Masuk Aplikasi <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mobile Sidebar Backdrop -->
     <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-500 ease-in-out md:hidden" onclick="toggleSidebar()"></div>
 
-    <!-- Sidebar Cerah dengan Efek Smooth Slide -->
+    <!-- Sidebar -->
     <aside id="sidebar" class="absolute md:relative z-50 w-[260px] transform -translate-x-full md:translate-x-0 transition-all duration-500 ease-in-out bg-white/95 backdrop-blur-xl border-r border-slate-200 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.1)] md:shadow-none flex flex-col no-print h-full flex-shrink-0">
         <div class="h-20 flex items-center justify-between border-b border-slate-100 px-6">
             <div class="flex items-center gap-3">
@@ -151,7 +166,6 @@
                     <i class="fa-solid fa-paper-plane w-6 text-lg group-hover:scale-110 transition-transform text-emerald-400 group-hover:text-emerald-500"></i> 
                     <span class="ml-1 tracking-wide">Surat Keluar</span>
                 </button>
-                
                 <button onclick="openSettings()" id="nav-settings" class="hidden w-full text-left px-4 py-3.5 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-bold transition-all flex items-center group border border-transparent">
                     <i class="fa-solid fa-gear w-6 text-lg group-hover:scale-110 transition-transform text-slate-400 group-hover:text-slate-600"></i> 
                     <span class="ml-1 tracking-wide">Pengaturan Akun</span>
@@ -165,12 +179,12 @@
 
         <div class="p-5 border-t border-slate-100/50 mt-auto">
             <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 text-center">
-                <div id="connection-status" class="inline-flex items-center justify-center w-full gap-2 text-slate-500 text-[11px] font-bold mb-3 tracking-wide">
+                <div id="connection-status" class="inline-flex items-center justify-center w-full gap-2 text-emerald-600 text-[11px] font-bold mb-3 tracking-wide">
                     <span class="relative flex h-2.5 w-2.5">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-300 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-slate-400"></span>
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                     </span>
-                    Memeriksa...
+                    Cloud Database Aktif
                 </div>
                 <button onclick="forceSync()" class="w-full bg-white hover:bg-rainbow-halus text-slate-600 hover:text-slate-800 px-3 py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 border border-slate-200 hover:border-transparent shadow-sm">
                     <i class="fa-solid fa-rotate opacity-70"></i> Sinkronisasi
@@ -195,7 +209,6 @@
             </div>
             
             <div class="flex items-center gap-3">
-                <!-- Filter Kapsul Premium -->
                 <div class="hidden md:flex items-center bg-white border border-slate-200 rounded-full p-1 shadow-sm">
                     <div class="flex items-center px-3 border-r border-slate-100">
                         <i class="fa-regular fa-calendar text-slate-400 mr-2 text-sm"></i>
@@ -222,15 +235,10 @@
                     </div>
                 </div>
 
-                <!-- Mobile Filter (Simplified) -->
                 <div class="md:hidden flex bg-white border border-slate-200 rounded-lg p-1 shadow-sm">
                     <select id="mobile-year-filter" onchange="document.getElementById('year-filter').value=this.value; changeYear(this.value);" class="bg-transparent text-slate-700 text-xs font-semibold outline-none w-20">
                         <option value="all">Tahun</option>
                     </select>
-                </div>
-
-                <div id="queue-badge" class="hidden items-center justify-center bg-rose-50 text-rose-600 px-3 py-2 rounded-full text-xs font-bold border border-rose-100 shadow-sm shadow-rose-100/50">
-                    <i class="fa-solid fa-cloud-arrow-up mr-1.5 animate-bounce"></i> <span id="queue-count">0</span> <span class="hidden lg:inline ml-1">Antrean</span>
                 </div>
                 
                 <button onclick="fetchDataFromServer()" class="bg-white hover:bg-slate-50 text-slate-600 p-2.5 md:px-4 md:py-2 rounded-full text-sm font-semibold border border-slate-200 shadow-sm hover:shadow transition-all group flex items-center justify-center">
@@ -244,15 +252,14 @@
             
             <!-- Dashboard View -->
             <div id="view-dashboard" class="view-section space-y-8 max-w-7xl mx-auto">
-                <!-- Premium Banner Cerah Pelangi Halus -->
                 <div class="bg-rainbow-halus rounded-[2rem] shadow-xl shadow-rose-200/50 overflow-hidden relative border-4 border-white">
                     <div class="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
                     <div class="px-8 py-10 md:p-12 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div>
-                            <span class="inline-block py-1.5 px-4 rounded-full bg-white/40 backdrop-blur-md text-slate-800 text-xs font-black tracking-widest mb-4 shadow-sm border border-white/60">VERSI 2.0 PREMIUM</span>
+                            <span class="inline-block py-1.5 px-4 rounded-full bg-white/40 backdrop-blur-md text-slate-800 text-xs font-black tracking-widest mb-4 shadow-sm border border-white/60">VERSI 3.0 PREMIUM (CLOUD)</span>
                             <h3 class="text-3xl md:text-5xl font-extrabold text-slate-800 tracking-tight mb-3 drop-shadow-sm">Sistem E-Surat Fajar Asri</h3>
                             <p class="text-slate-700 text-sm md:text-base max-w-2xl leading-relaxed font-semibold">
-                                Kelola arsip persuratan desa dengan antarmuka yang lebih halus, rapi, dan ceria. Dilengkapi penyimpanan offline yang menjaga data tetap aman.
+                                Kelola arsip persuratan desa secara real-time di web publik GitHub dengan penyimpanan awan yang aman dan dapat diakses dari perangkat mana saja.
                             </p>
                         </div>
                         <div class="hidden lg:flex w-28 h-28 rounded-full bg-white/30 backdrop-blur-md items-center justify-center shadow-xl relative border border-white/60 transform hover:rotate-12 hover:scale-105 transition-all duration-500">
@@ -265,7 +272,6 @@
                 </div>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Stats Cards -->
                     <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6 h-full">
                         <div class="bg-white rounded-3xl p-8 flex flex-col justify-between border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-sky-500/10 hover:-translate-y-1 transition-all duration-400 group cursor-pointer relative overflow-hidden" onclick="switchTab('masuk')">
                             <div class="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-opacity transform group-hover:scale-110 group-hover:-rotate-12 duration-500">
@@ -304,7 +310,6 @@
                         </div>
                     </div>
 
-                    <!-- Chart Card -->
                     <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col relative overflow-hidden hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between mb-6">
                             <h4 class="text-sm text-slate-800 font-bold tracking-wide">Statistik Arsip</h4>
@@ -325,16 +330,13 @@
 
             <!-- Data & Table View -->
             <div id="view-data" class="view-section hidden space-y-6 max-w-full">
-                <!-- Toolbar Area -->
                 <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-200/60 flex flex-col xl:flex-row justify-between items-center gap-4 no-print">
-                    
                     <div class="w-full xl:w-auto" id="btn-tambah-container">
                         <button onclick="openForm()" class="w-full xl:w-auto bg-rainbow-halus text-slate-800 px-6 py-3 rounded-xl text-sm font-extrabold transition-all shadow-md shadow-rose-200/50 hover:shadow-lg hover:scale-[1.02] flex justify-center items-center gap-2 border border-white">
                             <i class="fa-solid fa-plus opacity-70"></i> <span class="tracking-wide">Tambah Data</span>
                         </button>
                     </div>
                     
-                    <!-- Premium Search -->
                     <div class="flex-1 w-full max-w-2xl relative group">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <i class="fa-solid fa-magnifying-glass text-slate-400 group-focus-within:text-brand-500 transition-colors"></i>
@@ -342,7 +344,6 @@
                         <input type="text" id="search-input" oninput="renderTable()" placeholder="Cari berdasarkan nomor, perihal, atau pengirim..." class="w-full pl-11 pr-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm text-sm text-slate-700 placeholder-slate-400 font-medium">
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="flex flex-wrap xl:flex-nowrap w-full xl:w-auto gap-2">
                         <button onclick="window.print()" class="flex-1 xl:flex-none bg-slate-800 hover:bg-slate-900 text-white px-5 py-3 rounded-xl text-sm font-semibold transition-all shadow-md flex justify-center items-center gap-2">
                             <i class="fa-solid fa-print opacity-70"></i> Cetak
@@ -356,10 +357,8 @@
                     </div>
                 </div>
 
-                <!-- Table Container -->
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-200/80 overflow-hidden" id="print-area">
                     <div class="p-6 border-b border-slate-100 bg-white flex justify-between items-center relative overflow-hidden">
-                        <!-- Decorative background for header -->
                         <div class="absolute top-0 right-0 w-64 h-64 bg-rainbow-halus rounded-full blur-3xl -mr-20 -mt-20 opacity-20 pointer-events-none"></div>
                         <h3 id="table-title" class="text-xl font-extrabold text-slate-800 tracking-tight relative z-10">Daftar Surat</h3>
                     </div>
@@ -371,7 +370,6 @@
                         </table>
                     </div>
 
-                    <!-- Modern Empty State -->
                     <div id="empty-state" class="hidden py-24 px-6 text-center">
                         <div class="w-32 h-32 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-slate-100">
                             <i class="fa-solid fa-folder-open text-5xl text-slate-300"></i>
@@ -385,7 +383,7 @@
                 </div>
             </div>
 
-            <!-- Form View (Premium Design) -->
+            <!-- Form View -->
             <div id="view-form" class="view-section hidden max-w-5xl mx-auto space-y-6 pb-12">
                 <button onclick="goBackToData()" class="group flex items-center text-slate-500 hover:text-slate-800 font-semibold transition-colors bg-white hover:bg-slate-50 px-5 py-2.5 rounded-full shadow-sm border border-slate-200 w-max">
                     <i class="fa-solid fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i> Kembali ke Daftar
@@ -407,7 +405,6 @@
                             <input type="hidden" id="surat-id">
                             
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                                <!-- Kolom Kiri - DIBUAT SANGAT JELAS -->
                                 <div class="space-y-6 bg-slate-50/50 p-6 rounded-3xl border border-slate-100/80">
                                     <div class="flex items-center gap-2 border-b border-slate-200/80 pb-3 mb-6">
                                         <i class="fa-solid fa-hashtag text-brand-500"></i>
@@ -415,7 +412,6 @@
                                     </div>
                                     
                                     <div class="space-y-6">
-                                        <!-- Highlight Input Nomor Urut -->
                                         <div>
                                             <label class="block text-sm font-bold text-slate-700 mb-2">Nomor Urut / Agenda <span class="text-rose-500">*</span></label>
                                             <div class="relative">
@@ -427,7 +423,6 @@
                                             <p class="text-[10px] text-sky-600 mt-2 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle-info"></i> Otomatis menyesuaikan urutan terakhir.</p>
                                         </div>
                                         
-                                        <!-- Highlight Input Nomor Surat Asli -->
                                         <div>
                                             <label class="block text-sm font-bold text-slate-700 mb-2">Nomor Surat Asli <span class="text-rose-500">*</span></label>
                                             <div class="relative">
@@ -445,14 +440,12 @@
                                     </div>
                                 </div>
 
-                                <!-- Kolom Kanan -->
                                 <div class="space-y-6">
                                     <div class="flex items-center gap-2 border-b border-slate-100 pb-3 mb-6">
                                         <i class="fa-solid fa-align-left text-brand-500"></i>
                                         <h4 class="font-bold text-slate-800 tracking-wide uppercase text-sm">Detail Konten</h4>
                                     </div>
                                     
-                                    <!-- Field Surat Masuk -->
                                     <div id="form-group-masuk" class="space-y-5">
                                         <div>
                                             <label class="block text-sm font-bold text-slate-700 mb-1.5">Instansi Pengirim <span class="text-rose-500">*</span></label>
@@ -464,7 +457,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Field Surat Keluar -->
                                     <div id="form-group-keluar" class="space-y-5 hidden">
                                         <div>
                                             <label class="block text-sm font-bold text-slate-700 mb-1.5">Jenis Surat <span class="text-rose-500">*</span></label>
@@ -482,7 +474,6 @@
                                 </div>
                             </div>
 
-                            <!-- Upload Section -->
                             <div class="mt-10 pt-8 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-6">
                                     <i class="fa-solid fa-paperclip text-brand-500"></i>
@@ -509,7 +500,6 @@
                                     </div>
                                 </div>
 
-                                <!-- File Preview -->
                                 <div id="file-name-display" class="mt-6 hidden">
                                     <div class="inline-flex items-center gap-3 p-2 pr-4 bg-emerald-50 rounded-full border border-emerald-100 shadow-sm mx-auto">
                                         <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
@@ -526,7 +516,6 @@
                                 <input type="hidden" id="existing_bukti_name">
                             </div>
 
-                            <!-- Footer Actions -->
                             <div class="mt-10 pt-6 border-t border-slate-100 flex justify-end gap-4">
                                 <button type="button" onclick="goBackToData()" class="px-6 py-3.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-800 rounded-xl transition-colors">
                                     Batal
@@ -551,7 +540,7 @@
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Hapus Premium -->
+    <!-- Confirm Modal -->
     <div id="confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-[2rem] shadow-2xl shadow-black/20 max-w-sm w-full p-8 transform scale-95 transition-transform duration-300 border border-slate-100" id="confirm-modal-content">
             <div class="w-16 h-16 mx-auto bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mb-5 border-4 border-rose-50 shadow-inner">
@@ -566,39 +555,6 @@
         </div>
     </div>
 
-    <!-- Premium Toast Notifications -->
-    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-full opacity-0 transition-all duration-400 ease-out z-[80] pointer-events-none">
-        <div class="bg-slate-800 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[300px] border border-slate-700">
-            <div id="toast-icon" class="flex-shrink-0 text-xl"></div>
-            <div>
-                <h4 id="toast-title" class="font-bold text-sm tracking-wide">Notifikasi</h4>
-                <p id="toast-message" class="text-xs text-slate-300 font-medium mt-0.5"></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div id="login-overlay" class="fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[200] flex items-center justify-center transition-opacity duration-500 hidden pointer-events-none">
-        <div class="bg-white rounded-[2rem] shadow-2xl p-8 max-w-sm w-full mx-4 border-4 border-white/10 relative overflow-hidden text-center">
-            <div class="absolute -top-10 -right-10 w-40 h-40 bg-rainbow-halus rounded-full blur-3xl opacity-30 pointer-events-none"></div>
-            <div class="w-20 h-20 mx-auto bg-slate-100 rounded-[1.5rem] flex items-center justify-center text-slate-800 text-3xl shadow-inner mb-6 relative z-10">
-                <i class="fa-solid fa-lock text-brand-500 opacity-80"></i>
-            </div>
-            <h2 class="text-2xl font-black text-slate-800 tracking-tight mb-2 relative z-10">Masuk E-Surat</h2>
-            <p class="text-xs text-slate-500 font-medium mb-6 relative z-10">Masukkan kode akses untuk melihat dokumen.</p>
-            
-            <form onsubmit="handleLogin(event)" class="relative z-10">
-                <input type="password" id="login-pwd" required class="w-full px-4 py-4 mb-4 bg-slate-50 border-2 border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-center text-xl font-bold tracking-widest" placeholder="••••••••" autocomplete="off">
-                <button type="submit" class="w-full py-4 rounded-xl bg-slate-800 text-white font-extrabold hover:bg-slate-900 transition-all shadow-lg hover:shadow-slate-900/30 flex justify-center items-center gap-2">
-                    Masuk Aplikasi <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-            <div class="mt-5 text-[10px] text-slate-400 relative z-10 font-bold uppercase tracking-wider">
-                Super Admin, Admin & Staff
-            </div>
-        </div>
-    </div>
-
     <!-- Settings Modal -->
     <div id="settings-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-[2rem] shadow-2xl shadow-black/20 max-w-md w-full p-8 transform scale-95 transition-transform duration-300 border border-slate-100" id="settings-modal-content">
@@ -608,9 +564,9 @@
             </div>
             
             <form onsubmit="saveSettings(event)" class="space-y-4">
-                <div>
+                <div id="div-pwd-superadmin">
                     <label class="block text-xs font-bold text-slate-700 mb-1">Kode Akses Super Admin <span class="text-rose-500">*</span></label>
-                    <input type="text" id="pwd-superadmin" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:border-brand-500 outline-none transition-colors">
+                    <input type="text" id="pwd-superadmin" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:border-brand-500 outline-none transition-colors">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">Kode Akses Admin <span class="text-rose-500">*</span></label>
@@ -628,26 +584,49 @@
         </div>
     </div>
 
-    <script>
-        // ==========================================
-        // KONFIGURASI URL GOOGLE APPS SCRIPT (GAS)
-        // ==========================================
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbye2fHGnuMgbTyB_8dAaJMExDLsVpbZZ_KerO8p6V5HV4fiE3J4n0shI8yHg607U29P/exec"; 
-        const isGasConfigured = GAS_WEB_APP_URL !== "ISI_DENGAN_URL_WEB_APP_GAS_ANDA_DISINI" && GAS_WEB_APP_URL.trim() !== "";
-        
+    <!-- Toast Notifications -->
+    <div id="toast" class="fixed bottom-6 right-6 transform translate-y-full opacity-0 transition-all duration-400 ease-out z-[80] pointer-events-none">
+        <div class="bg-slate-800 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[300px] border border-slate-700">
+            <div id="toast-icon" class="flex-shrink-0 text-xl"></div>
+            <div>
+                <h4 id="toast-title" class="font-bold text-sm tracking-wide">Notifikasi</h4>
+                <p id="toast-message" class="text-xs text-slate-300 font-medium mt-0.5"></p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'e-surat-fajar-asri-v3';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            apiKey: "AIzaSyDummyKeyForGitHubPagesHosting-DefaultFallback",
+            authDomain: "e-surat-desa.firebaseapp.com",
+            projectId: "e-surat-desa"
+        };
+
+        let app, db, auth;
+        let currentUser = null;
+        let isCloudReady = false;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+        } catch(e) {
+            console.error("Firebase init notice:", e);
+        }
+
         const MAX_FILE_SIZE = 50 * 1024 * 1024;
-        
         window.currentTab = 'dashboard';
         window.letters = []; 
         window.selectedYear = 'all'; 
         window.selectedMonth = 'all'; 
         let dashboardChart = null;
-        let isOnline = navigator.onLine;
 
-        const offlineQueue = localforage.createInstance({ name: "ESurat_Queue" });
-        const localCache = localforage.createInstance({ name: "ESurat_Cache" });
-        
-        window.authPasswords = JSON.parse(localStorage.getItem('ESurat_Passwords')) || { superadmin: '.', admin: 'admin', staff: 'staff' };
+        window.authPasswords = JSON.parse(localStorage.getItem('ESurat_Passwords')) || { superadmin: '.', admin: ',', staff: '.,' };
         window.currentUserRole = sessionStorage.getItem('ESurat_UserRole') || null;
 
         window.handleLogin = (e) => {
@@ -684,7 +663,14 @@
         };
 
         window.openSettings = () => {
-            if(window.currentUserRole !== 'superadmin') return;
+            if(window.currentUserRole === 'staff') return;
+            const divSuper = document.getElementById('div-pwd-superadmin');
+            if(window.currentUserRole === 'admin') {
+                divSuper.classList.add('hidden');
+            } else {
+                divSuper.classList.remove('hidden');
+            }
+
             document.getElementById('pwd-superadmin').value = window.authPasswords.superadmin;
             document.getElementById('pwd-admin').value = window.authPasswords.admin;
             document.getElementById('pwd-staff').value = window.authPasswords.staff;
@@ -704,11 +690,12 @@
 
         window.saveSettings = (e) => {
             e.preventDefault();
-            window.authPasswords = {
-                superadmin: document.getElementById('pwd-superadmin').value,
-                admin: document.getElementById('pwd-admin').value,
-                staff: document.getElementById('pwd-staff').value
-            };
+            if(window.currentUserRole === 'superadmin') {
+                window.authPasswords.superadmin = document.getElementById('pwd-superadmin').value || window.authPasswords.superadmin;
+            }
+            window.authPasswords.admin = document.getElementById('pwd-admin').value || window.authPasswords.admin;
+            window.authPasswords.staff = document.getElementById('pwd-staff').value || window.authPasswords.staff;
+            
             localStorage.setItem('ESurat_Passwords', JSON.stringify(window.authPasswords));
             showToast('success', 'Kode akses berhasil diperbarui.');
             closeSettings();
@@ -720,33 +707,24 @@
                 if (window.currentUserRole === 'staff') btnTambah.classList.add('hidden');
                 else btnTambah.classList.remove('hidden');
             }
-            
             const navSettings = document.getElementById('nav-settings');
             if(navSettings) {
-                if(window.currentUserRole === 'superadmin') navSettings.classList.remove('hidden');
+                if(window.currentUserRole === 'superadmin' || window.currentUserRole === 'admin') navSettings.classList.remove('hidden');
                 else navSettings.classList.add('hidden');
             }
-            
             switchTab(window.currentTab);
         }
 
-        // ====== MODAL TAHUN SAAT APLIKASI DIBUKA ======
         function initWelcomeModal() {
-            // Cek session storage, bila pengguna sudah pernah memilih tahun, lewati fungsi ini.
             if (sessionStorage.getItem('yearSelected')) return;
-
             const modal = document.getElementById('welcome-year-modal');
             const grid = document.getElementById('welcome-year-grid');
-            
-            // Hasilkan opsi tahun (contoh 2023 - 2027)
             let html = '';
             const currentY = new Date().getFullYear();
             for (let y = currentY - 2; y <= currentY + 2; y++) {
                 html += `<button onclick="selectWelcomeYear('${y}')" class="py-4 rounded-xl bg-white/60 hover:bg-white backdrop-blur-sm border-2 border-slate-200 hover:border-brand-400 text-slate-700 font-extrabold transition-all shadow-sm hover:shadow-lg hover:shadow-brand-500/20 text-xl hover:-translate-y-1">${y}</button>`;
             }
             grid.innerHTML = html;
-
-            // Tampilkan modal dengan animasi lambat
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -755,20 +733,15 @@
         }
 
         window.selectWelcomeYear = (year) => {
-            // Tetapkan status di dalam memori sesi agar modal tidak dimunculkan kembali saat refresh.
             sessionStorage.setItem('yearSelected', 'true');
-
             const modal = document.getElementById('welcome-year-modal');
             const content = document.getElementById('welcome-year-content');
-            
-            // Animasi menutup modal
             content.classList.replace('scale-100', 'scale-95');
             modal.classList.add('opacity-0');
-            
             setTimeout(() => {
                 modal.classList.add('hidden', 'pointer-events-none');
-                window.changeYear(year); // Terapkan filter
-            }, 700); // Sesuaikan dengan durasi css
+                window.changeYear(year);
+            }, 700);
         };
 
         let currentConfirmCallback = null;
@@ -797,100 +770,76 @@
             hideConfirmModal();
         });
 
-        async function initApp() {
-            setupNetworkListeners();
-            updateConnectionUI(isOnline);
-            updateQueueBadge();
-            
-            if (!window.currentUserRole) {
-                document.getElementById('login-overlay').classList.remove('hidden', 'pointer-events-none');
-            } else {
-                applyRoleUI();
-                initWelcomeModal();
+        async function initCloudDatabase() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                currentUser = auth.currentUser;
+                isCloudReady = true;
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        currentUser = user;
+                        startRealtimeSync();
+                    }
+                });
+            } catch (err) {
+                console.warn("Cloud connection fallback to local storage:", err);
+                fallbackToLocal();
             }
-            
+        }
+
+        function startRealtimeSync() {
+            if (!db || !currentUser) return;
+            try {
+                const publicColRef = collection(db, 'artifacts', appId, 'public', 'data', 'letters');
+                onSnapshot(publicColRef, (snapshot) => {
+                    const cloudLetters = [];
+                    snapshot.forEach(docSnap => {
+                        cloudLetters.push({ id: docSnap.id, ...docSnap.data() });
+                    });
+                    if (cloudLetters.length > 0 || window.letters.length === 0) {
+                        window.letters = cloudLetters.sort((a, b) => {
+                            const valA = a.nomor_urut ? a.nomor_urut.toString() : '';
+                            const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
+                            return valB.localeCompare(valA, undefined, { numeric: true, sensitivity: 'base' });
+                        });
+                        updateYearDropdown();
+                        refreshUI();
+                    }
+                }, (error) => {
+                    console.error("Snapshot sync error:", error);
+                });
+            } catch (e) {
+                console.error("Realtime listener error:", e);
+            }
+        }
+
+        async function fallbackToLocal() {
+            const localCache = localforage.createInstance({ name: "ESurat_Cache" });
             const cached = await localCache.getItem('letters');
-            if(cached) {
+            if (cached) {
                 window.letters = cached;
                 updateYearDropdown();
                 refreshUI();
             }
-
-            if(isOnline) {
-                await processOfflineQueue();
-                fetchDataFromServer();
-            }
         }
 
-        async function fetchDataFromServer() {
-            if (!isOnline || !isGasConfigured) return;
-            try {
-                document.getElementById('connection-status').innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sinkronisasi...';
-                const response = await fetch(GAS_WEB_APP_URL + "?action=read");
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    window.letters = result.data.sort((a, b) => {
-                        const valA = a.nomor_urut ? a.nomor_urut.toString() : '';
-                        const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
-                        return valB.localeCompare(valA, undefined, { numeric: true, sensitivity: 'base' });
-                    });
-                    localCache.setItem('letters', window.letters);
-                    updateYearDropdown();
-                    refreshUI();
-                    updateConnectionUI(true, 'Terhubung');
-                } else {
-                    throw new Error(result.message);
-                }
-            } catch (error) {
-                console.error("Gagal mengambil data:", error);
-                updateConnectionUI(true, 'Gagal Sinkron');
-            }
-        }
-
-        async function processOfflineQueue() {
-            if (!isOnline || !isGasConfigured) return;
-            const keys = await offlineQueue.keys();
-            if (keys.length === 0) return;
-
-            document.getElementById('connection-status').innerHTML = '<i class="fa-solid fa-cloud-arrow-up fa-bounce"></i> Mengunggah...';
-            let successCount = 0;
-
-            for (let key of keys) {
-                try {
-                    const queueData = await offlineQueue.getItem(key);
-                    const response = await fetch(GAS_WEB_APP_URL, {
-                        method: 'POST',
-                        body: JSON.stringify(queueData)
-                    });
-                    const result = await response.json();
-                    
-                    if (result.status === 'success') {
-                        await offlineQueue.removeItem(key);
-                        successCount++;
-                    }
-                } catch (error) {
-                    console.error("Gagal sinkron data ID:", key, error);
-                }
-            }
-
-            if (successCount > 0) {
-                showToast('success', `${successCount} antrean offline disinkronkan!`);
-                fetchDataFromServer();
-            }
-            updateQueueBadge();
-            updateConnectionUI(true, 'Terhubung');
-        }
+        window.forceSync = async () => {
+            showToast('success', 'Data tersinkronisasi dengan Cloud Database.');
+            if (currentUser) startRealtimeSync();
+        };
 
         function updateYearDropdown() {
             const selects = [document.getElementById('year-filter'), document.getElementById('mobile-year-filter')];
             const currentVal = window.selectedYear;
-            
             let html = '<option value="all">Tahun</option>';
             for (let y = 2023; y <= 2032; y++) {
                 html += `<option value="${y}">${y}</option>`;
             }
-            
             selects.forEach(select => {
                 if(select){
                    select.innerHTML = html;
@@ -904,15 +853,12 @@
 
         function getFilteredDataForTab(tab) {
             let data = window.letters.filter(l => l.jenis === tab);
-            
             if (window.currentUserRole !== 'superadmin') {
                 data = data.filter(l => !l.deletedByAdmin);
             }
-            
             if (window.selectedYear !== 'all') {
                 data = data.filter(l => l.tanggal_surat && new Date(l.tanggal_surat).getFullYear().toString() === window.selectedYear);
             }
-            
             if (window.selectedMonth !== 'all') {
                 data = data.filter(l => {
                     if (!l.tanggal_surat) return false;
@@ -920,7 +866,6 @@
                     return month === window.selectedMonth;
                 });
             }
-            
             const searchInput = document.getElementById('search-input');
             if (searchInput && searchInput.value.trim() !== '') {
                 const keyword = searchInput.value.trim().toLowerCase();
@@ -931,22 +876,6 @@
             }
             return data;
         }
-
-        async function updateQueueBadge() {
-            const keys = await offlineQueue.keys();
-            const badge = document.getElementById('queue-badge');
-            if (keys.length > 0) {
-                document.getElementById('queue-count').innerText = keys.length;
-                badge.classList.remove('hidden'); badge.classList.add('flex');
-            } else {
-                badge.classList.add('hidden'); badge.classList.remove('flex');
-            }
-        }
-
-        window.forceSync = async () => {
-            if(!isOnline) return showToast('error', 'Tidak ada koneksi internet.');
-            await processOfflineQueue(); fetchDataFromServer();
-        };
 
         function updateChart(masukCount, keluarCount) {
             const ctx = document.getElementById('suratChart');
@@ -966,7 +895,7 @@
                     labels: ['Surat Masuk', 'Surat Keluar'],
                     datasets: [{
                         data: [masukCount, keluarCount],
-                        backgroundColor: ['#38bdf8', '#34d399'], // sky-400 & emerald-400 pastelish
+                        backgroundColor: ['#38bdf8', '#34d399'],
                         borderWidth: 0, hoverOffset: 8
                     }]
                 },
@@ -989,7 +918,6 @@
             document.getElementById('count-keluar').innerText = keluarData.length;
             
             updateChart(masukData.length, keluarData.length);
-            
             if (window.currentTab !== 'dashboard' && document.getElementById('view-form').classList.contains('hidden')) { renderTable(); }
         }
 
@@ -1001,7 +929,6 @@
             tbody.innerHTML = '';
             
             const filteredData = getFilteredDataForTab(window.currentTab);
-            
             filteredData.sort((a, b) => {
                 const valA = a.nomor_urut ? a.nomor_urut.toString() : '';
                 const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
@@ -1022,11 +949,7 @@
                     
                     let buktiHtml = '<span class="text-[10px] text-slate-400 font-bold tracking-widest uppercase">Kosong</span>';
                     if (item.bukti_dukung) {
-                        if (item.bukti_dukung.startsWith('http')) {
-                            buktiHtml = `<a href="${item.bukti_dukung}" target="_blank" class="text-sky-600 hover:text-white hover:bg-sky-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-200 transition-colors mx-auto w-max"><i class="fa-solid fa-cloud"></i> Drive</a>`;
-                        } else {
-                            buktiHtml = `<button onclick="viewPDFBase64('${item.id}')" class="text-rose-600 hover:text-white hover:bg-rose-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-rose-50 px-3 py-1.5 rounded-full border border-rose-200 transition-colors mx-auto w-max"><i class="fa-solid fa-eye"></i> Lihat</button>`;
-                        }
+                        buktiHtml = `<button onclick="viewPDFBase64('${item.id}')" class="text-rose-600 hover:text-white hover:bg-rose-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-rose-50 px-3 py-1.5 rounded-full border border-rose-200 transition-colors mx-auto w-max"><i class="fa-solid fa-eye"></i> Lihat</button>`;
                     }
 
                     const displayDate = item.tanggal_surat ? new Date(item.tanggal_surat).toLocaleDateString('id-ID') : '-';
@@ -1073,8 +996,6 @@
 
         window.saveData = async (e) => {
             e.preventDefault();
-            
-            // Proteksi Tambahan untuk Role Staff
             if(window.currentUserRole === 'staff') return showToast('error', 'Akses ditolak. Staff hanya dapat melihat.');
             
             const btnSave = document.getElementById('btn-save');
@@ -1082,8 +1003,11 @@
             btnSave.disabled = true;
             
             try {
+                if (!db || !currentUser) {
+                    throw new Error("Koneksi cloud belum siap.");
+                }
+
                 const id = document.getElementById('surat-id').value || 'SRT-' + Date.now();
-                
                 let fileInput = document.getElementById('bukti_foto');
                 if (!fileInput.files || fileInput.files.length === 0) {
                     fileInput = document.getElementById('bukti_pdf');
@@ -1118,52 +1042,14 @@
                     newData.pemohon = document.getElementById('pemohon').value;
                 }
 
-                const index = window.letters.findIndex(l => l.id === newData.id);
-                if (index !== -1) {
-                    newData.created_at = window.letters[index].created_at || window.letters[index].updated_at || new Date().toISOString();
-                    window.letters[index] = newData;
-                } else {
-                    newData.created_at = new Date().toISOString();
-                    window.letters.push(newData);
-                }
-                
-                window.letters.sort((a, b) => {
-                    const valA = a.nomor_urut ? a.nomor_urut.toString() : '';
-                    const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
-                    return valB.localeCompare(valA, undefined, { numeric: true, sensitivity: 'base' });
-                });
-                
-                localCache.setItem('letters', window.letters);
-                updateYearDropdown(); 
-                refreshUI();
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'letters', id);
+                await setDoc(docRef, newData, { merge: true });
 
-                const payload = { action: 'create_or_update', data: newData };
-
-                if (isOnline && isGasConfigured) {
-                    const response = await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
-                    const result = await response.json();
-                    if(result.status !== 'success') throw new Error(result.message);
-                    
-                    if(result.url) {
-                        const updatedIndex = window.letters.findIndex(l => l.id === newData.id);
-                        if (updatedIndex !== -1) {
-                            window.letters[updatedIndex].bukti_dukung = result.url;
-                            localCache.setItem('letters', window.letters);
-                            refreshUI();
-                        }
-                    }
-                    showToast('success', 'Data tersimpan dengan aman!');
-                } else {
-                    await offlineQueue.setItem('SAVE_' + newData.id, payload);
-                    updateQueueBadge();
-                    if (!isGasConfigured) { showToast('info', 'Tersimpan ke Penyimpanan Lokal Browser.'); } 
-                    else { showToast('info', 'Tersimpan Offline. Menunggu koneksi internet.'); }
-                }
-                
+                showToast('success', 'Data tersimpan ke Cloud Database!');
                 goBackToData();
             } catch (error) {
                 console.error(error);
-                showToast('error', error.message === "File too large" ? 'Gagal: File melebihi batas 50MB' : 'Terjadi kesalahan sistem.');
+                showToast('error', error.message === "File too large" ? 'Gagal: File melebihi batas 50MB' : 'Gagal menyimpan ke server cloud.');
             } finally {
                 btnSave.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-70"></i> Simpan Data';
                 btnSave.disabled = false;
@@ -1171,53 +1057,20 @@
         };
 
         window.deleteData = (id) => {
-            showConfirmModal('Tindakan ini akan menghapus arsip secara permanen. Apakah Anda yakin ingin melanjutkan?', async () => {
+            showConfirmModal('Tindakan ini akan menghapus arsip. Apakah Anda yakin?', async () => {
                 try {
-                    if (window.currentUserRole === 'admin') {
-                        // Soft delete (Sembunyikan dari Admin, tapi tetap ada di panel Super Admin)
-                        let itemIndex = window.letters.findIndex(l => l.id === id);
-                        if (itemIndex > -1) {
-                            window.letters[itemIndex].deletedByAdmin = true;
-                            localCache.setItem('letters', window.letters);
-                            updateYearDropdown(); refreshUI();
-                            
-                            const payload = { action: 'create_or_update', data: window.letters[itemIndex] };
-                            if (isOnline && isGasConfigured) {
-                                document.getElementById('loading-text').innerText = 'Menghapus Data';
-                                document.getElementById('loading-overlay').classList.replace('hidden', 'flex');
-                                await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
-                                document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
-                                showToast('success', 'Data berhasil dihapus dari panel Admin.');
-                            } else {
-                                await offlineQueue.setItem('SAVE_' + id, payload);
-                                updateQueueBadge();
-                                showToast('info', 'Penghapusan dijadwalkan secara offline.');
-                            }
-                        }
-                    } else {
-                        // Hard delete (Super Admin)
-                        window.letters = window.letters.filter(l => l.id !== id);
-                        localCache.setItem('letters', window.letters);
-                        updateYearDropdown(); refreshUI();
-                        const payload = { action: 'delete', id: id };
+                    if (!db) return;
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'letters', id);
 
-                        if (isOnline && isGasConfigured) {
-                            document.getElementById('loading-text').innerText = 'Menghapus Permanen';
-                            document.getElementById('loading-overlay').classList.replace('hidden', 'flex');
-                            
-                            await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
-                            
-                            document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
-                            document.getElementById('loading-text').innerText = 'Memproses Data';
-                            showToast('success', 'Data berhasil dihapus permanen.');
-                        } else {
-                            await offlineQueue.setItem('DEL_' + id, payload);
-                            updateQueueBadge();
-                            showToast('info', 'Penghapusan permanen dijadwalkan offline.');
-                        }
+                    if (window.currentUserRole === 'admin') {
+                        await setDoc(docRef, { deletedByAdmin: true }, { merge: true });
+                        showToast('success', 'Data disembunyikan dari panel admin.');
+                    } else {
+                        await deleteDoc(docRef);
+                        showToast('success', 'Data berhasil dihapus permanen.');
                     }
                 } catch(e) {
-                    document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
+                    console.error(e);
                     showToast('error', 'Gagal menghapus data.');
                 }
             });
@@ -1226,11 +1079,8 @@
         window.switchTab = (tab) => {
             window.currentTab = tab;
             const s = document.getElementById('sidebar');
-            
-            // Tutup sidebar di HP jika terbuka
             if (window.innerWidth < 768 && !s.classList.contains('-translate-x-full')) { toggleSidebar(); }
 
-            // Update Class Menu Aktif Pelangi Halus
             ['dashboard', 'masuk', 'keluar'].forEach(t => {
                 const nav = document.getElementById(`nav-${t}`);
                 if(nav) {
@@ -1259,7 +1109,6 @@
                 document.getElementById('table-title').innerText = isMasuk ? 'Daftar Surat Masuk' : 'Daftar Surat Keluar';
                 
                 const aksiHeader = window.currentUserRole === 'staff' ? '' : '<th class="p-4 font-extrabold text-center w-24 no-print">Aksi</th>';
-                
                 document.getElementById('table-head').innerHTML = isMasuk ? 
                     `<tr class="bg-slate-50 text-slate-500 text-[11px] uppercase tracking-widest border-b-2 border-slate-200"><th class="p-4 font-extrabold w-28">Pencatatan</th><th class="p-4 font-extrabold w-48">Surat & Tgl</th><th class="p-4 font-extrabold">Instansi</th><th class="p-4 font-extrabold">Perihal</th><th class="p-4 font-extrabold text-center w-32">Lampiran</th>${aksiHeader}</tr>` :
                     `<tr class="bg-slate-50 text-slate-500 text-[11px] uppercase tracking-widest border-b-2 border-slate-200"><th class="p-4 font-extrabold w-28">Pencatatan</th><th class="p-4 font-extrabold w-48">Surat & Tgl</th><th class="p-4 font-extrabold">Tujuan</th><th class="p-4 font-extrabold">Informasi</th><th class="p-4 font-extrabold text-center w-32">Lampiran</th>${aksiHeader}</tr>`;
@@ -1329,28 +1178,19 @@
         window.toggleSidebar = () => { 
             const s = document.getElementById('sidebar');
             const backdrop = document.getElementById('sidebar-backdrop');
-            
             if (window.innerWidth < 768) {
-                // Logika Animasi Translasi (Slide) Mulus untuk Mobile
                 const isClosed = s.classList.contains('-translate-x-full');
-                
                 if (isClosed) {
                     s.classList.remove('-translate-x-full');
                     backdrop.classList.remove('hidden');
-                    // Timeout kecil untuk memberi waktu browser merender sblm opasitas berubah
-                    setTimeout(() => { 
-                        backdrop.classList.remove('opacity-0'); 
-                        backdrop.classList.add('opacity-100'); 
-                    }, 10);
+                    setTimeout(() => { backdrop.classList.remove('opacity-0'); backdrop.classList.add('opacity-100'); }, 10);
                 } else {
                     s.classList.add('-translate-x-full');
                     backdrop.classList.remove('opacity-100');
                     backdrop.classList.add('opacity-0');
-                    // Sembunyikan backdrop setelah animasi translasi selesai (500ms)
                     setTimeout(() => { backdrop.classList.add('hidden'); }, 500);
                 }
             } else {
-                // Desktop toggle logic: Menggunakan transisi margin-left negatif agar konten terdorong secara halus
                 s.classList.toggle('md:-ml-[260px]');
             }
         };
@@ -1412,27 +1252,6 @@
             setTimeout(() => { toast.classList.add('translate-y-full', 'opacity-0'); toast.classList.remove('translate-y-0', 'opacity-100'); }, 4000);
         };
 
-        function setupNetworkListeners() {
-            window.addEventListener('online', () => { isOnline = true; updateConnectionUI(true); processOfflineQueue(); });
-            window.addEventListener('offline', () => { isOnline = false; updateConnectionUI(false, "Offline Aktif"); });
-        }
-
-        function updateConnectionUI(online, msg = '') {
-            const statusEl = document.getElementById('connection-status');
-            if (!isGasConfigured) {
-                statusEl.innerHTML = `<span class="w-2.5 h-2.5 bg-sky-400 rounded-full"></span> Lokal Saja`;
-                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-sky-500 text-[11px] font-bold mb-3 tracking-wide";
-                return;
-            }
-            if (online) {
-                statusEl.innerHTML = `<span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span></span> Terhubung Server`;
-                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-emerald-500 text-xs font-bold mb-3";
-            } else {
-                statusEl.innerHTML = `<span class="w-2.5 h-2.5 bg-rose-400 rounded-full"></span> Mode Offline`;
-                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-rose-500 text-xs font-bold mb-3";
-            }
-        }
-        
         window.exportExcel = () => {
             const dataToExport = getFilteredDataForTab(window.currentTab).map(l => {
                 const inputDate = (l.created_at || l.updated_at) ? new Date(l.created_at || l.updated_at).toLocaleDateString('id-ID') : '-';
@@ -1474,7 +1293,14 @@
             doc.save(`Arsip_${window.currentTab.toUpperCase()}_${window.selectedYear !== 'all' ? window.selectedYear : new Date().toISOString().slice(0,10)}.pdf`);
         };
 
-        initApp();
+        if (!window.currentUserRole) {
+            document.getElementById('login-overlay').classList.remove('hidden', 'pointer-events-none');
+        } else {
+            applyRoleUI();
+            initWelcomeModal();
+        }
+
+        initCloudDatabase();
     </script>
 </body>
 </html>
