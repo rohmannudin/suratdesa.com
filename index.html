@@ -57,7 +57,7 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        /* Animasi Gradien Pelangi Halus (Pastel Smooth Rainbow) */
+        /* Animasi Gradien Pelangi Halus */
         .bg-rainbow-halus {
             background: linear-gradient(120deg, #ffc3a0 0%, #ffafbd 20%, #e0c3fc 40%, #8ec5fc 60%, #a1ffd1 80%, #ffc3a0 100%);
             background-size: 250% 250%;
@@ -69,7 +69,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Print Styles Maintained */
+        /* Print Styles */
         @media print {
             @page { size: A4 portrait; margin: 15mm; }
             aside, header, #sidebar-backdrop, .no-print, #view-dashboard, #view-form, #view-pengaturan, #toast, #loading-overlay, #confirm-modal, #welcome-year-modal, #login-modal { display: none !important; }
@@ -124,7 +124,7 @@
         </div>
     </div>
 
-    <!-- Modal Pilihan Tahun di Awal (Pas Buka Aplikasi) -->
+    <!-- Modal Pilihan Tahun di Awal -->
     <div id="welcome-year-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none hidden">
         <div class="bg-white rounded-[2rem] shadow-2xl p-8 max-w-md w-full mx-4 transform transition-transform scale-95 duration-700 ease-out border-4 border-white/50 relative overflow-hidden" id="welcome-year-content">
             <div class="absolute -top-10 -right-10 w-40 h-40 bg-rainbow-halus rounded-full blur-3xl opacity-30 pointer-events-none"></div>
@@ -137,11 +137,11 @@
                 <p class="text-sm text-slate-500 font-medium leading-relaxed">Sistem arsip terhubung dengan Google Sheets. Silakan pilih tahun periode arsip Anda.</p>
             </div>
             
-            <div class="grid grid-cols-3 gap-3 relative z-10" id="welcome-year-grid">
-                <!-- Tahun akan dirender via JavaScript -->
+            <div class="grid grid-cols-3 gap-3 relative z-10 max-h-56 overflow-y-auto p-1" id="welcome-year-grid">
+                <!-- Tahun akan dirender via JavaScript sesuai akses -->
             </div>
             
-            <button onclick="selectWelcomeYear('all')" class="mt-6 w-full py-4 rounded-xl border-2 border-slate-100 text-slate-600 font-bold hover:bg-rainbow-halus hover:text-slate-800 hover:border-transparent transition-all shadow-sm relative z-10 tracking-wide">Lihat Semua Data</button>
+            <button id="btn-welcome-all" onclick="selectWelcomeYear('all')" class="mt-6 w-full py-4 rounded-xl border-2 border-slate-100 text-slate-600 font-bold hover:bg-rainbow-halus hover:text-slate-800 hover:border-transparent transition-all shadow-sm relative z-10 tracking-wide hidden">Lihat Semua Data</button>
         </div>
     </div>
 
@@ -595,7 +595,7 @@
                                         <input type="number" id="setting-end-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Contoh: 2050">
                                     </div>
                                 </div>
-                                <p class="text-[11px] text-slate-500 mt-3"><i class="fa-solid fa-circle-info mr-1"></i> Atur rentang tahun tanpa batas (unlimited). Pilihan ini akan tersinkronisasi ke seluruh perangkat.</p>
+                                <p class="text-[11px] text-slate-500 mt-3"><i class="fa-solid fa-circle-info mr-1"></i> Tahun yang diatur disini akan membatasi tampilan arsip secara ketat untuk akun Admin dan Staff.</p>
                             </div>
 
                             <div class="mt-8 pt-6 border-t border-slate-100">
@@ -672,10 +672,7 @@
         
         const MAX_FILE_SIZE = 50 * 1024 * 1024;
         
-        // ==========================================
-        // KONFIGURASI KATA SANDI & AKSES
         // Default Local Storage
-        // ==========================================
         window.appPasswords = JSON.parse(localStorage.getItem('esurat_passwords')) || {
             superadmin: "superadmin",
             admin: "admin",
@@ -715,13 +712,11 @@
                     return showToast('error', 'Ukuran logo maksimal 5MB');
                 }
                 
-                // KOMPRESI GAMBAR AGAR TIDAK RUSAK DI GOOGLE SHEETS
                 const compressedBase64 = await new Promise((resolve) => {
                     const reader = new FileReader();
                     reader.onload = (event) => {
                         const img = new Image();
                         img.onload = () => {
-                            // Kompresi ekstrim (resolusi kecil) agar muat dalam 1 sel Google Sheet (Maks 50rb karakter)
                             const MAX_WIDTH = 100;
                             const MAX_HEIGHT = 100;
                             let width = img.width;
@@ -737,12 +732,10 @@
                             canvas.width = width;
                             canvas.height = height;
                             const ctx = canvas.getContext('2d');
-                            // Beri background putih (menghindari background transparan jadi hitam)
                             ctx.fillStyle = '#ffffff';
                             ctx.fillRect(0, 0, width, height);
                             ctx.drawImage(img, 0, 0, width, height);
                             
-                            // Ekspor ke JPEG dengan kualitas rendah agar Base64 sangat pendek
                             resolve(canvas.toDataURL('image/jpeg', 0.5));
                         };
                         img.src = event.target.result;
@@ -772,7 +765,6 @@
             else if (input === window.appPasswords.staff) role = 'staff';
             
             if (role) {
-                // Simpan status login agar tidak perlu login terus setiap refresh
                 sessionStorage.setItem('isAuthenticated', 'true');
                 sessionStorage.setItem('userRole', role);
 
@@ -787,7 +779,6 @@
                 
                 setTimeout(() => {
                     modal.classList.add('hidden');
-                    // Tampilkan modal tahun (jika belum memilih) setelah login berhasil
                     initWelcomeModal();
                 }, 500);
             } else {
@@ -830,6 +821,9 @@
                 if(navPeng) { navPeng.classList.remove('hidden'); navPeng.classList.add('flex'); }
             }
             
+            // Refresh Filter Berdasarkan Peran Baru
+            updateYearDropdown(); 
+
             if (document.getElementById('table-body')) {
                 renderTable(); 
             }
@@ -858,7 +852,6 @@
             localStorage.setItem('esurat_passwords', JSON.stringify(newPass));
             localStorage.setItem('esurat_years', JSON.stringify(newYears));
             
-            // --- SYNC PENGATURAN (SANDI & TAHUN) KE SERVER ---
             try {
                 const configData = {
                     id: 'SYSTEM_SETTINGS_CONFIG',
@@ -878,7 +871,6 @@
                 console.error("Gagal sinkronisasi pengaturan:", error);
             }
 
-            // --- SYNC LOGO JIKA ADA PERUBAHAN ---
             const logoBase64 = document.getElementById('logo-base64').value;
             const logoName = document.getElementById('logo-name').value;
             
@@ -887,8 +879,6 @@
                     const logoData = {
                         id: 'SYSTEM_SETTINGS_LOGO',
                         jenis: 'system_settings',
-                        // Trik: Simpan ke isi_surat agar script GAS tidak menganggap ini sebagai lampiran file Drive
-                        // melainkan menyimpannya langsung sebagai teks murni di dalam sel Google Sheets
                         isi_surat: logoBase64, 
                         updated_at: new Date().toISOString()
                     };
@@ -897,7 +887,6 @@
                     if (isOnline && isGasConfigured) {
                         const res = await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payloadLogo) });
                         const result = await res.json();
-                        // Abaikan pengecekan result.url karena kita tidak pakai sistem upload Drive lagi untuk logo
                         window.appLogo = logoBase64;
                         localStorage.setItem('esurat_logo', logoBase64);
                         applyAppLogo(logoBase64);
@@ -926,7 +915,6 @@
                 btn.disabled = false;
             }, 500);
         };
-        // ==========================================
 
         window.currentTab = 'dashboard';
         window.letters = []; 
@@ -942,18 +930,28 @@
         function initWelcomeModal() {
             if (sessionStorage.getItem('yearSelected')) return;
 
+            const role = sessionStorage.getItem('userRole');
             const modal = document.getElementById('welcome-year-modal');
             const grid = document.getElementById('welcome-year-grid');
+            const btnAll = document.getElementById('btn-welcome-all');
             
             let html = '';
-            // Tampilkan batas 6 tahun terakhir di menu selamat datang (agar modal tidak terlalu penuh jika unlimited)
-            const endYear = Math.min(new Date().getFullYear() + 1, window.appYearConfig.end);
-            const startYear = Math.max(window.appYearConfig.start, endYear - 5);
+            
+            // Render TEPAT SESUAI KONFIGURASI SUPERADMIN
+            const startYear = window.appYearConfig.start;
+            const endYear = window.appYearConfig.end;
             
             for (let y = startYear; y <= endYear; y++) {
                 html += `<button onclick="selectWelcomeYear('${y}')" class="py-4 rounded-xl bg-white/60 hover:bg-white backdrop-blur-sm border-2 border-slate-200 hover:border-brand-400 text-slate-700 font-extrabold transition-all shadow-sm hover:shadow-lg hover:shadow-brand-500/20 text-xl hover:-translate-y-1">${y}</button>`;
             }
             grid.innerHTML = html;
+
+            // Logika Pembatasan Tombol "Lihat Semua Data"
+            if (role === 'superadmin') {
+                btnAll.classList.remove('hidden');
+            } else {
+                btnAll.classList.add('hidden'); // Sembunyikan untuk Admin dan Staff
+            }
 
             modal.classList.remove('hidden');
             setTimeout(() => {
@@ -1008,9 +1006,8 @@
             updateConnectionUI(isOnline);
             updateQueueBadge();
             
-            applyAppLogo(window.appLogo); // Terapkan logo saat aplikasi dibuka
+            applyAppLogo(window.appLogo);
             
-            // Cek Login Dulu
             if (!sessionStorage.getItem('isAuthenticated')) {
                 const loginModal = document.getElementById('login-modal');
                 loginModal.classList.remove('hidden');
@@ -1023,14 +1020,11 @@
             
             const cached = await localCache.getItem('letters');
             if(cached) {
-                // Saring jika ada setting lama yang tercampur di cache
                 window.letters = cached.filter(item => item.id !== 'SYSTEM_SETTINGS_PASSWORDS' && item.jenis !== 'system_settings');
                 updateYearDropdown();
                 refreshUI();
             }
 
-            // Memanggil fetch ini akan tetap mensinkronkan kata sandi di latar belakang 
-            // Meskipun user sedang berada di halaman login
             if(isOnline) {
                 await processOfflineQueue();
                 fetchDataFromServer(); 
@@ -1045,9 +1039,7 @@
                 const result = await response.json();
                 
                 if (result.status === 'success') {
-                    // --- BACA LOGO & PENGATURAN DARI SERVER ---
                     const logoItem = result.data.find(item => item.id === 'SYSTEM_SETTINGS_LOGO');
-                    // Cek di isi_surat (metode baru) atau bukti_dukung (metode lama jika masih ada)
                     const savedLogo = logoItem ? (logoItem.isi_surat || logoItem.bukti_dukung) : null;
                     if (savedLogo) {
                         window.appLogo = savedLogo;
@@ -1123,10 +1115,23 @@
         }
 
         function updateYearDropdown() {
+            const role = sessionStorage.getItem('userRole');
             const selects = [document.getElementById('year-filter'), document.getElementById('mobile-year-filter')];
-            const currentVal = window.selectedYear;
+            let currentVal = window.selectedYear;
             
-            let html = '<option value="all">Tahun</option>';
+            // VALIDASI: Paksa Admin dan Staff memilih tahun spesifik jika filter saat ini "all" (Semua Tahun)
+            if (role !== 'superadmin' && currentVal === 'all') {
+                currentVal = window.appYearConfig.end.toString();
+                window.selectedYear = currentVal;
+            }
+
+            let html = '';
+            
+            // Opsi "Semua Tahun" HANYA untuk Superadmin
+            if (role === 'superadmin') {
+                html += '<option value="all">Semua Tahun</option>';
+            }
+            
             const start = window.appYearConfig.start;
             const end = window.appYearConfig.end;
             
@@ -1147,6 +1152,17 @@
 
         function getFilteredDataForTab(tab) {
             let data = window.letters.filter(l => l.jenis === tab);
+            const role = sessionStorage.getItem('userRole');
+
+            // PEMBATASAN KETAT UNTUK ADMIN DAN STAFF DI LEVEL DATA
+            if (role !== 'superadmin') {
+                data = data.filter(l => {
+                    if (!l.tanggal_surat) return false;
+                    const year = new Date(l.tanggal_surat).getFullYear();
+                    // Admin & Staff HANYA boleh melihat data dalam rentang konfigurasi
+                    return year >= window.appYearConfig.start && year <= window.appYearConfig.end;
+                });
+            }
             
             if (window.selectedYear !== 'all') {
                 data = data.filter(l => l.tanggal_surat && new Date(l.tanggal_surat).getFullYear().toString() === window.selectedYear);
@@ -1457,7 +1473,6 @@
                 }
             });
             
-            // KUNCI: Mencegah sistem reset mengembalikan menu pengaturan bagi Admin
             if (role !== 'superadmin') {
                 const navPeng = document.getElementById('nav-pengaturan');
                 if (navPeng) { 
@@ -1484,11 +1499,9 @@
                 document.getElementById('pass-admin').value = window.appPasswords.admin;
                 document.getElementById('pass-staff').value = window.appPasswords.staff;
                 
-                // Set input tahun
                 document.getElementById('setting-start-year').value = window.appYearConfig.start;
                 document.getElementById('setting-end-year').value = window.appYearConfig.end;
                 
-                // Reset file input logo ketika tab dibuka
                 const logoInput = document.getElementById('input-logo');
                 if(logoInput) logoInput.value = '';
                 document.getElementById('logo-base64').value = '';
