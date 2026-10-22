@@ -459,8 +459,9 @@
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                                                     <i class="fa-solid fa-file-invoice text-amber-500/70 text-lg"></i>
                                                 </div>
-                                                <input type="text" id="nomor_surat" required class="w-full pl-12 pr-4 py-4 bg-amber-50/50 border-2 border-amber-300/60 rounded-xl focus:bg-white focus:ring-4 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all text-xl font-bold text-amber-800 shadow-inner placeholder-amber-200" placeholder="Ketik nomor surat di sini...">
+                                                <input type="text" id="nomor_surat" oninput="checkDuplicateNomor()" required class="w-full pl-12 pr-4 py-4 bg-amber-50/50 border-2 border-amber-300/60 rounded-xl focus:bg-white focus:ring-4 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all text-xl font-bold text-amber-800 shadow-inner placeholder-amber-200" placeholder="Ketik nomor surat di sini...">
                                             </div>
+                                            <p id="warning-nomor" class="text-rose-500 text-[11px] font-bold mt-2 hidden animate-pulse bg-rose-50 p-2.5 rounded-lg border border-rose-200 shadow-sm"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Nomor urut surat ini sudah dipakai sebelumnya! Inputan ditolak, silakan lakukan pembaharuan nomor.</p>
                                         </div>
 
                                         <div>
@@ -829,6 +830,63 @@
             }
         };
         
+        // FUNGSI CEK NOMOR SURAT GANDA
+        window.checkDuplicateNomor = () => {
+            const input = document.getElementById('nomor_surat');
+            const warning = document.getElementById('warning-nomor');
+            const btnSave = document.getElementById('btn-save');
+            const currentId = document.getElementById('surat-id').value;
+            const currentVal = input.value.trim().toLowerCase();
+            
+            // Jika kosong, kembalikan ke format normal
+            if (!currentVal) {
+                warning.classList.add('hidden');
+                input.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500/20', 'bg-rose-50/50', 'text-rose-700');
+                input.classList.add('border-amber-300/60', 'focus:border-amber-500', 'focus:ring-amber-500/20', 'bg-amber-50/50', 'text-amber-800');
+                btnSave.disabled = false;
+                btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
+                return false;
+            }
+
+            const isDuplicate = window.letters.some(l => {
+                if (l.jenis !== window.currentTab || l.id === currentId || !l.nomor_surat) return false;
+                
+                const existingVal = l.nomor_surat.trim().toLowerCase();
+                
+                // 1. Cek kecocokan eksak
+                if (existingVal === currentVal) return true;
+
+                // 2. Cek spesifik kecocokan bagian urutan (jika format dipisahkan garis miring "/")
+                // Cth: 140/100/1811.. dengan 500/100/1811.. (akan terdeteksi duplikat jika bagian setelah "/" pertama adalah sama)
+                if (currentVal.includes('/') && existingVal.includes('/')) {
+                    const currentSuffix = currentVal.substring(currentVal.indexOf('/'));
+                    const existingSuffix = existingVal.substring(existingVal.indexOf('/'));
+                    if (currentSuffix === existingSuffix && currentSuffix.length > 2) return true;
+                }
+                
+                return false;
+            });
+
+            if (isDuplicate) {
+                warning.classList.remove('hidden');
+                // Ubah styling input jadi merah bahaya
+                input.classList.remove('border-amber-300/60', 'focus:border-amber-500', 'focus:ring-amber-500/20', 'bg-amber-50/50', 'text-amber-800');
+                input.classList.add('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500/20', 'bg-rose-50/50', 'text-rose-700');
+                // Kunci tombol simpan
+                btnSave.disabled = true;
+                btnSave.classList.add('opacity-50', 'cursor-not-allowed');
+                return true;
+            } else {
+                warning.classList.add('hidden');
+                // Kembalikan ke styling kuning normal
+                input.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500/20', 'bg-rose-50/50', 'text-rose-700');
+                input.classList.add('border-amber-300/60', 'focus:border-amber-500', 'focus:ring-amber-500/20', 'bg-amber-50/50', 'text-amber-800');
+                btnSave.disabled = false;
+                btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
+                return false;
+            }
+        };
+
         window.verifyPassword = (e) => {
             e.preventDefault();
             const input = document.getElementById('app-password').value;
@@ -1432,6 +1490,12 @@
 
         window.saveData = async (e) => {
             e.preventDefault();
+            
+            // Keamanan tambahan: cegah simpan jika nomor duplikat (mengantisipasi user menekan tombol Enter)
+            if (checkDuplicateNomor()) {
+                return showToast('error', 'Nomor surat sudah terpakai! Mohon gunakan nomor lain.');
+            }
+
             const btnSave = document.getElementById('btn-save');
             btnSave.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menyimpan...';
             btnSave.disabled = true;
@@ -1631,6 +1695,16 @@
             document.getElementById('surat-form').reset();
             removeExistingFile();
             
+            // Reset state input dan peringatan agar tidak menempel saat buka form baru
+            const warning = document.getElementById('warning-nomor');
+            const inputNomor = document.getElementById('nomor_surat');
+            const btnSave = document.getElementById('btn-save');
+            warning.classList.add('hidden');
+            inputNomor.classList.remove('border-rose-500', 'focus:border-rose-500', 'focus:ring-rose-500/20', 'bg-rose-50/50', 'text-rose-700');
+            inputNomor.classList.add('border-amber-300/60', 'focus:border-amber-500', 'focus:ring-amber-500/20', 'bg-amber-50/50', 'text-amber-800');
+            btnSave.disabled = false;
+            btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
+
             const isMasuk = window.currentTab === 'masuk';
             document.getElementById('form-group-masuk').classList.toggle('hidden', !isMasuk);
             document.getElementById('form-group-keluar').classList.toggle('hidden', isMasuk);
