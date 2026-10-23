@@ -27,15 +27,16 @@
                 extend: {
                     colors: {
                         brand: { 
-                            50: 'color-mix(in srgb, var(--theme-color) 10%, white)', 
-                            100: 'color-mix(in srgb, var(--theme-color) 20%, white)', 
-                            200: 'color-mix(in srgb, var(--theme-color) 40%, white)',
-                            300: 'color-mix(in srgb, var(--theme-color) 60%, white)',
-                            400: 'color-mix(in srgb, var(--theme-color) 80%, white)',
+                            50: 'color-mix(in srgb, var(--theme-color) 5%, white)', 
+                            100: 'color-mix(in srgb, var(--theme-color) 10%, white)', 
+                            200: 'color-mix(in srgb, var(--theme-color) 30%, white)',
+                            300: 'color-mix(in srgb, var(--theme-color) 50%, white)',
+                            400: 'color-mix(in srgb, var(--theme-color) 70%, white)',
                             500: 'var(--theme-color)', 
                             600: 'color-mix(in srgb, var(--theme-color) 85%, black)', 
                             700: 'color-mix(in srgb, var(--theme-color) 70%, black)', 
-                            900: 'color-mix(in srgb, var(--theme-color) 50%, black)' 
+                            800: 'color-mix(in srgb, var(--theme-color) 50%, black)',
+                            900: 'color-mix(in srgb, var(--theme-color) 30%, black)' 
                         },
                         slate: { 850: '#152033' }
                     }
@@ -45,10 +46,11 @@
     </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap');
+        /* Import kumpulan Google Fonts yang baru dan bervariasi */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap');
         
         :root {
-            --theme-color: #6366f1; /* Default Warna Tema */
+            --theme-color: #4f46e5; /* Indigo yang lebih premium & segar */
         }
 
         body { background-color: #f8fafc; }
@@ -61,32 +63,31 @@
 
         .view-section { animation: smoothFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes smoothFadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .glass-header {
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
-        /* Animasi Gradien Pelangi Halus */
-        .bg-rainbow-halus {
-            background: linear-gradient(120deg, #ffc3a0 0%, #ffafbd 20%, #e0c3fc 40%, #8ec5fc 60%, #a1ffd1 80%, #ffc3a0 100%);
-            background-size: 250% 250%;
-            animation: rainbowSmooth 8s ease-in-out infinite;
+        /* Gradasi Premium */
+        .bg-premium-grad {
+            background: linear-gradient(135deg, var(--theme-color) 0%, color-mix(in srgb, var(--theme-color) 60%, black) 100%);
         }
-        @keyframes rainbowSmooth {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        
+        .text-premium-grad {
+            background: linear-gradient(135deg, var(--theme-color) 0%, color-mix(in srgb, var(--theme-color) 60%, black) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* Print Styles */
         @media print {
             @page { size: A4 portrait; margin: 15mm; }
-            aside, header, #sidebar-backdrop, .no-print, #view-dashboard, #view-form, #view-pengaturan, #toast, #loading-overlay, #confirm-modal, #welcome-year-modal, #login-modal { display: none !important; }
+            aside, header, #sidebar-backdrop, .no-print, #view-dashboard, #view-form, #view-pengaturan, #toast, #loading-overlay, #confirm-modal, #welcome-year-modal, #login-modal, #bulk-edit-modal { display: none !important; }
             body, html { height: auto !important; overflow: visible !important; display: block !important; background-color: white !important; }
             .flex-1, main { height: auto !important; overflow: visible !important; display: block !important; padding: 0 !important; margin: 0 !important; }
             #view-data { display: block !important; }
@@ -100,7 +101,7 @@
 
         /* Loading Spinner */
         .loader {
-            width: 40px; height: 40px; border: 4px solid #e2e8f0; border-top: 4px solid var(--theme-color);
+            width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top: 3px solid var(--theme-color);
             border-radius: 50%; animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -108,33 +109,36 @@
     <!-- Style Dinamis untuk Typografi dan Huruf Kapital -->
     <style id="dynamic-typography"></style>
 </head>
-<body class="text-slate-800 antialiased flex h-screen overflow-hidden selection:bg-brand-400 selection:text-white relative">
+<body class="text-slate-800 antialiased flex h-screen overflow-hidden selection:bg-brand-500 selection:text-white relative">
 
-    <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-xl z-[200] flex flex-col items-center justify-center transition-opacity duration-500">
-        <div class="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-2xl max-w-sm w-full mx-4 border-4 border-white/20 relative overflow-hidden transform transition-all scale-100">
-            <div class="absolute -top-20 -right-20 w-40 h-40 bg-rainbow-halus rounded-full blur-3xl opacity-40 pointer-events-none"></div>
-            
+    <div id="login-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="bg-white p-8 md:p-10 rounded-[2rem] shadow-2xl max-w-sm w-full mx-4 border border-white/20 relative overflow-hidden transform transition-all scale-100">
             <div class="text-center mb-8 relative z-10">
-                <div class="w-20 h-20 mx-auto bg-rainbow-halus rounded-[1.5rem] flex items-center justify-center text-slate-800 text-3xl shadow-xl mb-6 transform rotate-3">
-                    <i class="fa-solid fa-lock opacity-80"></i>
+                <div class="w-20 h-20 mx-auto bg-brand-50 rounded-2xl flex items-center justify-center text-brand-600 text-3xl mb-6 shadow-sm border border-brand-100">
+                    <i class="fa-solid fa-lock"></i>
                 </div>
-                <h2 class="text-3xl font-black text-slate-800 tracking-tight mb-2 uppercase_override">Akses Terkunci</h2>
+                <h2 class="text-2xl font-black text-slate-800 tracking-tight mb-2 uppercase_override text-premium-grad">Akses Terkunci</h2>
                 <p class="text-sm text-slate-500 font-medium leading-relaxed uppercase_override">Masukkan kata sandi akses Anda untuk masuk ke sistem.</p>
             </div>
             
             <form id="login-form" onsubmit="verifyPassword(event)" class="relative z-10">
-                <div class="mb-5">
+                <div class="mb-6">
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                             <i class="fa-solid fa-key text-slate-400"></i>
                         </div>
-                        <input type="password" id="app-password" required class="w-full pl-11 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all text-center font-bold tracking-widest text-lg uppercase_override" placeholder="••••••••">
+                        <input type="password" id="app-password" required class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-center font-bold tracking-widest text-lg uppercase_override shadow-sm" placeholder="••••••••">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                            <button type="button" onclick="togglePassword()" class="p-2 text-slate-400 hover:text-brand-500 focus:outline-none transition-colors">
+                                <i id="password-eye-icon" class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                     <p id="login-error" class="text-rose-500 text-xs font-bold text-center mt-3 hidden animate-pulse bg-rose-50 py-2 rounded-lg border border-rose-100 uppercase_override"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Kata sandi tidak dikenali!</p>
                 </div>
                 
-                <button type="submit" class="w-full py-4 rounded-2xl bg-rainbow-halus text-slate-800 font-extrabold hover:shadow-lg hover:shadow-brand-500/20 hover:-translate-y-1 transition-all border border-white/50 shadow-sm flex justify-center items-center gap-2 uppercase_override">
-                    <i class="fa-solid fa-arrow-right-to-bracket opacity-70"></i> Buka Sistem
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-premium-grad text-white font-bold hover:shadow-lg hover:shadow-brand-500/30 hover:-translate-y-0.5 transition-all flex justify-center items-center gap-2 uppercase_override tracking-wide">
+                    <i class="fa-solid fa-arrow-right-to-bracket opacity-90"></i> Buka Sistem
                 </button>
             </form>
         </div>
@@ -142,39 +146,39 @@
 
     <div id="sidebar-backdrop" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-500 ease-in-out md:hidden" onclick="toggleSidebar()"></div>
 
-    <aside id="sidebar" class="absolute md:relative z-50 w-[260px] transform -translate-x-full md:translate-x-0 transition-all duration-500 ease-in-out bg-white/95 backdrop-blur-xl border-r border-slate-200 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.1)] md:shadow-none flex flex-col no-print h-full flex-shrink-0">
+    <aside id="sidebar" class="absolute md:relative z-50 w-[260px] transform -translate-x-full md:translate-x-0 transition-all duration-500 ease-in-out bg-white border-r border-slate-200 shadow-[20px_0_40px_-15px_rgba(0,0,0,0.05)] md:shadow-none flex flex-col no-print h-full flex-shrink-0">
         <div class="h-20 flex items-center justify-between border-b border-slate-100 px-6">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-rainbow-halus flex items-center justify-center text-slate-800 shadow-lg shadow-brand-200/50 overflow-hidden">
-                    <i id="sidebar-logo-icon" class="fa-solid fa-envelope-open-text text-lg opacity-80"></i>
+                <div class="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 border border-brand-100 shadow-sm overflow-hidden">
+                    <i id="sidebar-logo-icon" class="fa-solid fa-envelope-open-text text-lg"></i>
                     <img id="sidebar-logo-img" src="" class="hidden w-full h-full object-cover bg-white" alt="Logo">
                 </div>
                 <div>
-                    <h1 class="text-base font-extrabold text-slate-800 tracking-wide leading-tight">E-Surat</h1>
-                    <p id="role-badge" class="text-[10px] text-slate-500 tracking-widest font-black bg-slate-100 px-2 py-0.5 rounded-md inline-block mt-1 uppercase_override">MEMUAT...</p>
+                    <h1 id="sidebar-brand-text" class="text-base font-extrabold text-slate-800 tracking-wide leading-tight text-premium-grad">E-Surat</h1>
+                    <p id="role-badge" class="text-[9px] text-slate-500 tracking-widest font-bold bg-slate-100 px-2 py-0.5 rounded-md inline-block mt-1 uppercase_override">MEMUAT...</p>
                 </div>
             </div>
-            <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-brand-500 p-2 rounded-xl bg-slate-50 hover:bg-brand-50 transition" title="Tutup Menu">
+            <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-brand-600 p-2 rounded-xl bg-slate-50 hover:bg-brand-50 transition" title="Tutup Menu">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
         </div>
 
-        <div class="px-5 py-6 overflow-y-auto flex-1">
-            <p class="text-[11px] tracking-wider text-slate-400 font-extrabold mb-4 px-2 uppercase_override">Menu Utama</p>
-            <nav class="space-y-2">
-                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full text-left px-4 py-3.5 rounded-xl bg-rainbow-halus text-slate-800 font-extrabold transition-all flex items-center group shadow-md shadow-brand-200/40 border border-white/50">
-                    <i class="fa-solid fa-chart-pie w-6 text-lg group-hover:scale-110 transition-transform opacity-70"></i> 
+        <div class="px-4 py-6 overflow-y-auto flex-1">
+            <p class="text-[10px] tracking-wider text-slate-400 font-bold mb-3 px-3 uppercase_override">Menu Utama</p>
+            <nav class="space-y-1.5">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full text-left px-4 py-3 rounded-xl bg-brand-50 text-brand-700 font-bold transition-all flex items-center group shadow-sm border border-brand-100/50">
+                    <i class="fa-solid fa-chart-pie w-6 text-lg group-hover:scale-110 transition-transform text-brand-500"></i> 
                     <span class="ml-1 tracking-wide">Dashboard</span>
                 </button>
-                <button onclick="switchTab('masuk')" id="nav-masuk" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-bold transition-all flex items-center group border border-transparent">
-                    <i class="fa-solid fa-inbox w-6 text-lg group-hover:scale-110 transition-transform text-sky-400 group-hover:text-sky-500"></i> 
+                <button onclick="switchTab('masuk')" id="nav-masuk" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-medium transition-all flex items-center group border border-transparent">
+                    <i class="fa-solid fa-inbox w-6 text-lg group-hover:scale-110 transition-transform text-slate-400 group-hover:text-sky-500"></i> 
                     <span class="ml-1 tracking-wide">Surat Masuk</span>
                 </button>
-                <button onclick="switchTab('keluar')" id="nav-keluar" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-bold transition-all flex items-center group border border-transparent">
-                    <i class="fa-solid fa-paper-plane w-6 text-lg group-hover:scale-110 transition-transform text-emerald-400 group-hover:text-emerald-500"></i> 
+                <button onclick="switchTab('keluar')" id="nav-keluar" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-medium transition-all flex items-center group border border-transparent">
+                    <i class="fa-solid fa-paper-plane w-6 text-lg group-hover:scale-110 transition-transform text-slate-400 group-hover:text-emerald-500"></i> 
                     <span class="ml-1 tracking-wide">Surat Keluar</span>
                 </button>
-                <button onclick="switchTab('pengaturan')" id="nav-pengaturan" class="w-full text-left px-4 py-3.5 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-bold transition-all flex items-center group border border-transparent hidden">
+                <button onclick="switchTab('pengaturan')" id="nav-pengaturan" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-medium transition-all flex items-center group border border-transparent hidden">
                     <i class="fa-solid fa-gear w-6 text-lg group-hover:scale-110 transition-transform text-slate-400 group-hover:text-slate-600"></i> 
                     <span class="ml-1 tracking-wide">Pengaturan</span>
                 </button>
@@ -191,10 +195,10 @@
                     Memeriksa...
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="forceSync()" class="flex-1 bg-white hover:bg-rainbow-halus text-slate-600 hover:text-slate-800 px-3 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 border border-slate-200 hover:border-transparent shadow-sm" title="Sinkronisasi ke G-Sheets">
-                        <i class="fa-solid fa-rotate opacity-70"></i> Sync
+                    <button onclick="forceSync()" class="flex-1 bg-white hover:bg-brand-50 text-slate-600 hover:text-brand-700 px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 border border-slate-200 hover:border-brand-200 shadow-sm" title="Sinkronisasi ke G-Sheets">
+                        <i class="fa-solid fa-rotate"></i> Sync
                     </button>
-                    <button onclick="logoutApp()" class="w-10 bg-white hover:bg-rose-50 text-rose-500 px-3 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center border border-slate-200 hover:border-rose-200 shadow-sm" title="Keluar / Kunci Aplikasi">
+                    <button onclick="logoutApp()" class="w-10 bg-white hover:bg-rose-50 text-rose-500 px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center border border-slate-200 hover:border-rose-200 shadow-sm" title="Keluar / Kunci Aplikasi">
                         <i class="fa-solid fa-lock"></i>
                     </button>
                 </div>
@@ -202,30 +206,31 @@
         </div>
     </aside>
 
-    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-slate-50">
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative bg-slate-50/50">
         
-        <header class="h-20 glass-header border-b border-slate-200/70 flex items-center justify-between px-6 md:px-8 no-print z-10 sticky top-0 w-full transition-all duration-500">
+        <header class="h-20 glass-header border-b border-slate-200/50 flex items-center justify-between px-6 md:px-8 no-print z-10 sticky top-0 w-full transition-all duration-500">
             <div class="flex items-center">
                 <button onclick="toggleSidebar()" class="text-slate-500 hover:text-brand-600 mr-5 p-2 rounded-xl hover:bg-slate-100 transition-colors" title="Menu">
                     <i class="fa-solid fa-bars-staggered text-xl"></i>
                 </button>
                 <div>
-                    <h2 id="page-title" class="text-xl font-bold text-slate-800 tracking-tight">Dashboard Overview</h2>
-                    <p class="text-xs text-slate-500 font-medium mt-0.5 hidden md:block uppercase_override">Sistem Informasi Pengelolaan Arsip Digital</p>
+                    <h2 id="page-title" class="text-lg font-bold text-slate-800 tracking-tight">Dashboard Overview</h2>
+                    <p class="text-[11px] text-slate-500 font-medium mt-0.5 hidden md:block uppercase_override">Sistem Informasi Pengelolaan Arsip Digital</p>
                 </div>
             </div>
             
             <div class="flex items-center gap-3">
                 <div class="hidden md:flex items-center bg-white border border-slate-200 rounded-full p-1 shadow-sm">
-                    <div class="flex items-center px-3 border-r border-slate-100">
+                    <div class="hidden items-center px-3 border-r border-slate-100">
                         <i class="fa-regular fa-calendar text-slate-400 mr-2 text-sm"></i>
                         <select id="year-filter" onchange="changeYear(this.value)" class="bg-transparent text-slate-700 text-sm font-semibold outline-none cursor-pointer hover:text-brand-600 transition-colors py-1 uppercase_override">
                             <option value="all">Semua Tahun</option>
                         </select>
                     </div>
-                    <div class="flex items-center px-3">
-                        <select id="month-filter" onchange="changeMonth(this.value)" class="bg-transparent text-slate-700 text-sm font-semibold outline-none cursor-pointer hover:text-brand-600 transition-colors py-1 appearance-none uppercase_override">
-                            <option value="all">Semua Bulan</option>
+                    <div class="flex items-center px-4 rounded-full bg-slate-50/50 hover:bg-slate-100 transition-colors h-9 cursor-pointer">
+                        <i class="fa-regular fa-calendar-days text-brand-500 mr-2 text-sm"></i>
+                        <select id="month-filter" onchange="changeMonth(this.value)" class="bg-transparent text-slate-700 text-sm font-bold outline-none cursor-pointer hover:text-brand-600 transition-colors py-1 appearance-none uppercase_override">
+                            <option value="all">Pilih Bulan</option>
                             <option value="01">Januari</option>
                             <option value="02">Februari</option>
                             <option value="03">Maret</option>
@@ -242,19 +247,19 @@
                     </div>
                 </div>
 
-                <div class="md:hidden flex bg-white border border-slate-200 rounded-lg p-1 shadow-sm">
+                <div class="md:hidden hidden bg-white border border-slate-200 rounded-lg p-1 shadow-sm">
                     <select id="mobile-year-filter" onchange="document.getElementById('year-filter').value=this.value; changeYear(this.value);" class="bg-transparent text-slate-700 text-xs font-semibold outline-none w-20 uppercase_override">
                         <option value="all">Tahun</option>
                     </select>
                 </div>
 
-                <div id="queue-badge" class="hidden items-center justify-center bg-rose-50 text-rose-600 px-3 py-2 rounded-full text-xs font-bold border border-rose-100 shadow-sm shadow-rose-100/50">
+                <div id="queue-badge" class="hidden items-center justify-center bg-rose-50 text-rose-600 px-3 py-2 rounded-full text-xs font-bold border border-rose-100 shadow-sm">
                     <i class="fa-solid fa-cloud-arrow-up mr-1.5 animate-bounce"></i> <span id="queue-count">0</span> <span class="hidden lg:inline ml-1">Antrean</span>
                 </div>
                 
-                <button onclick="fetchDataFromServer()" class="bg-white hover:bg-slate-50 text-slate-600 p-2.5 md:px-4 md:py-2 rounded-full text-sm font-semibold border border-slate-200 shadow-sm hover:shadow transition-all group flex items-center justify-center">
-                    <i class="fa-solid fa-arrows-rotate md:mr-2 group-hover:rotate-180 transition-transform duration-500 text-slate-400 group-hover:text-brand-400"></i> 
-                    <span class="hidden md:inline group-hover:text-brand-500 transition-colors uppercase_override">Muat Ulang</span>
+                <button onclick="fetchDataFromServer()" class="bg-white hover:bg-slate-50 text-slate-600 p-2 md:px-4 md:py-2 rounded-full text-sm font-semibold border border-slate-200 shadow-sm transition-all group flex items-center justify-center">
+                    <i class="fa-solid fa-arrows-rotate md:mr-2 group-hover:rotate-180 transition-transform duration-500 text-slate-400 group-hover:text-brand-500"></i> 
+                    <span class="hidden md:inline group-hover:text-brand-600 transition-colors uppercase_override">Muat Ulang</span>
                 </button>
             </div>
         </header>
@@ -262,21 +267,21 @@
         <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 md:p-8" id="main-content">
             
             <div id="view-dashboard" class="view-section space-y-8 max-w-7xl mx-auto">
-                <div class="bg-rainbow-halus rounded-[2rem] shadow-xl shadow-brand-200/50 overflow-hidden relative border-4 border-white">
-                    <div class="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
+                <div class="bg-premium-grad rounded-3xl shadow-xl shadow-brand-500/10 overflow-hidden relative border border-brand-400/30">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                     <div class="px-8 py-10 md:p-12 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div>
-                            <span class="inline-block py-1.5 px-4 rounded-full bg-white/40 backdrop-blur-md text-slate-800 text-xs font-black tracking-widest mb-4 shadow-sm border border-white/60">G-SHEETS PREMIUM EDITION</span>
-                            <h3 id="dashboard-title-text" class="text-3xl md:text-5xl font-extrabold text-slate-800 tracking-tight mb-3 drop-shadow-sm">Sistem E-Surat Fajar Asri</h3>
-                            <p id="dashboard-desc-text" class="text-slate-700 text-sm md:text-base max-w-2xl leading-relaxed font-semibold uppercase_override">
+                            <span class="inline-block py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md text-white text-[10px] font-bold tracking-widest mb-4 border border-white/20 uppercase_override shadow-sm">Google Sheets Premium Edition</span>
+                            <h3 id="dashboard-title-text" class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3">Sistem E-Surat Fajar Asri</h3>
+                            <p id="dashboard-desc-text" class="text-brand-100 text-sm md:text-base max-w-2xl leading-relaxed font-medium uppercase_override">
                                 Kelola arsip persuratan desa yang tersinkronisasi langsung dengan Google Sheets. Dilengkapi Hak Akses Multi-Level dan Penyimpanan Offline.
                             </p>
                         </div>
-                        <div class="hidden lg:flex w-28 h-28 rounded-full bg-white/30 backdrop-blur-md items-center justify-center shadow-xl relative border border-white/60 transform hover:rotate-12 hover:scale-105 transition-all duration-500">
-                            <i id="dashboard-banner-icon" class="fa-solid fa-file-excel text-5xl text-slate-700 opacity-80"></i>
+                        <div class="hidden lg:flex w-28 h-28 rounded-2xl bg-white/10 backdrop-blur-md items-center justify-center shadow-lg relative border border-white/20 transform hover:scale-105 transition-all duration-500">
+                            <i id="dashboard-banner-icon" class="fa-solid fa-file-excel text-5xl text-white opacity-90"></i>
                             <img id="dashboard-banner-img" src="" class="hidden w-20 h-20 object-contain drop-shadow-sm" alt="Logo">
-                            <div class="absolute -right-1 -bottom-1 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-slate-100">
-                                <i class="fa-solid fa-check text-emerald-500 text-lg"></i>
+                            <div class="absolute -right-2 -bottom-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md border border-slate-100">
+                                <i class="fa-solid fa-check text-emerald-500 text-sm"></i>
                             </div>
                         </div>
                     </div>
@@ -284,47 +289,49 @@
                 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6 h-full">
-                        <div class="bg-white rounded-3xl p-8 flex flex-col justify-between border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-sky-500/10 hover:-translate-y-1 transition-all duration-400 group cursor-pointer relative overflow-hidden" onclick="switchTab('masuk')">
-                            <div class="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-opacity transform group-hover:scale-110 group-hover:-rotate-12 duration-500">
+                        <div class="bg-white rounded-3xl p-8 flex flex-col justify-between border border-slate-200/60 shadow-sm hover:shadow-lg hover:shadow-sky-500/5 hover:-translate-y-0.5 transition-all duration-300 group cursor-pointer relative overflow-hidden" onclick="switchTab('masuk')">
+                            <div class="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-5 transition-opacity transform group-hover:scale-110 duration-500">
                                 <i class="fa-solid fa-inbox text-9xl text-sky-600"></i>
                             </div>
                             <div class="flex items-center gap-4 relative z-10">
-                                <div class="w-14 h-14 rounded-2xl bg-sky-50 text-sky-500 flex items-center justify-center group-hover:bg-sky-500 group-hover:text-white transition-colors duration-300 shadow-sm">
-                                    <i class="fa-solid fa-inbox text-2xl"></i>
+                                <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-500 flex items-center justify-center group-hover:bg-sky-500 group-hover:text-white transition-colors duration-300 border border-sky-100 group-hover:border-sky-500">
+                                    <i class="fa-solid fa-inbox text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm text-slate-500 font-bold uppercase_override tracking-wider">Surat Masuk</h4>
+                                    <h4 class="text-sm text-slate-600 font-bold uppercase_override tracking-wide">Surat Masuk</h4>
                                     <p class="text-[11px] text-slate-400 font-medium uppercase_override">Total arsip diterima</p>
                                 </div>
                             </div>
-                            <div class="mt-6 relative z-10">
-                                <p id="count-masuk" class="text-5xl font-black text-slate-800 tracking-tighter">0</p>
+                            <div class="mt-8 relative z-10 flex items-baseline gap-2">
+                                <p id="count-masuk" class="text-4xl font-black text-slate-800 tracking-tighter">0</p>
+                                <span class="text-sm text-slate-400 font-medium">Dokumen</span>
                             </div>
                         </div>
 
-                        <div class="bg-white rounded-3xl p-8 flex flex-col justify-between border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1 transition-all duration-400 group cursor-pointer relative overflow-hidden" onclick="switchTab('keluar')">
-                            <div class="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-opacity transform group-hover:scale-110 group-hover:rotate-12 duration-500">
+                        <div class="bg-white rounded-3xl p-8 flex flex-col justify-between border border-slate-200/60 shadow-sm hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-0.5 transition-all duration-300 group cursor-pointer relative overflow-hidden" onclick="switchTab('keluar')">
+                            <div class="absolute top-0 right-0 p-8 opacity-[0.02] group-hover:opacity-5 transition-opacity transform group-hover:scale-110 duration-500">
                                 <i class="fa-solid fa-paper-plane text-9xl text-emerald-600"></i>
                             </div>
                             <div class="flex items-center gap-4 relative z-10">
-                                <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300 shadow-sm">
-                                    <i class="fa-solid fa-paper-plane text-2xl"></i>
+                                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300 border border-emerald-100 group-hover:border-emerald-500">
+                                    <i class="fa-solid fa-paper-plane text-xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm text-slate-500 font-bold uppercase_override tracking-wider">Surat Keluar</h4>
+                                    <h4 class="text-sm text-slate-600 font-bold uppercase_override tracking-wide">Surat Keluar</h4>
                                     <p class="text-[11px] text-slate-400 font-medium uppercase_override">Total arsip terkirim</p>
                                 </div>
                             </div>
-                            <div class="mt-6 relative z-10">
-                                <p id="count-keluar" class="text-5xl font-black text-slate-800 tracking-tighter">0</p>
+                            <div class="mt-8 relative z-10 flex items-baseline gap-2">
+                                <p id="count-keluar" class="text-4xl font-black text-slate-800 tracking-tighter">0</p>
+                                <span class="text-sm text-slate-400 font-medium">Dokumen</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col relative overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200/60 shadow-sm flex flex-col relative overflow-hidden hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between mb-6">
-                            <h4 class="text-sm text-slate-800 font-bold tracking-wide uppercase_override">Statistik Arsip</h4>
-                            <div class="p-2 bg-slate-50 rounded-lg text-slate-400"><i class="fa-solid fa-chart-donut"></i></div>
+                            <h4 class="text-sm text-slate-700 font-bold tracking-wide uppercase_override">Statistik Arsip</h4>
+                            <div class="p-2 bg-slate-50 border border-slate-100 rounded-lg text-slate-400"><i class="fa-solid fa-chart-donut"></i></div>
                         </div>
                         <div class="flex-1 flex items-center justify-center relative min-h-[200px]">
                             <div class="w-full max-w-[220px] aspect-square relative">
@@ -337,14 +344,43 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Bagian Rincian Surat Keluar -->
+                <div class="bg-white rounded-3xl p-8 border border-slate-200/60 shadow-sm relative overflow-hidden mt-2">
+                    <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center border border-brand-100 shadow-sm">
+                                <i class="fa-solid fa-layer-group text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-base text-slate-700 font-bold tracking-wide uppercase_override">Rincian Surat Keluar</h4>
+                                <p class="text-[11px] text-slate-400 font-medium uppercase_override mt-0.5">Total arsip berdasarkan jenis surat yang diterbitkan</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="dashboard-rincian-keluar" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <!-- Konten rincian akan di-generate otomatis via JS -->
+                    </div>
+                    
+                    <div id="rincian-empty-state" class="hidden py-8 text-center">
+                        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class="fa-solid fa-folder-open text-slate-300 text-2xl"></i>
+                        </div>
+                        <p class="text-sm text-slate-400 font-medium uppercase_override">Belum ada data surat keluar yang tercatat.</p>
+                    </div>
+                </div>
             </div>
 
             <div id="view-data" class="view-section hidden space-y-6 max-w-full">
                 <div class="bg-white p-3 md:p-4 rounded-2xl shadow-sm border border-slate-200/60 flex flex-col xl:flex-row justify-between items-center gap-4 no-print">
                     
-                    <div class="w-full xl:w-auto">
-                        <button id="btn-add-data" onclick="openForm()" class="w-full xl:w-auto bg-rainbow-halus text-slate-800 px-6 py-3 rounded-xl text-sm font-extrabold transition-all shadow-md shadow-brand-200/50 hover:shadow-lg hover:scale-[1.02] flex justify-center items-center gap-2 border border-white">
-                            <i class="fa-solid fa-plus opacity-70"></i> <span class="tracking-wide uppercase_override">Tambah Data</span>
+                    <div class="w-full xl:w-auto flex gap-2">
+                        <button id="btn-add-data" onclick="openForm()" class="w-full xl:w-auto bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-md shadow-brand-500/20 hover:shadow-lg hover:-translate-y-0.5 flex justify-center items-center gap-2 uppercase_override tracking-wide">
+                            <i class="fa-solid fa-plus opacity-80"></i> <span>Tambah Data</span>
+                        </button>
+                        <button id="btn-bulk-edit" onclick="openBulkEditModal()" class="hidden w-full xl:w-auto bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-md shadow-amber-500/20 hover:shadow-lg hover:-translate-y-0.5 justify-center items-center gap-2 uppercase_override tracking-wide">
+                            <i class="fa-solid fa-pen-to-square opacity-80"></i> <span>Edit Massal (<span id="bulk-count">0</span>)</span>
                         </button>
                     </div>
                     
@@ -352,26 +388,26 @@
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <i class="fa-solid fa-magnifying-glass text-slate-400 group-focus-within:text-brand-500 transition-colors"></i>
                         </div>
-                        <input type="text" id="search-input" oninput="renderTable()" placeholder="Cari berdasarkan nomor, perihal, atau pengirim..." class="w-full pl-11 pr-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm text-sm text-slate-700 placeholder-slate-400 font-medium">
+                        <input type="text" id="search-input" oninput="renderTable()" placeholder="Cari berdasarkan nomor, perihal, atau pengirim..." class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm text-sm text-slate-700 placeholder-slate-400 font-medium">
                     </div>
 
                     <div class="flex flex-wrap xl:flex-nowrap w-full xl:w-auto gap-2">
-                        <button onclick="window.print()" class="flex-1 xl:flex-none bg-slate-800 hover:bg-slate-900 text-white px-5 py-3 rounded-xl text-sm font-semibold transition-all shadow-md flex justify-center items-center gap-2 uppercase_override">
-                            <i class="fa-solid fa-print opacity-70"></i> Cetak
+                        <button onclick="window.print()" class="flex-1 xl:flex-none bg-slate-800 hover:bg-slate-900 text-white px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-md flex justify-center items-center gap-2 uppercase_override tracking-wide">
+                            <i class="fa-solid fa-print opacity-80"></i> Cetak
                         </button>
-                        <button onclick="exportExcel()" class="flex-1 xl:flex-none bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-emerald-200 hover:border-emerald-500 shadow-sm flex justify-center items-center gap-1.5 group uppercase_override">
+                        <button onclick="exportExcel()" class="flex-1 xl:flex-none bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white px-4 py-3 rounded-xl text-sm font-bold transition-all border border-emerald-200 hover:border-emerald-500 shadow-sm flex justify-center items-center gap-1.5 group uppercase_override tracking-wide">
                             <i class="fa-solid fa-file-excel group-hover:animate-bounce"></i> Excel
                         </button>
-                        <button onclick="exportPDF()" class="flex-1 xl:flex-none bg-rose-50 hover:bg-rose-500 text-rose-600 hover:text-white px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-rose-200 hover:border-rose-500 shadow-sm flex justify-center items-center gap-1.5 group uppercase_override">
+                        <button onclick="exportPDF()" class="flex-1 xl:flex-none bg-rose-50 hover:bg-rose-500 text-rose-600 hover:text-white px-4 py-3 rounded-xl text-sm font-bold transition-all border border-rose-200 hover:border-rose-500 shadow-sm flex justify-center items-center gap-1.5 group uppercase_override tracking-wide">
                             <i class="fa-solid fa-file-pdf group-hover:animate-bounce"></i> PDF
                         </button>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-200/80 overflow-hidden" id="print-area">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden" id="print-area">
                     <div class="p-6 border-b border-slate-100 bg-white flex justify-between items-center relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-rainbow-halus rounded-full blur-3xl -mr-20 -mt-20 opacity-20 pointer-events-none"></div>
-                        <h3 id="table-title" class="text-xl font-extrabold text-slate-800 tracking-tight relative z-10">Daftar Surat</h3>
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-50 rounded-full blur-3xl -mr-20 -mt-20 opacity-50 pointer-events-none"></div>
+                        <h3 id="table-title" class="text-xl font-extrabold text-slate-800 tracking-tight relative z-10 text-premium-grad">Daftar Surat</h3>
                     </div>
                     
                     <div class="overflow-x-auto">
@@ -382,12 +418,12 @@
                     </div>
 
                     <div id="empty-state" class="hidden py-24 px-6 text-center">
-                        <div class="w-32 h-32 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-slate-100">
-                            <i class="fa-solid fa-folder-open text-5xl text-slate-300"></i>
+                        <div class="w-24 h-24 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+                            <i class="fa-solid fa-folder-open text-4xl text-slate-300"></i>
                         </div>
-                        <h4 class="font-extrabold text-slate-800 text-xl tracking-tight mb-2">Tidak Ada Arsip</h4>
+                        <h4 class="font-bold text-slate-700 text-lg tracking-tight mb-2">Tidak Ada Arsip</h4>
                         <p class="text-sm text-slate-500 max-w-md mx-auto leading-relaxed uppercase_override">Belum ada data surat yang tersimpan untuk filter saat ini. Silakan tambahkan data baru atau ubah kriteria filter Anda.</p>
-                        <button onclick="openForm()" class="mt-8 bg-white border border-slate-200 text-slate-700 hover:text-brand-600 hover:border-brand-200 hover:bg-brand-50 px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm uppercase_override">
+                        <button onclick="openForm()" class="mt-8 bg-white border border-slate-200 text-slate-600 hover:text-brand-600 hover:border-brand-300 hover:bg-brand-50 px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm uppercase_override tracking-wide">
                             <i class="fa-solid fa-plus mr-1"></i> Buat Surat Baru
                         </button>
                     </div>
@@ -395,16 +431,16 @@
             </div>
 
             <div id="view-form" class="view-section hidden max-w-5xl mx-auto space-y-6 pb-12">
-                <button onclick="goBackToData()" class="group flex items-center text-slate-500 hover:text-slate-800 font-semibold transition-colors bg-white hover:bg-slate-50 px-5 py-2.5 rounded-full shadow-sm border border-slate-200 w-max uppercase_override">
+                <button onclick="goBackToData()" class="group flex items-center text-slate-500 hover:text-slate-800 font-bold transition-colors bg-white hover:bg-slate-50 px-5 py-2.5 rounded-full shadow-sm border border-slate-200 w-max uppercase_override text-sm">
                     <i class="fa-solid fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i> Kembali ke Daftar
                 </button>
 
-                <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-                    <div class="bg-rainbow-halus p-8 md:p-10 text-slate-800 relative overflow-hidden border-b-4 border-white/50">
-                        <div class="absolute inset-0 bg-white/20 backdrop-blur-[2px]"></div>
-                        <h3 class="text-3xl font-extrabold tracking-tight relative z-10 flex items-center gap-3 drop-shadow-sm">
-                            <div class="w-12 h-12 bg-white/40 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/60 shadow-sm">
-                                <i class="fa-solid fa-file-signature text-xl opacity-80"></i>
+                <div class="bg-white rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-200/80 overflow-hidden">
+                    <div class="bg-premium-grad p-8 md:p-10 text-white relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+                        <h3 class="text-2xl font-extrabold tracking-tight relative z-10 flex items-center gap-3 drop-shadow-sm">
+                            <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20 shadow-sm">
+                                <i class="fa-solid fa-file-signature text-xl opacity-90"></i>
                             </div>
                             <span id="form-title">Formulir Data</span>
                         </h3>
@@ -415,93 +451,90 @@
                             <input type="hidden" id="surat-id">
                             
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                                <div class="space-y-6 bg-slate-50/50 p-6 rounded-3xl border border-slate-100/80">
-                                    <div class="flex items-center gap-2 border-b border-slate-200/80 pb-3 mb-6">
+                                <div class="space-y-6 bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60">
+                                    <div class="flex items-center gap-2 border-b border-slate-200 pb-3 mb-6">
                                         <i class="fa-solid fa-hashtag text-brand-500"></i>
-                                        <h4 class="font-black text-slate-800 tracking-wide uppercase_override text-sm">Penomoran Surat</h4>
+                                        <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Penomoran Surat</h4>
                                     </div>
                                     
-                                    <div class="space-y-6">
+                                    <div class="space-y-5">
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Nomor Urut / Agenda <span class="text-rose-500">*</span></label>
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Nomor Urut / Agenda <span class="text-rose-500">*</span></label>
                                             <div class="relative">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                                    <i class="fa-solid fa-list-ol text-slate-400 text-lg"></i>
+                                                    <i class="fa-solid fa-list-ol text-slate-400"></i>
                                                 </div>
-                                                <input type="text" id="nomor_urut" readonly required class="w-full pl-12 pr-4 py-4 bg-slate-100 border-2 border-slate-200 rounded-xl outline-none transition-all text-2xl font-black text-slate-500 tracking-wider shadow-inner cursor-not-allowed">
+                                                <input type="text" id="nomor_urut" readonly required class="w-full pl-11 pr-4 py-3 bg-slate-100 border border-slate-200 rounded-xl outline-none transition-all text-xl font-black text-slate-500 tracking-wider cursor-not-allowed">
                                             </div>
-                                            <p class="text-[10px] text-slate-500 mt-2 font-semibold flex items-center gap-1 uppercase_override"><i class="fa-solid fa-circle-info"></i> Dihasilkan otomatis oleh sistem.</p>
+                                            <p class="text-[10px] text-slate-400 mt-1.5 font-medium flex items-center gap-1 uppercase_override"><i class="fa-solid fa-circle-info"></i> Dihasilkan otomatis oleh sistem.</p>
                                         </div>
 
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-1.5 uppercase_override">Tanggal Surat <span class="text-rose-500">*</span></label>
-                                            <!-- Menambahkan onchange agar ketika diganti format Romawi-nya ikut berubah -->
-                                            <input type="date" id="tanggal_surat" required onchange="generateFinalNomor()" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700 cursor-pointer">
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Tanggal Surat <span class="text-rose-500">*</span></label>
+                                            <input type="date" id="tanggal_surat" required onchange="generateFinalNomor()" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700 cursor-pointer">
                                         </div>
                                         
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Input Nomor Surat <span class="text-rose-500">*</span></label>
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Input Nomor Surat <span class="text-rose-500">*</span></label>
                                             <div class="flex flex-col sm:flex-row gap-3">
                                                 <!-- Dropdown Template Nomor -->
-                                                <div class="flex-[3]">
-                                                    <select id="pilih_format_nomor" onchange="generateFinalNomor()" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm font-bold text-slate-700 cursor-pointer shadow-sm">
-                                                        <!-- Opsi Format akan diisi dari setting superadmin -->
+                                                <div id="format-nomor-container" class="flex-[3]">
+                                                    <select id="pilih_format_nomor" onchange="generateFinalNomor()" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm font-bold text-slate-700 cursor-pointer shadow-sm">
                                                     </select>
                                                 </div>
                                                 <!-- Input Inti (Misal: 001) -->
-                                                <div class="relative flex-[2]">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                                        <i class="fa-solid fa-keyboard text-brand-500/70 text-lg"></i>
+                                                <div id="input-inti-container" class="relative flex-[2]">
+                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                        <i class="fa-solid fa-keyboard text-brand-400 text-sm"></i>
                                                     </div>
-                                                    <input type="text" id="input_nomor_inti" oninput="generateFinalNomor()" required class="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm font-bold text-slate-700 shadow-sm" placeholder="Ketik No...">
+                                                    <input type="text" id="input_nomor_inti" oninput="generateFinalNomor()" required class="w-full pl-9 pr-3 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm font-bold text-slate-700 shadow-sm" placeholder="Ketik No...">
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Hasil Nomor Final <span class="text-rose-500">*</span></label>
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Hasil Nomor Final <span class="text-rose-500">*</span></label>
                                             <div class="relative">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                                    <i class="fa-solid fa-file-invoice text-amber-500/70 text-lg"></i>
+                                                    <i class="fa-solid fa-file-invoice text-amber-500/80"></i>
                                                 </div>
-                                                <!-- Value ini yang akan di simpan dan di cek duplikasinya -->
-                                                <input type="text" id="nomor_surat" readonly class="w-full pl-12 pr-4 py-4 bg-amber-50/50 border-2 border-amber-300/60 rounded-xl outline-none transition-all text-lg font-bold text-amber-800 shadow-inner cursor-not-allowed">
+                                                <input type="text" id="nomor_surat" readonly class="w-full pl-11 pr-4 py-3 bg-amber-50/50 border border-amber-200 rounded-xl outline-none transition-all text-base font-bold text-amber-800 cursor-not-allowed">
                                             </div>
-                                            <p id="warning-nomor" class="text-rose-500 text-[11px] font-bold mt-2 hidden animate-pulse bg-rose-50 p-2.5 rounded-lg border border-rose-200 shadow-sm uppercase_override"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Nomor Inti (<span id="warn-inti"></span>) sudah pernah dipakai! Coba nomor lain.</p>
+                                            <p id="warning-nomor" class="text-rose-500 text-[11px] font-bold mt-2 hidden bg-rose-50 p-2 rounded border border-rose-100 uppercase_override"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Nomor Inti (<span id="warn-inti"></span>) sudah pernah dipakai! Coba nomor lain.</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="space-y-6">
-                                    <div class="flex items-center gap-2 border-b border-slate-100 pb-3 mb-6">
+                                    <div class="flex items-center gap-2 border-b border-slate-200 pb-3 mb-6">
                                         <i class="fa-solid fa-align-left text-brand-500"></i>
-                                        <h4 class="font-bold text-slate-800 tracking-wide uppercase_override text-sm">Detail Konten</h4>
+                                        <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Detail Konten</h4>
                                     </div>
                                     
                                     <div id="form-group-masuk" class="space-y-5">
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-1.5 uppercase_override">Instansi Pengirim <span class="text-rose-500">*</span></label>
-                                            <input type="text" id="pengirim" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700">
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Instansi Pengirim <span class="text-rose-500">*</span></label>
+                                            <input type="text" id="pengirim" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700">
                                         </div>
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-1.5 uppercase_override">Perihal / Tujuan Surat <span class="text-rose-500">*</span></label>
-                                            <textarea id="perihal_masuk" rows="4" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700 leading-relaxed"></textarea>
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Perihal / Tujuan Surat <span class="text-rose-500">*</span></label>
+                                            <textarea id="perihal_masuk" rows="4" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700 leading-relaxed"></textarea>
                                         </div>
                                     </div>
 
                                     <div id="form-group-keluar" class="space-y-5 hidden">
                                         <div id="wrapper-jenis-surat">
-                                            <label class="block text-sm font-bold text-slate-700 mb-1.5 uppercase_override">Jenis Surat <span class="text-rose-500">*</span></label>
-                                            <select id="jenis_surat" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700">
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Jenis Surat <span class="text-rose-500">*</span></label>
+                                            <select id="jenis_surat" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 cursor-pointer">
                                             </select>
                                         </div>
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-1.5 uppercase_override">Ditujukan Kepada / Pemohon <span class="text-rose-500">*</span></label>
-                                            <input type="text" id="pemohon" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700">
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Ditujukan Kepada / Pemohon <span class="text-rose-500">*</span></label>
+                                            <input type="text" id="pemohon" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700">
                                         </div>
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-1.5 uppercase_override">Isi Ringkas <span class="text-rose-500">*</span></label>
-                                            <textarea id="isi_surat" rows="2" class="w-full px-4 py-3 bg-slate-50/50 border border-slate-200 rounded-xl focus:bg-white focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700 leading-relaxed"></textarea>
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Isi Ringkasan <span class="text-rose-500">*</span></label>
+                                            <textarea id="isi_surat" rows="3" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700 leading-relaxed"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -510,51 +543,51 @@
                             <div class="mt-10 pt-8 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-6">
                                     <i class="fa-solid fa-paperclip text-brand-500"></i>
-                                    <h4 class="font-bold text-slate-800 tracking-wide uppercase_override">Lampiran Digital (Opsional)</h4>
+                                    <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Lampiran Digital (Opsional)</h4>
                                 </div>
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="group relative bg-white border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:border-brand-400 hover:bg-brand-50 transition-all duration-300 cursor-pointer">
+                                    <div class="group relative bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center hover:border-brand-400 hover:bg-brand-50/50 transition-all duration-300 cursor-pointer">
                                         <input type="file" id="bukti_foto" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="displayFileName(this, 'foto')">
-                                        <div class="w-16 h-16 mx-auto bg-brand-100 text-brand-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                            <i class="fa-solid fa-camera text-2xl"></i>
+                                        <div class="w-14 h-14 mx-auto bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                                            <i class="fa-solid fa-camera text-xl"></i>
                                         </div>
-                                        <h5 class="font-bold text-slate-700 group-hover:text-brand-700 mb-1">Unggah Foto</h5>
-                                        <p class="text-xs text-slate-400 font-medium uppercase_override">Format gambar, maksimal 50MB</p>
+                                        <h5 class="font-bold text-sm text-slate-700 group-hover:text-brand-700 mb-1">Unggah Foto</h5>
+                                        <p class="text-[11px] text-slate-400 font-medium uppercase_override">Format gambar, max 50MB</p>
                                     </div>
 
-                                    <div class="group relative bg-white border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center hover:border-rose-400 hover:bg-rose-50 transition-all duration-300 cursor-pointer">
+                                    <div class="group relative bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center hover:border-rose-400 hover:bg-rose-50/50 transition-all duration-300 cursor-pointer">
                                         <input type="file" id="bukti_pdf" accept="application/pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="displayFileName(this, 'pdf')">
-                                        <div class="w-16 h-16 mx-auto bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                            <i class="fa-solid fa-file-pdf text-2xl"></i>
+                                        <div class="w-14 h-14 mx-auto bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+                                            <i class="fa-solid fa-file-pdf text-xl"></i>
                                         </div>
-                                        <h5 class="font-bold text-slate-700 group-hover:text-rose-700 mb-1">Unggah Dokumen PDF</h5>
-                                        <p class="text-xs text-slate-400 font-medium uppercase_override">Format .pdf, maksimal 50MB</p>
+                                        <h5 class="font-bold text-sm text-slate-700 group-hover:text-rose-700 mb-1">Unggah Dokumen PDF</h5>
+                                        <p class="text-[11px] text-slate-400 font-medium uppercase_override">Format .pdf, max 50MB</p>
                                     </div>
                                 </div>
 
                                 <div id="file-name-display" class="mt-6 hidden">
-                                    <div class="inline-flex items-center gap-3 p-2 pr-4 bg-emerald-50 rounded-full border border-emerald-100 shadow-sm mx-auto">
-                                        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                                    <div class="inline-flex items-center gap-3 p-1.5 pr-4 bg-emerald-50 rounded-full border border-emerald-100 shadow-sm mx-auto">
+                                        <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm">
                                             <i class="fa-solid fa-check text-sm"></i>
                                         </div>
-                                        <span id="file-name-text" class="text-emerald-800 font-bold text-sm truncate max-w-[200px] md:max-w-xs"></span>
-                                        <button type="button" onclick="removeExistingFile()" class="ml-2 w-7 h-7 rounded-full bg-white text-rose-500 hover:bg-rose-500 hover:text-white border border-rose-200 flex items-center justify-center transition-colors shadow-sm" title="Hapus File"><i class="fa-solid fa-xmark text-xs"></i></button>
+                                        <span id="file-name-text" class="text-emerald-800 font-bold text-xs truncate max-w-[200px] md:max-w-xs"></span>
+                                        <button type="button" onclick="removeExistingFile()" class="ml-1 w-6 h-6 rounded-full bg-white text-rose-500 hover:bg-rose-500 hover:text-white border border-rose-200 flex items-center justify-center transition-colors shadow-sm" title="Hapus File"><i class="fa-solid fa-xmark text-xs"></i></button>
                                     </div>
                                     <div class="mt-4 flex justify-center">
-                                        <img id="image-preview" src="" class="hidden max-h-48 object-contain rounded-xl border border-slate-200 shadow-md p-1 bg-white" alt="Preview Foto">
+                                        <img id="image-preview" src="" class="hidden max-h-48 object-contain rounded-xl border border-slate-200 shadow-sm p-1 bg-white" alt="Preview Foto">
                                     </div>
                                 </div>
                                 <input type="hidden" id="existing_bukti">
                                 <input type="hidden" id="existing_bukti_name">
                             </div>
 
-                            <div class="mt-10 pt-6 border-t border-slate-100 flex justify-end gap-4">
-                                <button type="button" onclick="goBackToData()" class="px-6 py-3.5 text-sm font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 hover:text-slate-800 rounded-xl transition-colors uppercase_override">
+                            <div class="mt-10 pt-6 border-t border-slate-100 flex flex-col-reverse md:flex-row justify-end gap-3">
+                                <button type="button" onclick="goBackToData()" class="w-full md:w-auto px-6 py-3 text-sm font-bold text-slate-600 bg-white border border-slate-300 hover:bg-slate-50 hover:text-slate-800 rounded-xl transition-colors uppercase_override tracking-wide">
                                     Batal
                                 </button>
-                                <button type="submit" id="btn-save" class="w-full md:w-auto px-8 py-3.5 text-sm font-extrabold text-slate-800 bg-rainbow-halus rounded-xl shadow-lg shadow-brand-200/50 hover:shadow-brand-300/50 hover:-translate-y-0.5 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 border border-white/50 uppercase_override">
-                                    <i class="fa-solid fa-floppy-disk opacity-70"></i> Simpan Data
+                                <button type="submit" id="btn-save" class="w-full md:w-auto px-8 py-3 text-sm font-bold text-white bg-brand-600 rounded-xl shadow-md shadow-brand-500/20 hover:bg-brand-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 uppercase_override tracking-wide">
+                                    <i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Data
                                 </button>
                             </div>
                         </form>
@@ -563,12 +596,12 @@
             </div>
 
             <div id="view-pengaturan" class="view-section hidden max-w-4xl mx-auto space-y-6 pb-12">
-                <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-                    <div class="bg-rainbow-halus p-8 md:p-10 text-slate-800 relative overflow-hidden border-b-4 border-white/50">
-                        <div class="absolute inset-0 bg-white/20 backdrop-blur-[2px]"></div>
-                        <h3 class="text-3xl font-extrabold tracking-tight relative z-10 flex items-center gap-3 drop-shadow-sm">
-                            <div class="w-12 h-12 bg-white/40 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/60 shadow-sm">
-                                <i class="fa-solid fa-shield-halved text-xl opacity-80"></i>
+                <div class="bg-white rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-200/80 overflow-hidden">
+                    <div class="bg-premium-grad p-8 md:p-10 text-white relative overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+                        <h3 class="text-2xl font-extrabold tracking-tight relative z-10 flex items-center gap-3 drop-shadow-sm">
+                            <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20 shadow-sm">
+                                <i class="fa-solid fa-shield-halved text-xl opacity-90"></i>
                             </div>
                             <span>Pengaturan Akses & Tampilan</span>
                         </h3>
@@ -581,70 +614,116 @@
                             <div class="grid grid-cols-1 gap-6 mb-8">
                                 <div class="flex items-center gap-2 mb-2">
                                     <i class="fa-solid fa-pen-to-square text-brand-500"></i>
-                                    <h4 class="font-bold text-slate-800 tracking-wide uppercase_override">Informasi Aplikasi</h4>
+                                    <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Informasi Aplikasi</h4>
                                 </div>
-                                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Judul Aplikasi</label>
-                                    <input type="text" id="setting-app-title" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Sistem E-Surat Fajar Asri">
+                                <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                    <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Judul Aplikasi</label>
+                                    <input type="text" id="setting-app-title" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Sistem E-Surat Fajar Asri">
                                 </div>
-                                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Deskripsi Aplikasi</label>
-                                    <textarea id="setting-app-desc" rows="2" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700" placeholder="Kelola arsip persuratan desa..."></textarea>
+                                <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                    <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Deskripsi Aplikasi</label>
+                                    <textarea id="setting-app-desc" rows="2" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-medium text-slate-700" placeholder="Kelola arsip persuratan desa..."></textarea>
                                 </div>
                             </div>
                             
-                            <!-- PENGATURAN TYPOGRAFI & GAYA HURUF -->
+                            <!-- PENGATURAN LABEL & TEKS -->
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-4">
-                                    <i class="fa-solid fa-font text-brand-500"></i>
-                                    <h4 class="font-bold text-slate-800 tracking-wide uppercase_override">Pengaturan Typografi (Gaya Huruf)</h4>
+                                    <i class="fa-solid fa-tags text-brand-500"></i>
+                                    <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Penyesuaian Label Teks</h4>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                                        <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Pilih Jenis Huruf (Font)</label>
-                                        <select id="setting-font-family" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 cursor-pointer">
-                                            <option value="'Inter', sans-serif">Inter (Modern & Clean) - Default</option>
-                                            <option value="Arial, sans-serif">Arial</option>
-                                            <option value="'Times New Roman', Times, serif">Times New Roman</option>
-                                            <option value="'Roboto', sans-serif">Roboto</option>
-                                            <option value="Tahoma, sans-serif">Tahoma</option>
-                                        </select>
+                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                        <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Teks Brand (Samping Logo)</label>
+                                        <input type="text" id="setting-brand-text" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="E-Surat">
                                     </div>
-                                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                                        <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Format Huruf Default</label>
-                                        <select id="setting-text-transform" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 cursor-pointer">
-                                            <option value="uppercase">HURUF KAPITAL SEMUA</option>
-                                            <option value="capitalize">Awal Kata Huruf Besar (Capitalize)</option>
-                                        </select>
-                                        <p class="text-[10px] text-slate-500 mt-2"><i class="fa-solid fa-info-circle mr-1"></i> Berlaku pada sistem dan data yang akan disimpan (kecuali ikon).</p>
+                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                        <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Label Role: Administrator</label>
+                                        <input type="text" id="setting-role-admin" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="ADMINISTRATOR">
+                                    </div>
+                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                        <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Label Role: Super Admin</label>
+                                        <input type="text" id="setting-role-superadmin" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="SUPER ADMIN">
+                                    </div>
+                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                        <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Label Role: Staff</label>
+                                        <input type="text" id="setting-role-staff" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="STAFF">
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- PENGATURAN TEMPLATE NOMOR SURAT (MODE TAMBAH TERUS) -->
+                            <!-- PENGATURAN TYPOGRAFI & GAYA HURUF -->
+                            <div class="mt-8 pt-6 border-t border-slate-100">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <i class="fa-solid fa-font text-brand-500"></i>
+                                    <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Pengaturan Typografi (Gaya Huruf)</h4>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                        <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Pilih Jenis Huruf (Font)</label>
+                                        <select id="setting-font-family" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 cursor-pointer">
+                                            <!-- Modern Google Fonts -->
+                                            <option value="'Inter', sans-serif">Inter (Modern & Clean) - Default</option>
+                                            <option value="'Poppins', sans-serif">Poppins (Bulat & Elegan)</option>
+                                            <option value="'Montserrat', sans-serif">Montserrat (Tegas & Profesional)</option>
+                                            <option value="'Open Sans', sans-serif">Open Sans (Minimalis & Jelas)</option>
+                                            <option value="'Lato', sans-serif">Lato (Hangat & Ramah)</option>
+                                            <option value="'Roboto', sans-serif">Roboto (Standar Material)</option>
+                                            
+                                            <!-- Web Safe Fonts - Serif -->
+                                            <option value="'Times New Roman', Times, serif">Times New Roman (Formal / Resmi)</option>
+                                            <option value="Georgia, serif">Georgia (Klasik & Elegan)</option>
+                                            <option value="Garamond, serif">Garamond (Buku Klasik)</option>
+                                            <option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">Palatino (Tradisional)</option>
+                                            
+                                            <!-- Web Safe Fonts - Sans-Serif -->
+                                            <option value="Arial, Helvetica, sans-serif">Arial (Standar Dokumen)</option>
+                                            <option value="Verdana, Geneva, sans-serif">Verdana (Lebar & Mudah Dibaca)</option>
+                                            <option value="'Trebuchet MS', Helvetica, sans-serif">Trebuchet MS (Khas & Rapi)</option>
+                                            <option value="Tahoma, Geneva, sans-serif">Tahoma (Padat & Jelas)</option>
+                                            <option value="'Century Gothic', sans-serif">Century Gothic (Geometris)</option>
+                                            <option value="'Lucida Sans Unicode', 'Lucida Grande', sans-serif">Lucida Sans (Humanist)</option>
+                                            
+                                            <!-- Monospace -->
+                                            <option value="'Courier New', Courier, monospace">Courier New (Ketik / Monospace)</option>
+                                            <option value="'Lucida Console', Monaco, monospace">Lucida Console (Kode / Rapat)</option>
+                                        </select>
+                                    </div>
+                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                        <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Format Huruf Default</label>
+                                        <select id="setting-text-transform" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 cursor-pointer">
+                                            <option value="uppercase">HURUF KAPITAL SEMUA</option>
+                                            <option value="capitalize">Awal Kata Huruf Besar (Capitalize)</option>
+                                        </select>
+                                        <p class="text-[10px] text-slate-400 mt-2 font-medium"><i class="fa-solid fa-info-circle mr-1"></i> Berlaku pada sistem dan data yang akan disimpan.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PENGATURAN TEMPLATE NOMOR SURAT -->
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center gap-2">
                                         <i class="fa-solid fa-list-ol text-brand-500"></i>
-                                        <h4 class="font-bold text-slate-800 tracking-wide uppercase_override">Template Nomor Surat</h4>
+                                        <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Template Nomor Surat Keluar</h4>
                                     </div>
                                 </div>
-                                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                                    <div id="setting-format-nomor-wrapper" class="space-y-4 mb-5">
+                                <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                    <div id="setting-format-nomor-wrapper" class="space-y-3 mb-5">
                                         <!-- Template input dinamis akan dimuat di sini oleh JavaScript -->
                                     </div>
-                                    <button type="button" onclick="addFormatNomorRow('', '')" class="text-sm bg-white hover:bg-brand-50 text-brand-600 font-bold py-2.5 px-5 rounded-xl transition-all shadow-sm border border-brand-200 inline-flex items-center uppercase_override">
-                                        <i class="fa-solid fa-plus mr-2"></i> Tambah Template Baru
+                                    <button type="button" onclick="addFormatNomorRow('', '')" class="text-xs bg-white hover:bg-brand-50 text-brand-600 font-bold py-2.5 px-4 rounded-xl transition-all shadow-sm border border-brand-200 inline-flex items-center uppercase_override tracking-wide">
+                                        <i class="fa-solid fa-plus mr-1.5"></i> Tambah Template
                                     </button>
                                     
-                                    <div class="text-[11px] text-slate-500 mt-5 p-3 bg-amber-50 rounded-lg border border-amber-200 uppercase_override leading-relaxed">
-                                        <p><i class="fa-solid fa-lightbulb text-amber-500 mr-1"></i> <b>Petunjuk Penggunaan Kode:</b></p>
-                                        <ul class="list-disc pl-5 mt-1">
+                                    <div class="text-[11px] text-slate-500 mt-5 p-3.5 bg-amber-50 rounded-xl border border-amber-100 uppercase_override leading-relaxed font-medium">
+                                        <p><i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i> <b>Petunjuk Penggunaan Kode:</b></p>
+                                        <ul class="list-disc pl-5 mt-1.5 space-y-1">
                                             <li><b>{NO}</b> : Posisi Nomor Urut/Inti yg diketik manual.</li>
                                             <li><b>{BLN}</b> : Berubah otomatis jadi <b>Bulan Romawi</b> (cth: X).</li>
                                             <li><b>{THN}</b> : Berubah otomatis jadi <b>Tahun</b> (cth: 2026).</li>
                                         </ul>
-                                        <p class="mt-2">Contoh Format: <code class="bg-white px-2 py-0.5 rounded border border-amber-300 text-slate-800 shadow-sm">400/{NO}/1811/{BLN}/{THN}</code></p>
+                                        <p class="mt-2 text-slate-600">Contoh Format: <code class="bg-white px-2 py-1 rounded-md border border-amber-200 text-slate-800 shadow-sm font-bold ml-1">400/{NO}/1811/{BLN}/{THN}</code></p>
                                     </div>
                                 </div>
                             </div>
@@ -652,65 +731,65 @@
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-4">
                                     <i class="fa-solid fa-list-check text-brand-500"></i>
-                                    <h4 class="font-bold text-slate-800 tracking-wide uppercase_override">Pengaturan Pilihan Jenis Surat Keluar</h4>
+                                    <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Pengaturan Pilihan Jenis Surat Keluar</h4>
                                 </div>
-                                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Daftar Jenis Surat <span class="text-xs font-normal text-slate-400 lowercase">(Pisahkan dengan koma)</span></label>
-                                    <textarea id="setting-jenis-surat" rows="3" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="SURAT KETERANGAN MISKIN, SURAT KETERANGAN DOMISILI"></textarea>
+                                <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                    <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Daftar Jenis Surat <span class="font-normal text-slate-400 lowercase">(Pisahkan dengan koma)</span></label>
+                                    <textarea id="setting-jenis-surat" rows="3" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 leading-relaxed" placeholder="SURAT KETERANGAN MISKIN, SURAT KETERANGAN DOMISILI"></textarea>
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-slate-100">
-                                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200/80 shadow-sm relative overflow-hidden group hover:border-brand-300 transition-colors">
-                                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-user-shield text-6xl"></i></div>
-                                    <label class="block text-sm font-bold text-slate-700 mb-2 relative z-10 uppercase_override">Sandi Super Admin</label>
-                                    <input type="text" id="pass-superadmin" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
-                                    <p class="text-[11px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1"></i>Akses kelola data penuh<br><i class="fa-solid fa-check text-emerald-500 mr-1"></i>Akses menu pengaturan ini</p>
+                                <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60 shadow-sm relative overflow-hidden group hover:border-brand-300 transition-colors">
+                                    <div class="absolute -top-2 -right-2 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-user-shield text-7xl"></i></div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-2 relative z-10 uppercase_override">Sandi Super Admin</label>
+                                    <input type="text" id="pass-superadmin" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
+                                    <p class="text-[10px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Akses kelola data penuh<br><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Akses menu pengaturan ini</p>
                                 </div>
 
-                                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200/80 shadow-sm relative overflow-hidden group hover:border-sky-300 transition-colors">
-                                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-user-tie text-6xl"></i></div>
-                                    <label class="block text-sm font-bold text-slate-700 mb-2 relative z-10 uppercase_override">Sandi Admin</label>
-                                    <input type="text" id="pass-admin" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
-                                    <p class="text-[11px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1"></i>Akses kelola data penuh<br><i class="fa-solid fa-xmark text-rose-500 mr-1"></i>Tidak bisa ubah pengaturan</p>
+                                <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60 shadow-sm relative overflow-hidden group hover:border-sky-300 transition-colors">
+                                    <div class="absolute -top-2 -right-2 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-user-tie text-7xl"></i></div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-2 relative z-10 uppercase_override">Sandi Admin</label>
+                                    <input type="text" id="pass-admin" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
+                                    <p class="text-[10px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Akses kelola data penuh<br><i class="fa-solid fa-xmark text-rose-500 mr-1.5"></i>Tidak bisa ubah pengaturan</p>
                                 </div>
 
-                                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200/80 shadow-sm relative overflow-hidden group hover:border-amber-300 transition-colors">
-                                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-users text-6xl"></i></div>
-                                    <label class="block text-sm font-bold text-slate-700 mb-2 relative z-10 uppercase_override">Sandi Staff</label>
-                                    <input type="text" id="pass-staff" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
-                                    <p class="text-[11px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1"></i>Hanya melihat data<br><i class="fa-solid fa-check text-emerald-500 mr-1"></i>Bisa cetak & export</p>
+                                <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60 shadow-sm relative overflow-hidden group hover:border-amber-300 transition-colors">
+                                    <div class="absolute -top-2 -right-2 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-users text-7xl"></i></div>
+                                    <label class="block text-xs font-bold text-slate-600 mb-2 relative z-10 uppercase_override">Sandi Staff</label>
+                                    <input type="text" id="pass-staff" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
+                                    <p class="text-[10px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Hanya melihat data<br><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Bisa cetak & export</p>
                                 </div>
                             </div>
 
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-4">
                                     <i class="fa-solid fa-calendar-days text-brand-500"></i>
-                                    <h4 class="font-bold text-slate-800 tracking-wide uppercase_override">Pengaturan Rentang Tahun Arsip</h4>
+                                    <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Pengaturan Rentang Tahun Arsip</h4>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                                        <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Tahun Awal <span class="text-xs font-normal text-slate-400 lowercase">(Mulai)</span></label>
-                                        <input type="number" id="setting-start-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Contoh: 2020">
+                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                        <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Tahun Awal <span class="font-normal text-slate-400 lowercase">(Mulai)</span></label>
+                                        <input type="number" id="setting-start-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Contoh: 2020">
                                     </div>
-                                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-                                        <label class="block text-sm font-bold text-slate-700 mb-2 uppercase_override">Tahun Akhir <span class="text-xs font-normal text-slate-400 lowercase">(Batas Maksimal)</span></label>
-                                        <input type="number" id="setting-end-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Contoh: 2050">
+                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                        <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Tahun Akhir <span class="font-normal text-slate-400 lowercase">(Batas Maksimal)</span></label>
+                                        <input type="number" id="setting-end-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Contoh: 2050">
                                     </div>
                                 </div>
-                                <p class="text-[11px] text-slate-500 mt-3 uppercase_override"><i class="fa-solid fa-circle-info mr-1"></i> Tahun yang diatur disini akan membatasi tampilan arsip secara ketat untuk akun Admin dan Staff.</p>
+                                <p class="text-[10px] text-slate-400 font-medium mt-2.5 uppercase_override"><i class="fa-solid fa-circle-info mr-1"></i> Tahun yang diatur disini membatasi siklus data secara *background*.</p>
                             </div>
 
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-4">
                                     <i class="fa-solid fa-palette text-brand-500"></i>
-                                    <h4 class="font-bold text-slate-800 tracking-wide uppercase_override">Warna Tema Aplikasi</h4>
+                                    <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Warna Tema Aplikasi</h4>
                                 </div>
-                                <div class="flex items-center gap-6">
-                                    <input type="color" id="setting-theme-color" class="w-16 h-16 rounded-xl cursor-pointer border-0 p-0 shadow-sm" value="#6366f1">
-                                    <div class="flex-1">
-                                        <p class="text-sm font-bold text-slate-700 uppercase_override">Pilih Warna Utama</p>
-                                        <p class="text-[11px] text-slate-400 mt-1 font-medium uppercase_override">Warna ini akan mengubah tampilan berbagai elemen utama sistem.</p>
+                                <div class="flex items-center gap-5 bg-slate-50/50 p-4 rounded-2xl border border-slate-200/60 shadow-sm w-max">
+                                    <input type="color" id="setting-theme-color" class="w-12 h-12 rounded-xl cursor-pointer border-0 p-0 shadow-inner bg-transparent" value="#4f46e5">
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-700 uppercase_override">Warna Utama</p>
+                                        <p class="text-[10px] text-slate-400 mt-0.5 font-medium uppercase_override">Ubah warna dasar antarmuka sistem.</p>
                                     </div>
                                 </div>
                             </div>
@@ -718,25 +797,25 @@
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-4">
                                     <i class="fa-solid fa-image text-brand-500"></i>
-                                    <h4 class="font-bold text-slate-800 tracking-wide uppercase_override">Logo Instansi</h4>
+                                    <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Logo Instansi</h4>
                                 </div>
-                                <div class="flex items-center gap-6">
-                                    <div id="preview-logo-container" class="w-20 h-20 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center justify-center overflow-hidden shadow-inner">
-                                        <i id="preview-logo-icon" class="fa-solid fa-image text-slate-300 text-2xl"></i>
+                                <div class="flex items-center gap-6 bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                                    <div id="preview-logo-container" class="w-16 h-16 rounded-xl bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-sm">
+                                        <i id="preview-logo-icon" class="fa-solid fa-image text-slate-300 text-xl"></i>
                                         <img id="preview-logo-img" src="" class="hidden w-full h-full object-cover bg-white">
                                     </div>
                                     <div class="flex-1">
-                                        <input type="file" id="input-logo" accept="image/*" class="text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 transition-all cursor-pointer" onchange="previewLogoSetting(this)">
-                                        <p class="text-[11px] text-slate-400 mt-2 font-medium uppercase_override">Format (JPG, PNG). Aplikasi akan otomatis <b class="uppercase">mengkompresi logo</b> agar aman dan tidak rusak saat tersinkronisasi ke Google Sheets.</p>
+                                        <input type="file" id="input-logo" accept="image/*" class="text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-brand-50 file:text-brand-600 hover:file:bg-brand-100 transition-all cursor-pointer">
+                                        <p class="text-[10px] text-slate-400 mt-2 font-medium uppercase_override">Format JPG/PNG. Sistem akan <b class="text-slate-500">mengkompresi logo otomatis</b> agar aman disinkronisasi.</p>
                                     </div>
                                     <input type="hidden" id="logo-base64">
                                     <input type="hidden" id="logo-name">
                                 </div>
                             </div>
 
-                            <div class="mt-8 pt-6 border-t border-slate-100 flex justify-end">
-                                <button type="submit" id="btn-save-settings" class="w-full md:w-auto px-8 py-3.5 text-sm font-extrabold text-slate-800 bg-rainbow-halus rounded-xl shadow-lg shadow-brand-200/50 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 border border-white/50 uppercase_override">
-                                    <i class="fa-solid fa-floppy-disk opacity-70"></i> Simpan Pengaturan
+                            <div class="mt-10 pt-6 border-t border-slate-100 flex justify-end">
+                                <button type="submit" id="btn-save-settings" class="w-full md:w-auto px-8 py-3.5 text-sm font-bold text-white bg-brand-600 rounded-xl shadow-md shadow-brand-500/20 hover:bg-brand-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 tracking-wide uppercase_override">
+                                    <i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Pengaturan
                                 </button>
                             </div>
                         </form>
@@ -746,36 +825,58 @@
         </main>
         
         <div id="loading-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[60] hidden flex-col items-center justify-center transition-opacity">
-            <div class="p-8 bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col items-center">
+            <div class="p-8 bg-white rounded-3xl shadow-xl border border-slate-100 flex flex-col items-center">
                 <div class="loader mb-5 border-slate-100"></div>
-                <h3 class="text-lg font-extrabold text-slate-800 tracking-tight uppercase_override" id="loading-text">Memproses Data</h3>
-                <p class="text-xs text-slate-500 mt-1 font-medium uppercase_override">Mohon tunggu sebentar...</p>
+                <h3 class="text-base font-extrabold text-slate-800 tracking-tight uppercase_override" id="loading-text">Memproses Data</h3>
+                <p class="text-[11px] text-slate-500 mt-1 font-medium uppercase_override">Mohon tunggu sebentar...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Bulk Edit -->
+    <div id="bulk-edit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-xl max-w-sm w-full p-8 transform scale-95 transition-transform duration-300 border border-slate-100" id="bulk-edit-modal-content">
+            <div class="w-16 h-16 mx-auto bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mb-5 border border-amber-100 shadow-sm">
+                <i class="fa-solid fa-pen-to-square text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-extrabold text-center text-slate-800 mb-2 tracking-tight uppercase_override">Edit Massal Jenis Surat</h3>
+            <p class="text-xs text-slate-500 text-center mb-6 leading-relaxed font-medium uppercase_override">Pilih nama jenis surat baru yang akan diterapkan pada semua data yang Anda tandai.</p>
+            
+            <div class="mb-8">
+                <label class="block text-[10px] font-bold text-slate-600 mb-2 uppercase_override">Ubah Menjadi Jenis Surat:</label>
+                <select id="bulk-jenis-surat" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 cursor-pointer text-sm">
+                </select>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="closeBulkEditModal()" class="flex-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold py-3 rounded-xl transition-colors shadow-sm uppercase_override text-xs tracking-wide">Batal</button>
+                <button onclick="applyBulkEdit()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-amber-500/20 uppercase_override text-xs tracking-wide">Ubah Massal</button>
             </div>
         </div>
     </div>
 
     <!-- Modal Konfirmasi -->
     <div id="confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-[2rem] shadow-2xl shadow-black/20 max-w-sm w-full p-8 transform scale-95 transition-transform duration-300 border border-slate-100" id="confirm-modal-content">
-            <div class="w-16 h-16 mx-auto bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mb-5 border-4 border-rose-50 shadow-inner">
+        <div class="bg-white rounded-3xl shadow-xl max-w-sm w-full p-8 transform scale-95 transition-transform duration-300 border border-slate-100" id="confirm-modal-content">
+            <div class="w-16 h-16 mx-auto bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-5 border border-rose-100 shadow-sm">
                 <i class="fa-solid fa-trash-can text-2xl"></i>
             </div>
-            <h3 class="text-xl font-extrabold text-center text-slate-800 mb-2 tracking-tight uppercase_override">Hapus Data?</h3>
-            <p class="text-sm text-slate-500 text-center mb-8 leading-relaxed font-medium uppercase_override" id="confirm-modal-text">Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin melanjutkan?</p>
+            <h3 class="text-lg font-extrabold text-center text-slate-800 mb-2 tracking-tight uppercase_override">Hapus Data?</h3>
+            <p class="text-xs text-slate-500 text-center mb-8 leading-relaxed font-medium uppercase_override" id="confirm-modal-text">Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin melanjutkan?</p>
             <div class="flex gap-3">
-                <button id="confirm-btn-cancel" class="flex-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-3 rounded-xl transition-colors shadow-sm uppercase_override">Batal</button>
-                <button id="confirm-btn-ok" class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-rose-500/20 uppercase_override">Hapus</button>
+                <button id="confirm-btn-cancel" class="flex-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold py-3 rounded-xl transition-colors shadow-sm uppercase_override text-xs tracking-wide">Batal</button>
+                <button id="confirm-btn-ok" class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-rose-500/20 uppercase_override text-xs tracking-wide">Hapus</button>
             </div>
         </div>
     </div>
 
     <!-- Toast Notifications -->
     <div id="toast" class="fixed bottom-6 right-6 transform translate-y-full opacity-0 transition-all duration-400 ease-out z-[80] pointer-events-none">
-        <div class="bg-slate-800 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-4 min-w-[300px] border border-slate-700">
+        <div class="bg-slate-800 text-white px-5 py-4 rounded-2xl shadow-xl flex items-center gap-4 min-w-[300px] border border-slate-700">
             <div id="toast-icon" class="flex-shrink-0 text-xl"></div>
             <div>
                 <h4 id="toast-title" class="font-bold text-sm tracking-wide uppercase_override">Notifikasi</h4>
-                <p id="toast-message" class="text-xs text-slate-300 font-medium mt-0.5 uppercase_override"></p>
+                <p id="toast-message" class="text-[11px] text-slate-300 font-medium mt-0.5 uppercase_override"></p>
             </div>
         </div>
     </div>
@@ -794,6 +895,13 @@
             superadmin: "superadmin",
             admin: "admin",
             staff: "staff"
+        };
+
+        // Labels Role Custom
+        window.appRoleLabels = JSON.parse(localStorage.getItem('esurat_role_labels')) || {
+            superadmin: "SUPER ADMIN",
+            admin: "ADMINISTRATOR",
+            staff: "STAFF"
         };
         
         window.appYearConfig = JSON.parse(localStorage.getItem('esurat_years')) || {
@@ -815,10 +923,26 @@
         window.appJenisSurat = JSON.parse(localStorage.getItem('esurat_jenis_surat')) || ["SURAT KETERANGAN MISKIN", "SURAT PENGANTAR", "SURAT KETERANGAN DOMISILI"];
 
         window.appLogo = localStorage.getItem('esurat_logo') || "";
-        window.appThemeColor = localStorage.getItem('esurat_theme') || "#6366f1";
+        window.appBrandText = localStorage.getItem('esurat_brand_text') || "E-Surat";
+        window.appThemeColor = localStorage.getItem('esurat_theme') || "#4f46e5"; // Default premium Indigo
         
         window.appTitle = localStorage.getItem('esurat_title') || "Sistem E-Surat Fajar Asri";
         window.appDesc = localStorage.getItem('esurat_desc') || "Kelola arsip persuratan desa yang tersinkronisasi langsung dengan Google Sheets. Dilengkapi Hak Akses Multi-Level dan Penyimpanan Offline.";
+
+        // --- FUNGSI TOGGLE PASSWORD ---
+        window.togglePassword = () => {
+            const input = document.getElementById('app-password');
+            const icon = document.getElementById('password-eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        };
 
         // --- FUNGSI FORMAT TEKS SEBELUM DISIMPAN ---
         window.formatTextData = (str) => {
@@ -861,6 +985,12 @@
             if (descEl) descEl.innerText = desc;
         };
         applyAppInfo(window.appTitle, window.appDesc);
+        
+        window.applyBrandText = (text) => {
+            const el = document.getElementById('sidebar-brand-text');
+            if(el) el.innerText = text;
+        };
+        applyBrandText(window.appBrandText);
 
         window.updateJenisSuratDropdown = () => {
             const select = document.getElementById('jenis_surat');
@@ -911,19 +1041,19 @@
         window.addFormatNomorRow = (label = '', format = '') => {
             const wrapper = document.getElementById('setting-format-nomor-wrapper');
             const row = document.createElement('div');
-            row.className = 'flex flex-col sm:flex-row gap-3 template-row p-4 border border-slate-100 rounded-2xl bg-white shadow-sm';
+            row.className = 'flex flex-col sm:flex-row gap-3 template-row pb-3 border-b border-slate-100 last:border-0 last:pb-0';
             row.innerHTML = `
                 <div class="flex-1">
-                    <label class="block text-[11px] font-bold text-slate-500 mb-1 uppercase_override">Nama Label Surat</label>
-                    <input type="text" placeholder="Contoh: SKU" class="template-label w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all font-bold text-slate-700 text-sm" value="${label}">
+                    <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase_override">Nama Label Surat</label>
+                    <input type="text" placeholder="Contoh: SKU" class="template-label w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-bold text-slate-700 text-sm shadow-sm" value="${label}">
                 </div>
                 <div class="flex-[2]">
-                    <label class="block text-[11px] font-bold text-slate-500 mb-1 uppercase_override">Format Template</label>
-                    <input type="text" placeholder="Contoh: 500/{NO}/2026" class="template-format w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 outline-none transition-all font-bold text-slate-700 text-sm" value="${format}">
+                    <label class="block text-[10px] font-bold text-slate-500 mb-1 uppercase_override">Format Template</label>
+                    <input type="text" placeholder="Contoh: 500/{NO}/2026" class="template-format w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-bold text-slate-700 text-sm shadow-sm" value="${format}">
                 </div>
                 <div class="flex items-end pb-[1px]">
-                    <button type="button" onclick="this.parentElement.parentElement.remove()" class="bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-500 h-[42px] w-[42px] rounded-xl transition-colors border border-slate-200 hover:border-rose-200 shadow-sm flex items-center justify-center" title="Hapus Template">
-                        <i class="fa-solid fa-trash"></i>
+                    <button type="button" onclick="this.parentElement.parentElement.remove()" class="bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-500 h-[38px] w-[38px] rounded-xl transition-colors border border-slate-200 hover:border-rose-200 shadow-sm flex items-center justify-center" title="Hapus Template">
+                        <i class="fa-solid fa-trash text-sm"></i>
                     </button>
                 </div>
             `;
@@ -1027,12 +1157,37 @@
 
         // FUNGSI KOMBINASI NOMOR SURAT DAN TEMPLATE
         window.generateFinalNomor = () => {
-            const selectFormat = document.getElementById('pilih_format_nomor');
-            const format = selectFormat.value;
-            const inputNo = document.getElementById('input_nomor_inti').value;
-            const tglSurat = document.getElementById('tanggal_surat').value;
+            const isMasuk = window.currentTab === 'masuk';
+            const inputIntiElement = document.getElementById('input_nomor_inti');
+            const inputNo = inputIntiElement.value;
             const finalInput = document.getElementById('nomor_surat');
             
+            // JIKA SURAT MASUK, TANPA TEMPLATE / MANUAL
+            if(isMasuk) {
+                inputIntiElement.readOnly = false;
+                inputIntiElement.classList.remove('bg-slate-100', 'cursor-not-allowed');
+                inputIntiElement.classList.add('bg-white');
+                finalInput.value = inputNo; 
+                checkDuplicateNomor();
+                return;
+            }
+
+            const selectFormat = document.getElementById('pilih_format_nomor');
+            const format = selectFormat.value;
+            const tglSurat = document.getElementById('tanggal_surat').value;
+            
+            // --- PENGUNCIAN OTOMATIS SESUAI PERMINTAAN (KHUSUS SURAT KELUAR) ---
+            if (format === '{NO}') {
+                inputIntiElement.readOnly = false;
+                inputIntiElement.classList.remove('bg-slate-100', 'cursor-not-allowed');
+                inputIntiElement.classList.add('bg-white');
+            } else {
+                inputIntiElement.readOnly = true;
+                inputIntiElement.classList.remove('bg-white');
+                inputIntiElement.classList.add('bg-slate-100', 'cursor-not-allowed');
+            }
+            // ---------------------------------------------
+
             if (!inputNo) {
                 finalInput.value = '';
             } else {
@@ -1057,8 +1212,9 @@
             if (window.currentTab === 'keluar') {
                 const selectedText = selectFormat.options[selectFormat.selectedIndex].text;
                 const jenisSuratInput = document.getElementById('jenis_surat');
+                let normalizedText = '';
                 if (format !== '{NO}' && selectedText && selectedText !== '[Tanpa Format Khusus]') {
-                    let normalizedText = window.formatTextData(selectedText);
+                    normalizedText = window.formatTextData(selectedText);
                     let exists = Array.from(jenisSuratInput.options).some(opt => opt.value === normalizedText);
                     if (!exists) {
                         const opt = document.createElement('option');
@@ -1068,6 +1224,12 @@
                     }
                     jenisSuratInput.value = normalizedText;
                 }
+
+                // Pengaturan Isi Ringkasan otomatis berdasarkan template/nomor 
+                const isiSuratInput = document.getElementById('isi_surat');
+                const nomorFinal = finalInput.value || '[Nomor]';
+                const jenisTeks = normalizedText || 'Surat Keluar';
+                isiSuratInput.value = `Surat ${jenisTeks} dengan Nomor ${nomorFinal}`;
             }
 
             checkDuplicateNomor();
@@ -1084,7 +1246,7 @@
             if (!inputInti) {
                 warning.classList.add('hidden');
                 finalInput.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700');
-                finalInput.classList.add('border-amber-300/60', 'bg-amber-50/50', 'text-amber-800');
+                finalInput.classList.add('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
                 btnSave.disabled = false;
                 btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
                 return false;
@@ -1102,7 +1264,7 @@
             if (isDuplicate) {
                 document.getElementById('warn-inti').innerText = inputInti;
                 warning.classList.remove('hidden');
-                finalInput.classList.remove('border-amber-300/60', 'bg-amber-50/50', 'text-amber-800');
+                finalInput.classList.remove('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
                 finalInput.classList.add('border-rose-500', 'bg-rose-50/50', 'text-rose-700');
                 btnSave.disabled = true;
                 btnSave.classList.add('opacity-50', 'cursor-not-allowed');
@@ -1110,7 +1272,7 @@
             } else {
                 warning.classList.add('hidden');
                 finalInput.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700');
-                finalInput.classList.add('border-amber-300/60', 'bg-amber-50/50', 'text-amber-800');
+                finalInput.classList.add('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
                 btnSave.disabled = false;
                 btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
                 return false;
@@ -1143,6 +1305,12 @@
                 
                 setTimeout(() => {
                     modal.classList.add('hidden');
+                    // Reset input and eye icon after successful login
+                    document.getElementById('app-password').value = '';
+                    const icon = document.getElementById('password-eye-icon');
+                    document.getElementById('app-password').type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
                 }, 500);
             } else {
                 errorMsg.classList.remove('hidden');
@@ -1158,6 +1326,12 @@
             document.getElementById('login-error').classList.add('hidden');
             const modal = document.getElementById('login-modal');
             modal.classList.remove('hidden');
+            
+            // Ensure password field stays masked when logged out
+            document.getElementById('app-password').type = 'password';
+            document.getElementById('password-eye-icon').classList.remove('fa-eye-slash');
+            document.getElementById('password-eye-icon').classList.add('fa-eye');
+            
             setTimeout(() => { modal.classList.remove('opacity-0'); }, 10);
             showToast('info', 'Aplikasi telah dikunci.');
         };
@@ -1169,8 +1343,13 @@
             const badge = document.getElementById('role-badge');
             
             if (badge) {
-                badge.innerText = role === 'superadmin' ? 'SUPER ADMIN' : (role === 'admin' ? 'ADMINISTRATOR' : 'STAFF');
-                badge.className = `text-[10px] tracking-widest font-black px-2 py-0.5 rounded-md inline-block mt-1 uppercase_override ${role === 'superadmin' ? 'bg-rose-100 text-rose-600' : (role === 'admin' ? 'bg-sky-100 text-sky-600' : 'bg-slate-100 text-slate-500')}`;
+                let badgeLabel = 'MEMUAT...';
+                if(role === 'superadmin') badgeLabel = window.appRoleLabels.superadmin;
+                else if (role === 'admin') badgeLabel = window.appRoleLabels.admin;
+                else if (role === 'staff') badgeLabel = window.appRoleLabels.staff;
+                
+                badge.innerText = badgeLabel;
+                badge.className = `text-[9px] tracking-widest font-bold px-2 py-0.5 rounded-md inline-block mt-1 uppercase_override ${role === 'superadmin' ? 'bg-rose-100 text-rose-600' : (role === 'admin' ? 'bg-sky-100 text-sky-600' : 'bg-slate-100 text-slate-500')}`;
             }
 
             if (role === 'staff') {
@@ -1203,6 +1382,14 @@
 
             const newTitle = document.getElementById('setting-app-title').value || "Sistem E-Surat Fajar Asri";
             const newDesc = document.getElementById('setting-app-desc').value || "Kelola arsip persuratan desa yang tersinkronisasi langsung dengan Google Sheets. Dilengkapi Hak Akses Multi-Level dan Penyimpanan Offline.";
+
+            // Simpan Label Kustom
+            const newBrandText = document.getElementById('setting-brand-text').value || "E-Surat";
+            const newRoleLabels = {
+                superadmin: document.getElementById('setting-role-superadmin').value || "SUPER ADMIN",
+                admin: document.getElementById('setting-role-admin').value || "ADMINISTRATOR",
+                staff: document.getElementById('setting-role-staff').value || "STAFF"
+            };
 
             const newPass = {
                 superadmin: document.getElementById('pass-superadmin').value,
@@ -1240,6 +1427,8 @@
 
             window.appTitle = newTitle;
             window.appDesc = newDesc;
+            window.appBrandText = newBrandText;
+            window.appRoleLabels = newRoleLabels;
             window.appPasswords = newPass;
             window.appYearConfig = newYears;
             window.appThemeColor = newTheme;
@@ -1252,6 +1441,8 @@
             
             localStorage.setItem('esurat_title', newTitle);
             localStorage.setItem('esurat_desc', newDesc);
+            localStorage.setItem('esurat_brand_text', newBrandText);
+            localStorage.setItem('esurat_role_labels', JSON.stringify(newRoleLabels));
             localStorage.setItem('esurat_passwords', JSON.stringify(newPass));
             localStorage.setItem('esurat_years', JSON.stringify(newYears));
             localStorage.setItem('esurat_theme', newTheme);
@@ -1261,6 +1452,8 @@
             localStorage.setItem('esurat_jenis_surat', JSON.stringify(newJenisSurat));
             
             applyAppInfo(newTitle, newDesc);
+            applyBrandText(newBrandText);
+            applyRoleRestrictions();
             applyTheme(newTheme);
             applyTypography(newFontFamily, newTextTransform);
             
@@ -1277,7 +1470,8 @@
                     isi_surat: JSON.stringify({ 
                         passwords: newPass, years: newYears, theme: newTheme, 
                         title: newTitle, desc: newDesc, jenis_surat: newJenisSurat,
-                        font: newFontFamily, transform: newTextTransform, format_nomor: window.appFormatNomor
+                        font: newFontFamily, transform: newTextTransform, format_nomor: window.appFormatNomor,
+                        brandText: newBrandText, roleLabels: newRoleLabels
                     }),
                     updated_at: new Date().toISOString()
                 };
@@ -1333,7 +1527,7 @@
             
             setTimeout(() => {
                 showToast('success', 'Pengaturan berhasil diperbarui ke semua perangkat!');
-                btn.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-70"></i> Simpan Pengaturan';
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Pengaturan';
                 btn.disabled = false;
             }, 500);
         };
@@ -1454,6 +1648,16 @@
                                 window.appTextTransform = parsedConfig.transform;
                                 localStorage.setItem('esurat_transform', parsedConfig.transform);
                             }
+                            if (parsedConfig.brandText) {
+                                window.appBrandText = parsedConfig.brandText;
+                                localStorage.setItem('esurat_brand_text', parsedConfig.brandText);
+                                applyBrandText(window.appBrandText);
+                            }
+                            if (parsedConfig.roleLabels) {
+                                window.appRoleLabels = parsedConfig.roleLabels;
+                                localStorage.setItem('esurat_role_labels', JSON.stringify(parsedConfig.roleLabels));
+                                applyRoleRestrictions();
+                            }
                             applyTypography(window.appFontFamily, window.appTextTransform);
                             
                             if (parsedConfig.format_nomor) {
@@ -1527,10 +1731,9 @@
             const selects = [document.getElementById('year-filter'), document.getElementById('mobile-year-filter')];
             let currentVal = window.selectedYear;
             
-            if (role !== 'superadmin' && currentVal === 'all') {
-                currentVal = window.appYearConfig.end.toString();
-                window.selectedYear = currentVal;
-            }
+            // Karena kita menyembunyikan filter tahun, pastikan dia tetap 'all' secara logic agar data tidak terpotong
+            window.selectedYear = 'all';
+            currentVal = 'all';
 
             let html = '';
             if (role === 'superadmin') {
@@ -1606,6 +1809,115 @@
             await processOfflineQueue(); fetchDataFromServer();
         };
 
+        window.selectedBulkIds = [];
+        
+        window.toggleSelectAll = (el) => {
+            const checkboxes = document.querySelectorAll('.row-checkbox');
+            window.selectedBulkIds = [];
+            checkboxes.forEach(cb => {
+                cb.checked = el.checked;
+                if (el.checked) window.selectedBulkIds.push(cb.value);
+            });
+            checkBulkEditUI();
+        };
+        
+        window.toggleRowSelect = (el) => {
+            if (el.checked) {
+                if (!window.selectedBulkIds.includes(el.value)) window.selectedBulkIds.push(el.value);
+            } else {
+                window.selectedBulkIds = window.selectedBulkIds.filter(id => id !== el.value);
+            }
+            const selectAll = document.getElementById('selectAllCheckbox');
+            const allCheckboxes = document.querySelectorAll('.row-checkbox');
+            if(selectAll && allCheckboxes.length > 0) {
+                selectAll.checked = allCheckboxes.length === window.selectedBulkIds.length;
+            }
+            checkBulkEditUI();
+        };
+        
+        window.checkBulkEditUI = () => {
+            const btn = document.getElementById('btn-bulk-edit');
+            const count = document.getElementById('bulk-count');
+            if (btn && count) {
+                if (window.selectedBulkIds.length > 0) {
+                    btn.classList.remove('hidden');
+                    btn.classList.add('flex');
+                    count.innerText = window.selectedBulkIds.length;
+                } else {
+                    btn.classList.add('hidden');
+                    btn.classList.remove('flex');
+                }
+            }
+        };
+
+        window.openBulkEditModal = () => {
+            const select = document.getElementById('bulk-jenis-surat');
+            select.innerHTML = window.appJenisSurat.map(j => `<option value="${j}">${j}</option>`).join('');
+            
+            const modal = document.getElementById('bulk-edit-modal');
+            const content = document.getElementById('bulk-edit-modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => content.classList.replace('scale-95', 'scale-100'), 10);
+        };
+
+        window.closeBulkEditModal = () => {
+            const modal = document.getElementById('bulk-edit-modal');
+            const content = document.getElementById('bulk-edit-modal-content');
+            content.classList.replace('scale-100', 'scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        };
+
+        window.applyBulkEdit = async () => {
+            const newJenis = document.getElementById('bulk-jenis-surat').value;
+            if(!newJenis) return showToast('error', 'Pilih jenis surat terlebih dahulu!');
+
+            document.getElementById('loading-text').innerText = 'Menyimpan Perubahan Massal';
+            document.getElementById('loading-overlay').classList.replace('hidden', 'flex');
+            closeBulkEditModal();
+
+            try {
+                let promises = [];
+                let offlineSaves = [];
+                
+                window.selectedBulkIds.forEach(id => {
+                    const index = window.letters.findIndex(l => l.id === id);
+                    if (index !== -1) {
+                        window.letters[index].jenis_surat = window.formatTextData(newJenis);
+                        window.letters[index].updated_at = new Date().toISOString();
+
+                        const payload = { action: 'create_or_update', data: window.letters[index] };
+                        if (isOnline && isGasConfigured) {
+                            promises.push(fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) }));
+                        } else {
+                            offlineSaves.push({ key: 'SAVE_' + id, payload });
+                        }
+                    }
+                });
+
+                localCache.setItem('letters', window.letters);
+
+                if (isOnline && isGasConfigured) {
+                    await Promise.all(promises);
+                } else {
+                    for (let item of offlineSaves) {
+                        await offlineQueue.setItem(item.key, item.payload);
+                    }
+                    updateQueueBadge();
+                }
+
+                window.selectedBulkIds = [];
+                checkBulkEditUI();
+                refreshUI();
+                showToast('success', 'Berhasil merubah data secara massal!');
+            } catch (error) {
+                console.error(error);
+                showToast('error', 'Terjadi kesalahan saat menyimpan perubahan massal.');
+            } finally {
+                document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
+                document.getElementById('loading-text').innerText = 'Memproses Data';
+            }
+        };
+
         function updateChart(masukCount, keluarCount) {
             const ctx = document.getElementById('suratChart');
             const emptyText = document.getElementById('chart-empty-text');
@@ -1624,8 +1936,8 @@
                     labels: ['Surat Masuk', 'Surat Keluar'],
                     datasets: [{
                         data: [masukCount, keluarCount],
-                        backgroundColor: ['#38bdf8', '#34d399'],
-                        borderWidth: 0, hoverOffset: 8
+                        backgroundColor: ['#0ea5e9', '#10b981'],
+                        borderWidth: 0, hoverOffset: 4
                     }]
                 },
                 options: {
@@ -1639,6 +1951,91 @@
             dashboardChart = new Chart(ctx, config);
         }
 
+        window.updateRincianSuratKeluar = () => {
+            const container = document.getElementById('dashboard-rincian-keluar');
+            const emptyState = document.getElementById('rincian-empty-state');
+            
+            if (!container) return;
+
+            // Ambil semua surat keluar (Abaikan filter bulan agar ditotal secara keseluruhan)
+            let semuaSuratKeluar = window.letters.filter(l => l.jenis === 'keluar');
+            const role = sessionStorage.getItem('userRole');
+
+            if (role !== 'superadmin') {
+                semuaSuratKeluar = semuaSuratKeluar.filter(l => {
+                    if (!l.tanggal_surat) return false;
+                    const year = new Date(l.tanggal_surat).getFullYear();
+                    return year >= window.appYearConfig.start && year <= window.appYearConfig.end;
+                });
+            }
+            
+            // Tetap hormati filter Tahun jika dipilih (tapi mengabaikan bulan)
+            if (window.selectedYear !== 'all') {
+                semuaSuratKeluar = semuaSuratKeluar.filter(l => l.tanggal_surat && new Date(l.tanggal_surat).getFullYear().toString() === window.selectedYear);
+            }
+
+            if (semuaSuratKeluar.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            // Hitung total tiap jenis surat (Gunakan trim & toUpperCase agar seragam dan otomatis tergabung tanpa error)
+            const counts = {};
+            semuaSuratKeluar.forEach(item => {
+                const jenisRaw = item.jenis_surat || 'TIDAK DIKETAHUI';
+                const jenis = jenisRaw.trim().toUpperCase();
+                counts[jenis] = (counts[jenis] || 0) + 1;
+            });
+
+            // Urutkan berdasarkan jumlah terbanyak
+            const sortedJenis = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+
+            let html = '';
+            sortedJenis.forEach(jenis => {
+                html += `
+                    <div onclick="filterByJenis('${jenis}')" class="relative cursor-pointer bg-slate-50/50 border border-slate-200/80 rounded-2xl p-4 flex items-center justify-between group hover:border-brand-300 hover:bg-brand-50/50 transition-all duration-300 shadow-sm hover:-translate-y-0.5">
+                        <div class="flex items-center gap-3 overflow-hidden pr-2">
+                            <div class="w-8 h-8 rounded-lg bg-white text-brand-500 flex items-center justify-center shadow-sm border border-slate-200 group-hover:border-brand-300 shrink-0 transition-colors">
+                                <i class="fa-solid fa-file-lines text-xs"></i>
+                            </div>
+                            <h5 class="text-[11px] font-bold text-slate-700 truncate uppercase_override leading-snug">${jenis}</h5>
+                        </div>
+                        <div class="bg-white px-3 py-1.5 rounded-xl shadow-sm border border-slate-200 text-brand-600 font-black text-sm shrink-0 min-w-[2.5rem] text-center relative z-10">
+                            ${counts[jenis]}
+                        </div>
+                        
+                        <!-- Tooltip Hover Custom -->
+                        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[250px] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 bg-slate-800 text-white text-[10px] font-bold px-3 py-2 rounded-lg shadow-xl z-50 text-center leading-relaxed uppercase_override flex flex-col items-center">
+                            ${jenis}
+                            <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] border-[5px] border-transparent border-t-slate-800"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        window.filterByJenis = (jenis) => {
+            // Reset filter bulan agar semua surat yang diklik di rincian benar-benar muncul
+            window.selectedMonth = 'all';
+            const monthDropdown = document.getElementById('month-filter');
+            if (monthDropdown) monthDropdown.value = 'all';
+
+            // Pindah ke tab surat keluar
+            window.switchTab('keluar');
+            
+            // Isi input pencarian dengan jenis surat yang diklik dan langsung filter tabel
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.value = jenis;
+                renderTable();
+            }
+        };
+
         function refreshUI() {
             const masukData = getFilteredDataForTab('masuk');
             const keluarData = getFilteredDataForTab('keluar');
@@ -1647,6 +2044,7 @@
             document.getElementById('count-keluar').innerText = keluarData.length;
             
             updateChart(masukData.length, keluarData.length);
+            if (typeof updateRincianSuratKeluar === 'function') updateRincianSuratKeluar(); 
             
             if (window.currentTab !== 'dashboard' && window.currentTab !== 'pengaturan' && document.getElementById('view-form').classList.contains('hidden')) { renderTable(); }
         }
@@ -1658,6 +2056,7 @@
 
             const role = sessionStorage.getItem('userRole');
             const canEdit = role === 'superadmin' || role === 'admin';
+            const canBulkEdit = role === 'superadmin'; // Hanya superadmin yang bisa Edit Massal
 
             const tbody = document.getElementById('table-body');
             const emptyState = document.getElementById('empty-state');
@@ -1672,7 +2071,8 @@
             });
             
             const isMasuk = window.currentTab === 'masuk';
-            const aksiHeader = canEdit ? '<th class="p-4 font-extrabold text-center w-24 no-print">Aksi</th>' : '';
+            const aksiHeader = canEdit ? '<th class="p-4 font-bold text-center w-24 no-print text-slate-500">Aksi</th>' : '';
+            const checkboxHeader = (canBulkEdit && !isMasuk) ? '<th class="p-4 font-bold text-center w-12 no-print"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500 cursor-pointer"></th>' : '';
 
             if (filteredData.length === 0) {
                 emptyState.classList.remove('hidden');
@@ -1682,19 +2082,19 @@
                 document.getElementById('data-table').classList.remove('hidden');
                 
                 document.getElementById('table-head').innerHTML = isMasuk ? 
-                    `<tr class="bg-slate-50 text-slate-500 text-[11px] uppercase_override tracking-widest border-b-2 border-slate-200"><th class="p-4 font-extrabold w-28">Pencatatan</th><th class="p-4 font-extrabold w-48">Surat & Tgl</th><th class="p-4 font-extrabold">Instansi</th><th class="p-4 font-extrabold">Perihal</th><th class="p-4 font-extrabold text-center w-32">Lampiran</th>${aksiHeader}</tr>` :
-                    `<tr class="bg-slate-50 text-slate-500 text-[11px] uppercase_override tracking-widest border-b-2 border-slate-200"><th class="p-4 font-extrabold w-28">Pencatatan</th><th class="p-4 font-extrabold w-48">Surat & Tgl</th><th class="p-4 font-extrabold">Tujuan</th><th class="p-4 font-extrabold">Informasi</th><th class="p-4 font-extrabold text-center w-32">Lampiran</th>${aksiHeader}</tr>`;
+                    `<tr class="bg-slate-50/50 text-slate-500 text-[10px] uppercase_override tracking-widest border-b border-slate-200/80"><th class="p-4 font-bold w-28 text-slate-500">Pencatatan</th><th class="p-4 font-bold w-48 text-slate-500">Surat & Tgl</th><th class="p-4 font-bold text-slate-500">Instansi</th><th class="p-4 font-bold text-slate-500">Perihal</th><th class="p-4 font-bold text-center w-32 text-slate-500">Lampiran</th>${aksiHeader}</tr>` :
+                    `<tr class="bg-slate-50/50 text-slate-500 text-[10px] uppercase_override tracking-widest border-b border-slate-200/80">${checkboxHeader}<th class="p-4 font-bold w-28 text-slate-500">Pencatatan</th><th class="p-4 font-bold w-48 text-slate-500">Surat & Tgl</th><th class="p-4 font-bold text-slate-500">Tujuan</th><th class="p-4 font-bold text-slate-500">Informasi</th><th class="p-4 font-bold text-center w-32 text-slate-500">Lampiran</th>${aksiHeader}</tr>`;
 
                 filteredData.forEach((item) => {
                     const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-slate-50/80 transition-colors group border-b border-slate-100/70';
+                    tr.className = 'hover:bg-slate-50/50 transition-colors group border-b border-slate-100/70 last:border-0';
                     
                     let buktiHtml = '<span class="text-[10px] text-slate-400 font-bold tracking-widest uppercase_override">Kosong</span>';
                     if (item.bukti_dukung) {
                         if (item.bukti_dukung.startsWith('http')) {
-                            buktiHtml = `<a href="${item.bukti_dukung}" target="_blank" class="text-sky-600 hover:text-white hover:bg-sky-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-200 transition-colors mx-auto w-max"><i class="fa-solid fa-cloud"></i> Drive</a>`;
+                            buktiHtml = `<a href="${item.bukti_dukung}" target="_blank" class="text-sky-600 hover:text-white hover:bg-sky-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-200 transition-colors mx-auto w-max shadow-sm"><i class="fa-solid fa-cloud"></i> Drive</a>`;
                         } else {
-                            buktiHtml = `<button onclick="viewPDFBase64('${item.id}')" class="text-rose-600 hover:text-white hover:bg-rose-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-rose-50 px-3 py-1.5 rounded-full border border-rose-200 transition-colors mx-auto w-max"><i class="fa-solid fa-eye"></i> Lihat</button>`;
+                            buktiHtml = `<button onclick="viewPDFBase64('${item.id}')" class="text-brand-600 hover:text-white hover:bg-brand-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-brand-50 px-3 py-1.5 rounded-full border border-brand-200 transition-colors mx-auto w-max shadow-sm"><i class="fa-solid fa-eye"></i> Lihat</button>`;
                         }
                     }
 
@@ -1702,24 +2102,27 @@
                     const inputDate = (item.created_at || item.updated_at) ? new Date(item.created_at || item.updated_at).toLocaleDateString('id-ID') : '-';
                     
                     let middleCols = isMasuk ? 
-                        `<td class="p-4 align-top"><div class="font-bold text-slate-800 text-[13px]">${item.pengirim || '-'}</div></td><td class="p-4 align-top"><div class="text-slate-600 text-[13px] leading-relaxed max-w-xs">${item.perihal || '-'}</div></td>` : 
-                        `<td class="p-4 align-top"><div class="font-bold text-slate-800 text-[13px]">${item.pemohon || '-'}</div></td><td class="p-4 align-top"><div class="text-slate-600 text-[13px] leading-relaxed max-w-xs"><span class="font-semibold text-brand-600">${item.jenis_surat || '-'}</span>: ${item.isi_surat || '-'}</div></td>`;
+                        `<td class="p-4 align-top"><div class="font-bold text-slate-700 text-xs">${item.pengirim || '-'}</div></td><td class="p-4 align-top"><div class="text-slate-600 text-xs leading-relaxed max-w-xs">${item.perihal || '-'}</div></td>` : 
+                        `<td class="p-4 align-top"><div class="font-bold text-slate-700 text-xs">${item.pemohon || '-'}</div></td><td class="p-4 align-top"><div class="text-slate-600 text-xs leading-relaxed max-w-xs"><span class="font-bold text-brand-600">${item.jenis_surat || '-'}</span><br/> ${item.isi_surat || '-'}</div></td>`;
 
                     let aksiHtml = canEdit ? `<td class="p-4 align-top text-center w-24 no-print">
                             <div class="flex justify-center gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onclick="editData('${item.id}')" class="text-brand-600 bg-white hover:bg-brand-600 hover:text-white w-8 h-8 rounded-full border border-slate-200 hover:border-brand-600 flex items-center justify-center transition-all shadow-sm"><i class="fa-solid fa-pen text-[10px]"></i></button>
-                                <button onclick="deleteData('${item.id}')" class="text-rose-600 bg-white hover:bg-rose-600 hover:text-white w-8 h-8 rounded-full border border-slate-200 hover:border-rose-600 flex items-center justify-center transition-all shadow-sm"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                                <button onclick="editData('${item.id}')" class="text-slate-500 bg-white hover:bg-brand-50 hover:text-brand-600 w-8 h-8 rounded-full border border-slate-200 hover:border-brand-300 flex items-center justify-center transition-all shadow-sm"><i class="fa-solid fa-pen text-[10px]"></i></button>
+                                <button onclick="deleteData('${item.id}')" class="text-slate-500 bg-white hover:bg-rose-50 hover:text-rose-600 w-8 h-8 rounded-full border border-slate-200 hover:border-rose-300 flex items-center justify-center transition-all shadow-sm"><i class="fa-solid fa-trash text-[10px]"></i></button>
                             </div>
                         </td>` : '';
 
+                    let checkboxHtml = (canBulkEdit && !isMasuk) ? `<td class="p-4 text-center align-top w-12 no-print"><div class="pt-1"><input type="checkbox" value="${item.id}" onchange="toggleRowSelect(this)" class="row-checkbox w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500 cursor-pointer" ${window.selectedBulkIds.includes(item.id) ? 'checked' : ''}></div></td>` : '';
+
                     tr.innerHTML = `
+                        ${checkboxHtml}
                         <td class="p-4 align-top w-28">
-                            <div class="inline-flex items-center justify-center bg-slate-100 text-slate-700 font-bold px-3 py-1 rounded-md text-xs border border-slate-200 shadow-sm">${item.nomor_urut || '-'}</div>
-                            <div class="text-[10px] text-slate-400 mt-2 font-medium flex items-center gap-1 uppercase_override"><i class="fa-regular fa-clock"></i> ${inputDate}</div>
+                            <div class="inline-flex items-center justify-center bg-slate-100 text-slate-700 font-bold px-2 py-1 rounded md text-xs border border-slate-200/80 shadow-sm">${item.nomor_urut || '-'}</div>
+                            <div class="text-[9px] text-slate-400 mt-2 font-medium flex items-center gap-1 uppercase_override"><i class="fa-regular fa-clock"></i> ${inputDate}</div>
                         </td>
                         <td class="p-4 align-top w-48">
-                            <div class="font-bold text-brand-700 text-sm tracking-tight break-all uppercase_override">${item.nomor_surat}</div>
-                            <div class="text-xs text-slate-500 mt-1 font-medium flex items-center gap-1 uppercase_override"><i class="fa-regular fa-calendar text-slate-400"></i> ${displayDate}</div>
+                            <div class="font-bold text-brand-600 text-xs tracking-tight break-all uppercase_override">${item.nomor_surat}</div>
+                            <div class="text-[11px] text-slate-500 mt-1 font-medium flex items-center gap-1 uppercase_override"><i class="fa-regular fa-calendar text-slate-400"></i> ${displayDate}</div>
                         </td>
                         ${middleCols}
                         <td class="p-4 align-top text-center w-32">${buktiHtml}</td>
@@ -1764,7 +2167,6 @@
                 const newData = {
                     id: id, jenis: window.currentTab,
                     nomor_urut: document.getElementById('nomor_urut').value,
-                    // Simpan nomor inti terpisah untuk cek duplikat ekstra ketat
                     nomor_inti: document.getElementById('input_nomor_inti').value.trim(),
                     nomor_surat: document.getElementById('nomor_surat').value.toUpperCase(),
                     tanggal_surat: document.getElementById('tanggal_surat').value,
@@ -1772,7 +2174,6 @@
                     updated_at: new Date().toISOString()
                 };
 
-                // Memformat Teks Sebelum Disimpan ke Database (Tergantung Pilihan Superadmin)
                 if (isMasuk) {
                     newData.pengirim = window.formatTextData(document.getElementById('pengirim').value);
                     newData.perihal = window.formatTextData(document.getElementById('perihal_masuk').value);
@@ -1829,7 +2230,7 @@
                 console.error(error);
                 showToast('error', error.message === "File too large" ? 'Gagal: File melebihi batas 50MB' : 'Terjadi kesalahan sistem.');
             } finally {
-                btnSave.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-70"></i> Simpan Data';
+                btnSave.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Data';
                 btnSave.disabled = false;
             }
         };
@@ -1870,6 +2271,9 @@
             }
 
             window.currentTab = tab;
+            window.selectedBulkIds = [];
+            if(typeof window.checkBulkEditUI === 'function') window.checkBulkEditUI();
+
             const s = document.getElementById('sidebar');
             
             if (window.innerWidth < 768 && !s.classList.contains('-translate-x-full')) { toggleSidebar(); }
@@ -1878,9 +2282,9 @@
                 const nav = document.getElementById(`nav-${t}`);
                 if(nav) {
                     if (t === tab) {
-                        nav.className = 'w-full text-left px-4 py-3.5 rounded-xl bg-rainbow-halus text-slate-800 font-extrabold transition-all flex items-center group shadow-md shadow-brand-200/40 border border-white/50';
+                        nav.className = 'w-full text-left px-4 py-3 rounded-xl bg-brand-50 text-brand-700 font-bold transition-all flex items-center group shadow-sm border border-brand-100/50';
                     } else {
-                        nav.className = 'w-full text-left px-4 py-3.5 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-bold transition-all flex items-center group border border-transparent';
+                        nav.className = 'w-full text-left px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-medium transition-all flex items-center group border border-transparent';
                     }
                 }
             });
@@ -1911,6 +2315,11 @@
                 document.getElementById('pass-admin').value = window.appPasswords.admin;
                 document.getElementById('pass-staff').value = window.appPasswords.staff;
                 
+                document.getElementById('setting-brand-text').value = window.appBrandText;
+                document.getElementById('setting-role-admin').value = window.appRoleLabels.admin;
+                document.getElementById('setting-role-superadmin').value = window.appRoleLabels.superadmin;
+                document.getElementById('setting-role-staff').value = window.appRoleLabels.staff;
+
                 document.getElementById('setting-start-year').value = window.appYearConfig.start;
                 document.getElementById('setting-end-year').value = window.appYearConfig.end;
                 document.getElementById('setting-theme-color').value = window.appThemeColor;
@@ -1952,7 +2361,7 @@
             const btnSave = document.getElementById('btn-save');
             warning.classList.add('hidden');
             finalInputNomor.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700');
-            finalInputNomor.classList.add('border-amber-300/60', 'bg-amber-50/50', 'text-amber-800');
+            finalInputNomor.classList.add('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
             btnSave.disabled = false;
             btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
 
@@ -1960,6 +2369,23 @@
             document.getElementById('form-group-masuk').classList.toggle('hidden', !isMasuk);
             document.getElementById('form-group-keluar').classList.toggle('hidden', isMasuk);
             
+            // Penyesuaian form khusus Surat Masuk
+            const formatContainer = document.getElementById('format-nomor-container');
+            const inputIntiContainer = document.getElementById('input-inti-container');
+            const inputInti = document.getElementById('input_nomor_inti');
+            
+            if (isMasuk) {
+                formatContainer.classList.add('hidden');
+                inputIntiContainer.classList.remove('flex-[2]');
+                inputIntiContainer.classList.add('w-full');
+                inputInti.placeholder = "Ketik Nomor Surat Lengkap...";
+            } else {
+                formatContainer.classList.remove('hidden');
+                inputIntiContainer.classList.remove('w-full');
+                inputIntiContainer.classList.add('flex-[2]');
+                inputInti.placeholder = "Ketik No...";
+            }
+
             document.getElementById('pengirim').required = isMasuk;
             document.getElementById('perihal_masuk').required = isMasuk;
             document.getElementById('jenis_surat').required = !isMasuk;
@@ -1973,12 +2399,22 @@
                 if (item) {
                     document.getElementById('surat-id').value = item.id;
                     document.getElementById('nomor_urut').value = item.nomor_urut || '';
-                    document.getElementById('tanggal_surat').value = item.tanggal_surat || '';
+                    
+                    // Pastikan format tanggal murni TYYYY-MM-DD saat diedit agar tidak mereset inputan browser
+                    let dateVal = item.tanggal_surat || '';
+                    if(dateVal.includes('T')) dateVal = dateVal.split('T')[0];
+                    document.getElementById('tanggal_surat').value = dateVal;
                     
                     // Parsing Nomor Surat saat ini dengan dukungan strict cek 
                     document.getElementById('input_nomor_inti').value = item.nomor_inti || ''; // Ambil dari data asli jika ada
                     document.getElementById('pilih_format_nomor').value = '{NO}';
                     document.getElementById('nomor_surat').value = item.nomor_surat || '';
+
+                    // Buka kunci field saat mode edit
+                    const inputIntiEl = document.getElementById('input_nomor_inti');
+                    inputIntiEl.readOnly = false;
+                    inputIntiEl.classList.remove('bg-slate-100', 'cursor-not-allowed');
+                    inputIntiEl.classList.add('bg-white');
 
                     if (isMasuk) {
                         document.getElementById('pengirim').value = item.pengirim || '';
@@ -2026,10 +2462,48 @@
                 const today = new Date();
                 document.getElementById('tanggal_surat').value = today.toISOString().split('T')[0];
                 
-                // Clear state form
-                document.getElementById('input_nomor_inti').value = '';
+                // MENGAMBIL DAN MENAMPILKAN NOMOR INTI TERAKHIR SECARA OTOMATIS BERDASARKAN ANGKA TERTINGGI
+                let maxInti = 0;
+                let padLength = 3; // Default 001
+                
+                currentData.forEach(item => {
+                    if (item.nomor_inti) {
+                        let numStr = item.nomor_inti.replace(/\D/g, ''); // Ambil angkanya saja jika ada huruf
+                        if(numStr) {
+                            let num = parseInt(numStr, 10);
+                            if (!isNaN(num) && num > maxInti) {
+                                maxInti = num;
+                                padLength = numStr.length > padLength ? numStr.length : padLength; // Pertahankan format padding terpanjang misal 0001
+                            }
+                        }
+                    }
+                });
+                
+                // Surat Masuk Default kosong karena nomor tidak berurutan dan berasal dari instansi luar
+                if (isMasuk) {
+                    document.getElementById('input_nomor_inti').value = ""; 
+                } else {
+                    let nextInti = maxInti + 1;
+                    let lastNomorInti = nextInti.toString().padStart(padLength, '0');
+                    document.getElementById('input_nomor_inti').value = lastNomorInti;
+                }
+
                 document.getElementById('nomor_surat').value = '';
-                generateFinalNomor(); // update field dengan blank template & trigger roman month
+
+                // Setel default template dropdown ke template pertama yang valid (bukan {NO}) jika ada, 
+                // agar form otomatis terkunci dari awal.
+                const selectFormat = document.getElementById('pilih_format_nomor');
+                if(selectFormat.options.length > 0) {
+                    let defaultOpt = Array.from(selectFormat.options).find(o => o.value !== '{NO}');
+                    if(defaultOpt) {
+                        selectFormat.value = defaultOpt.value;
+                    } else {
+                        selectFormat.selectedIndex = 0;
+                    }
+                }
+                
+                // Trigger kalkulasi sekaligus mengunci form karena sudah ada isinya
+                generateFinalNomor(); 
             }
         };
 
@@ -2125,16 +2599,16 @@
         function updateConnectionUI(online, msg = '') {
             const statusEl = document.getElementById('connection-status');
             if (!isGasConfigured) {
-                statusEl.innerHTML = `<span class="w-2.5 h-2.5 bg-sky-400 rounded-full"></span> Lokal Saja`;
-                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-sky-500 text-[11px] font-bold mb-3 tracking-wide uppercase_override";
+                statusEl.innerHTML = `<span class="w-2 h-2 bg-sky-400 rounded-full"></span> Lokal Saja`;
+                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-sky-500 text-[10px] font-bold mb-3 tracking-wide uppercase_override";
                 return;
             }
             if (online) {
-                statusEl.innerHTML = `<span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span></span> Terhubung Server`;
-                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-emerald-500 text-xs font-bold mb-3 uppercase_override";
+                statusEl.innerHTML = `<span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span> Terhubung Server`;
+                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-emerald-500 text-[10px] font-bold mb-3 uppercase_override";
             } else {
-                statusEl.innerHTML = `<span class="w-2.5 h-2.5 bg-rose-400 rounded-full"></span> Mode Offline`;
-                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-rose-500 text-xs font-bold mb-3 uppercase_override";
+                statusEl.innerHTML = `<span class="w-2 h-2 bg-rose-400 rounded-full"></span> Mode Offline`;
+                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-rose-500 text-[10px] font-bold mb-3 uppercase_override";
             }
         }
         
