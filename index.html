@@ -46,16 +46,14 @@
     </script>
 
     <style>
-        /* Import kumpulan Google Fonts yang baru dan bervariasi */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap');
         
         :root {
-            --theme-color: #4f46e5; /* Indigo yang lebih premium & segar */
+            --theme-color: #4f46e5;
         }
 
         body { background-color: #f8fafc; }
         
-        /* Premium Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -73,7 +71,6 @@
             -webkit-backdrop-filter: blur(16px);
         }
 
-        /* Gradasi Premium */
         .bg-premium-grad {
             background: linear-gradient(135deg, var(--theme-color) 0%, color-mix(in srgb, var(--theme-color) 60%, black) 100%);
         }
@@ -84,7 +81,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Print Styles */
         @media print {
             @page { size: A4 portrait; margin: 15mm; }
             aside, header, #sidebar-backdrop, .no-print, #view-dashboard, #view-form, #view-pengaturan, #toast, #loading-overlay, #confirm-modal, #welcome-year-modal, #login-modal, #bulk-edit-modal { display: none !important; }
@@ -99,14 +95,12 @@
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
 
-        /* Loading Spinner */
         .loader {
             width: 40px; height: 40px; border: 3px solid #e2e8f0; border-top: 3px solid var(--theme-color);
             border-radius: 50%; animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
-    <!-- Style Dinamis untuk Typografi dan Huruf Kapital -->
     <style id="dynamic-typography"></style>
 </head>
 <body class="text-slate-800 antialiased flex h-screen overflow-hidden selection:bg-brand-500 selection:text-white relative">
@@ -345,7 +339,6 @@
                     </div>
                 </div>
 
-                <!-- Bagian Rincian Surat Keluar -->
                 <div class="bg-white rounded-3xl p-8 border border-slate-200/60 shadow-sm relative overflow-hidden mt-2">
                     <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
                         <div class="flex items-center gap-4">
@@ -360,7 +353,6 @@
                     </div>
                     
                     <div id="dashboard-rincian-keluar" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                        <!-- Konten rincian akan di-generate otomatis via JS -->
                     </div>
                     
                     <div id="rincian-empty-state" class="hidden py-8 text-center">
@@ -451,13 +443,13 @@
                             <input type="hidden" id="surat-id">
                             
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                                <div class="space-y-6 bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60">
-                                    <div class="flex items-center gap-2 border-b border-slate-200 pb-3 mb-6">
+                                <div class="space-y-6 bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60 relative overflow-hidden">
+                                    <div class="flex items-center gap-2 border-b border-slate-200 pb-3 mb-6 relative z-10">
                                         <i class="fa-solid fa-hashtag text-brand-500"></i>
                                         <h4 class="font-bold text-slate-700 tracking-wide uppercase_override text-sm">Penomoran Surat</h4>
                                     </div>
                                     
-                                    <div class="space-y-5">
+                                    <div class="space-y-5 relative z-10">
                                         <div>
                                             <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Nomor Urut / Agenda <span class="text-rose-500">*</span></label>
                                             <div class="relative">
@@ -475,19 +467,31 @@
                                         </div>
                                         
                                         <div>
-                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Input Nomor Surat <span class="text-rose-500">*</span></label>
+                                            <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Input Nomor Inti Surat <span class="text-rose-500">*</span></label>
                                             <div class="flex flex-col sm:flex-row gap-3">
                                                 <!-- Dropdown Template Nomor -->
                                                 <div id="format-nomor-container" class="flex-[3]">
                                                     <select id="pilih_format_nomor" onchange="generateFinalNomor()" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm font-bold text-slate-700 cursor-pointer shadow-sm">
                                                     </select>
                                                 </div>
-                                                <!-- Input Inti (Misal: 001) -->
-                                                <div id="input-inti-container" class="relative flex-[2]">
-                                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                        <i class="fa-solid fa-keyboard text-brand-400 text-sm"></i>
+                                                
+                                                <!-- Pilihan Inti & Input Manual -->
+                                                <div id="input-inti-container" class="relative flex-[2] flex flex-col gap-2">
+                                                    <select id="select_nomor_inti" onchange="handleSelectNomorInti()" class="hidden w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm font-bold text-slate-700 shadow-sm cursor-pointer">
+                                                    </select>
+                                                    <div class="relative w-full" id="manual-nomor-wrapper">
+                                                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                                            <i class="fa-solid fa-keyboard text-brand-400 text-sm"></i>
+                                                        </div>
+                                                        <input type="text" id="input_nomor_inti" oninput="generateFinalNomor()" required class="w-full pl-9 pr-3 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm font-bold text-slate-700 shadow-sm" placeholder="Ketik No...">
                                                     </div>
-                                                    <input type="text" id="input_nomor_inti" oninput="generateFinalNomor()" required class="w-full pl-9 pr-3 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-sm font-bold text-slate-700 shadow-sm" placeholder="Ketik No...">
+                                                    
+                                                    <!-- DAFTAR NOMOR TERPAKAI (DIBEKUKAN DARI ARSIP) -->
+                                                    <div id="used-nomor-list" class="hidden mt-2 bg-rose-50/50 p-3 rounded-xl border border-rose-100 shadow-inner">
+                                                        <p class="text-[10px] text-rose-600 font-bold uppercase_override mb-2 flex items-center gap-1.5"><i class="fa-solid fa-snowflake"></i> Daftar Nomor Dibekukan (Sudah Diinput):</p>
+                                                        <div id="used-nomor-badges" class="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto pr-1"></div>
+                                                        <p class="text-[9px] text-slate-500 mt-2 leading-relaxed"><i class="fa-solid fa-circle-info"></i> Seluruh nomor di atas telah dipakai di riwayat Surat Keluar dan tidak bisa digunakan lagi di jenis surat apapun.</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -496,11 +500,21 @@
                                             <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Hasil Nomor Final <span class="text-rose-500">*</span></label>
                                             <div class="relative">
                                                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                                                    <i class="fa-solid fa-file-invoice text-amber-500/80"></i>
+                                                    <i class="fa-solid fa-file-invoice text-amber-500/80" id="icon-final-nomor"></i>
                                                 </div>
                                                 <input type="text" id="nomor_surat" readonly class="w-full pl-11 pr-4 py-3 bg-amber-50/50 border border-amber-200 rounded-xl outline-none transition-all text-base font-bold text-amber-800 cursor-not-allowed">
                                             </div>
-                                            <p id="warning-nomor" class="text-rose-500 text-[11px] font-bold mt-2 hidden bg-rose-50 p-2 rounded border border-rose-100 uppercase_override"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Nomor Inti (<span id="warn-inti"></span>) sudah pernah dipakai! Coba nomor lain.</p>
+                                            
+                                            <!-- PERINGATAN KETAT -->
+                                            <div id="warning-nomor" class="hidden mt-3 bg-rose-50 border-l-4 border-rose-500 p-4 rounded-xl shadow-sm animate-pulse">
+                                                <div class="flex gap-2.5">
+                                                    <i class="fa-solid fa-circle-xmark text-rose-500 mt-0.5 text-lg"></i>
+                                                    <div>
+                                                        <h5 class="text-xs font-extrabold text-rose-700 tracking-wide uppercase_override">Nomor Ditolak Oleh Sistem!</h5>
+                                                        <p id="warn-message" class="text-[10px] text-rose-600 font-bold mt-1.5 uppercase_override leading-relaxed"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -595,6 +609,7 @@
                 </div>
             </div>
 
+            <!-- Bagian Form Pengaturan -->
             <div id="view-pengaturan" class="view-section hidden max-w-4xl mx-auto space-y-6 pb-12">
                 <div class="bg-white rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-200/80 overflow-hidden">
                     <div class="bg-premium-grad p-8 md:p-10 text-white relative overflow-hidden">
@@ -610,7 +625,6 @@
                     <div class="p-8 md:p-10">
                         <form id="settings-form" onsubmit="saveSettings(event)" class="space-y-6">
                             
-                            <!-- INFORMASI APLIKASI -->
                             <div class="grid grid-cols-1 gap-6 mb-8">
                                 <div class="flex items-center gap-2 mb-2">
                                     <i class="fa-solid fa-pen-to-square text-brand-500"></i>
@@ -626,7 +640,6 @@
                                 </div>
                             </div>
                             
-                            <!-- PENGATURAN LABEL & TEKS -->
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-4">
                                     <i class="fa-solid fa-tags text-brand-500"></i>
@@ -652,7 +665,6 @@
                                 </div>
                             </div>
 
-                            <!-- PENGATURAN TYPOGRAFI & GAYA HURUF -->
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center gap-2 mb-4">
                                     <i class="fa-solid fa-font text-brand-500"></i>
@@ -662,31 +674,14 @@
                                     <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
                                         <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Pilih Jenis Huruf (Font)</label>
                                         <select id="setting-font-family" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 cursor-pointer">
-                                            <!-- Modern Google Fonts -->
                                             <option value="'Inter', sans-serif">Inter (Modern & Clean) - Default</option>
                                             <option value="'Poppins', sans-serif">Poppins (Bulat & Elegan)</option>
                                             <option value="'Montserrat', sans-serif">Montserrat (Tegas & Profesional)</option>
                                             <option value="'Open Sans', sans-serif">Open Sans (Minimalis & Jelas)</option>
                                             <option value="'Lato', sans-serif">Lato (Hangat & Ramah)</option>
                                             <option value="'Roboto', sans-serif">Roboto (Standar Material)</option>
-                                            
-                                            <!-- Web Safe Fonts - Serif -->
-                                            <option value="'Times New Roman', Times, serif">Times New Roman (Formal / Resmi)</option>
-                                            <option value="Georgia, serif">Georgia (Klasik & Elegan)</option>
-                                            <option value="Garamond, serif">Garamond (Buku Klasik)</option>
-                                            <option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">Palatino (Tradisional)</option>
-                                            
-                                            <!-- Web Safe Fonts - Sans-Serif -->
+                                            <option value="'Times New Roman', Times, serif">Times New Roman (Formal)</option>
                                             <option value="Arial, Helvetica, sans-serif">Arial (Standar Dokumen)</option>
-                                            <option value="Verdana, Geneva, sans-serif">Verdana (Lebar & Mudah Dibaca)</option>
-                                            <option value="'Trebuchet MS', Helvetica, sans-serif">Trebuchet MS (Khas & Rapi)</option>
-                                            <option value="Tahoma, Geneva, sans-serif">Tahoma (Padat & Jelas)</option>
-                                            <option value="'Century Gothic', sans-serif">Century Gothic (Geometris)</option>
-                                            <option value="'Lucida Sans Unicode', 'Lucida Grande', sans-serif">Lucida Sans (Humanist)</option>
-                                            
-                                            <!-- Monospace -->
-                                            <option value="'Courier New', Courier, monospace">Courier New (Ketik / Monospace)</option>
-                                            <option value="'Lucida Console', Monaco, monospace">Lucida Console (Kode / Rapat)</option>
                                         </select>
                                     </div>
                                     <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
@@ -695,12 +690,10 @@
                                             <option value="uppercase">HURUF KAPITAL SEMUA</option>
                                             <option value="capitalize">Awal Kata Huruf Besar (Capitalize)</option>
                                         </select>
-                                        <p class="text-[10px] text-slate-400 mt-2 font-medium"><i class="fa-solid fa-info-circle mr-1"></i> Berlaku pada sistem dan data yang akan disimpan.</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- PENGATURAN TEMPLATE NOMOR SURAT -->
                             <div class="mt-8 pt-6 border-t border-slate-100">
                                 <div class="flex items-center justify-between mb-4">
                                     <div class="flex items-center gap-2">
@@ -710,21 +703,10 @@
                                 </div>
                                 <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
                                     <div id="setting-format-nomor-wrapper" class="space-y-3 mb-5">
-                                        <!-- Template input dinamis akan dimuat di sini oleh JavaScript -->
                                     </div>
                                     <button type="button" onclick="addFormatNomorRow('', '')" class="text-xs bg-white hover:bg-brand-50 text-brand-600 font-bold py-2.5 px-4 rounded-xl transition-all shadow-sm border border-brand-200 inline-flex items-center uppercase_override tracking-wide">
                                         <i class="fa-solid fa-plus mr-1.5"></i> Tambah Template
                                     </button>
-                                    
-                                    <div class="text-[11px] text-slate-500 mt-5 p-3.5 bg-amber-50 rounded-xl border border-amber-100 uppercase_override leading-relaxed font-medium">
-                                        <p><i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i> <b>Petunjuk Penggunaan Kode:</b></p>
-                                        <ul class="list-disc pl-5 mt-1.5 space-y-1">
-                                            <li><b>{NO}</b> : Posisi Nomor Urut/Inti yg diketik manual.</li>
-                                            <li><b>{BLN}</b> : Berubah otomatis jadi <b>Bulan Romawi</b> (cth: X).</li>
-                                            <li><b>{THN}</b> : Berubah otomatis jadi <b>Tahun</b> (cth: 2026).</li>
-                                        </ul>
-                                        <p class="mt-2 text-slate-600">Contoh Format: <code class="bg-white px-2 py-1 rounded-md border border-amber-200 text-slate-800 shadow-sm font-bold ml-1">400/{NO}/1811/{BLN}/{THN}</code></p>
-                                    </div>
                                 </div>
                             </div>
 
@@ -744,21 +726,16 @@
                                     <div class="absolute -top-2 -right-2 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-user-shield text-7xl"></i></div>
                                     <label class="block text-xs font-bold text-slate-600 mb-2 relative z-10 uppercase_override">Sandi Super Admin</label>
                                     <input type="text" id="pass-superadmin" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
-                                    <p class="text-[10px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Akses kelola data penuh<br><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Akses menu pengaturan ini</p>
                                 </div>
-
                                 <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60 shadow-sm relative overflow-hidden group hover:border-sky-300 transition-colors">
                                     <div class="absolute -top-2 -right-2 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-user-tie text-7xl"></i></div>
                                     <label class="block text-xs font-bold text-slate-600 mb-2 relative z-10 uppercase_override">Sandi Admin</label>
                                     <input type="text" id="pass-admin" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
-                                    <p class="text-[10px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Akses kelola data penuh<br><i class="fa-solid fa-xmark text-rose-500 mr-1.5"></i>Tidak bisa ubah pengaturan</p>
                                 </div>
-
                                 <div class="bg-slate-50/50 p-6 rounded-2xl border border-slate-200/60 shadow-sm relative overflow-hidden group hover:border-amber-300 transition-colors">
                                     <div class="absolute -top-2 -right-2 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity"><i class="fa-solid fa-users text-7xl"></i></div>
                                     <label class="block text-xs font-bold text-slate-600 mb-2 relative z-10 uppercase_override">Sandi Staff</label>
                                     <input type="text" id="pass-staff" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all shadow-sm font-bold text-slate-700 relative z-10">
-                                    <p class="text-[10px] text-slate-500 font-medium mt-3 relative z-10 leading-relaxed uppercase_override"><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Hanya melihat data<br><i class="fa-solid fa-check text-emerald-500 mr-1.5"></i>Bisa cetak & export</p>
                                 </div>
                             </div>
 
@@ -770,14 +747,13 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
                                         <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Tahun Awal <span class="font-normal text-slate-400 lowercase">(Mulai)</span></label>
-                                        <input type="number" id="setting-start-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Contoh: 2020">
+                                        <input type="number" id="setting-start-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700">
                                     </div>
                                     <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-200/60 shadow-sm">
                                         <label class="block text-xs font-bold text-slate-600 mb-2 uppercase_override">Tahun Akhir <span class="font-normal text-slate-400 lowercase">(Batas Maksimal)</span></label>
-                                        <input type="number" id="setting-end-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700" placeholder="Contoh: 2050">
+                                        <input type="number" id="setting-end-year" required class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700">
                                     </div>
                                 </div>
-                                <p class="text-[10px] text-slate-400 font-medium mt-2.5 uppercase_override"><i class="fa-solid fa-circle-info mr-1"></i> Tahun yang diatur disini membatasi siklus data secara *background*.</p>
                             </div>
 
                             <div class="mt-8 pt-6 border-t border-slate-100">
@@ -789,7 +765,6 @@
                                     <input type="color" id="setting-theme-color" class="w-12 h-12 rounded-xl cursor-pointer border-0 p-0 shadow-inner bg-transparent" value="#4f46e5">
                                     <div>
                                         <p class="text-xs font-bold text-slate-700 uppercase_override">Warna Utama</p>
-                                        <p class="text-[10px] text-slate-400 mt-0.5 font-medium uppercase_override">Ubah warna dasar antarmuka sistem.</p>
                                     </div>
                                 </div>
                             </div>
@@ -805,8 +780,7 @@
                                         <img id="preview-logo-img" src="" class="hidden w-full h-full object-cover bg-white">
                                     </div>
                                     <div class="flex-1">
-                                        <input type="file" id="input-logo" accept="image/*" class="text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-brand-50 file:text-brand-600 hover:file:bg-brand-100 transition-all cursor-pointer">
-                                        <p class="text-[10px] text-slate-400 mt-2 font-medium uppercase_override">Format JPG/PNG. Sistem akan <b class="text-slate-500">mengkompresi logo otomatis</b> agar aman disinkronisasi.</p>
+                                        <input type="file" id="input-logo" accept="image/*" class="text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-brand-50 file:text-brand-600 hover:file:bg-brand-100 transition-all cursor-pointer" onchange="previewLogoSetting(this)">
                                     </div>
                                     <input type="hidden" id="logo-base64">
                                     <input type="hidden" id="logo-name">
@@ -833,16 +807,15 @@
         </div>
     </div>
 
-    <!-- Modal Bulk Edit -->
+    <!-- Modal Bulk Edit & Konfirmasi -->
     <div id="bulk-edit-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-xl max-w-sm w-full p-8 transform scale-95 transition-transform duration-300 border border-slate-100" id="bulk-edit-modal-content">
             <div class="w-16 h-16 mx-auto bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mb-5 border border-amber-100 shadow-sm">
                 <i class="fa-solid fa-pen-to-square text-2xl"></i>
             </div>
             <h3 class="text-lg font-extrabold text-center text-slate-800 mb-2 tracking-tight uppercase_override">Edit Massal Jenis Surat</h3>
-            <p class="text-xs text-slate-500 text-center mb-6 leading-relaxed font-medium uppercase_override">Pilih nama jenis surat baru yang akan diterapkan pada semua data yang Anda tandai.</p>
             
-            <div class="mb-8">
+            <div class="mb-8 mt-4">
                 <label class="block text-[10px] font-bold text-slate-600 mb-2 uppercase_override">Ubah Menjadi Jenis Surat:</label>
                 <select id="bulk-jenis-surat" class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all shadow-sm font-bold text-slate-700 cursor-pointer text-sm">
                 </select>
@@ -855,14 +828,13 @@
         </div>
     </div>
 
-    <!-- Modal Konfirmasi -->
     <div id="confirm-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl shadow-xl max-w-sm w-full p-8 transform scale-95 transition-transform duration-300 border border-slate-100" id="confirm-modal-content">
             <div class="w-16 h-16 mx-auto bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-5 border border-rose-100 shadow-sm">
                 <i class="fa-solid fa-trash-can text-2xl"></i>
             </div>
             <h3 class="text-lg font-extrabold text-center text-slate-800 mb-2 tracking-tight uppercase_override">Hapus Data?</h3>
-            <p class="text-xs text-slate-500 text-center mb-8 leading-relaxed font-medium uppercase_override" id="confirm-modal-text">Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin melanjutkan?</p>
+            <p class="text-xs text-slate-500 text-center mb-8 leading-relaxed font-medium uppercase_override" id="confirm-modal-text">Tindakan ini tidak dapat dibatalkan.</p>
             <div class="flex gap-3">
                 <button id="confirm-btn-cancel" class="flex-1 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold py-3 rounded-xl transition-colors shadow-sm uppercase_override text-xs tracking-wide">Batal</button>
                 <button id="confirm-btn-ok" class="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-all shadow-md shadow-rose-500/20 uppercase_override text-xs tracking-wide">Hapus</button>
@@ -870,7 +842,6 @@
         </div>
     </div>
 
-    <!-- Toast Notifications -->
     <div id="toast" class="fixed bottom-6 right-6 transform translate-y-full opacity-0 transition-all duration-400 ease-out z-[80] pointer-events-none">
         <div class="bg-slate-800 text-white px-5 py-4 rounded-2xl shadow-xl flex items-center gap-4 min-w-[300px] border border-slate-700">
             <div id="toast-icon" class="flex-shrink-0 text-xl"></div>
@@ -882,92 +853,43 @@
     </div>
 
     <script>
-        // ==========================================
-        // KONFIGURASI URL GOOGLE APPS SCRIPT (GAS)
-        // ==========================================
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbye2fHGnuMgbTyB_8dAaJMExDLsVpbZZ_KerO8p6V5HV4fiE3J4n0shI8yHg607U29P/exec"; 
         const isGasConfigured = GAS_WEB_APP_URL !== "ISI_DENGAN_URL_WEB_APP_GAS_ANDA_DISINI" && GAS_WEB_APP_URL.trim() !== "";
-        
         const MAX_FILE_SIZE = 50 * 1024 * 1024;
         
-        // Default Local Storage
-        window.appPasswords = JSON.parse(localStorage.getItem('esurat_passwords')) || {
-            superadmin: "superadmin",
-            admin: "admin",
-            staff: "staff"
-        };
-
-        // Labels Role Custom
-        window.appRoleLabels = JSON.parse(localStorage.getItem('esurat_role_labels')) || {
-            superadmin: "SUPER ADMIN",
-            admin: "ADMINISTRATOR",
-            staff: "STAFF"
-        };
-        
-        window.appYearConfig = JSON.parse(localStorage.getItem('esurat_years')) || {
-            start: 2020, end: 2050
-        };
-
-        // Pengaturan Typografi / Format Teks 
+        window.appPasswords = JSON.parse(localStorage.getItem('esurat_passwords')) || { superadmin: "superadmin", admin: "admin", staff: "staff" };
+        window.appRoleLabels = JSON.parse(localStorage.getItem('esurat_role_labels')) || { superadmin: "SUPER ADMIN", admin: "ADMINISTRATOR", staff: "STAFF" };
+        window.appYearConfig = JSON.parse(localStorage.getItem('esurat_years')) || { start: 2020, end: 2050 };
         window.appFontFamily = localStorage.getItem('esurat_font') || "'Inter', sans-serif";
         window.appTextTransform = localStorage.getItem('esurat_transform') || "uppercase";
-
-        // Pengaturan Format Penomoran Surat dengan tambahan fitur {BLN} & {THN}
-        window.appFormatNomor = JSON.parse(localStorage.getItem('esurat_format_nomor')) || [
-            "Surat Keterangan Miskin: 400/{NO}/1811062005/{BLN}/{THN}", 
-            "SKU: 500/{NO}/1811062005/{BLN}/{THN}",
-            "Umum: 140/{NO}/1811062005/{BLN}/{THN}"
-        ];
-
-        // Pengaturan Jenis Surat Dinamis
+        window.appFormatNomor = JSON.parse(localStorage.getItem('esurat_format_nomor')) || [ "Surat Keterangan Miskin: 400/{NO}/1811062005/{BLN}/{THN}", "SKU: 500/{NO}/1811062005/{BLN}/{THN}", "Umum: 140/{NO}/1811062005/{BLN}/{THN}" ];
+        window.appAcuanNomor = localStorage.getItem('esurat_acuan_nomor') || "";
         window.appJenisSurat = JSON.parse(localStorage.getItem('esurat_jenis_surat')) || ["SURAT KETERANGAN MISKIN", "SURAT PENGANTAR", "SURAT KETERANGAN DOMISILI"];
-
         window.appLogo = localStorage.getItem('esurat_logo') || "";
         window.appBrandText = localStorage.getItem('esurat_brand_text') || "E-Surat";
-        window.appThemeColor = localStorage.getItem('esurat_theme') || "#4f46e5"; // Default premium Indigo
-        
+        window.appThemeColor = localStorage.getItem('esurat_theme') || "#4f46e5";
         window.appTitle = localStorage.getItem('esurat_title') || "Sistem E-Surat Fajar Asri";
         window.appDesc = localStorage.getItem('esurat_desc') || "Kelola arsip persuratan desa yang tersinkronisasi langsung dengan Google Sheets. Dilengkapi Hak Akses Multi-Level dan Penyimpanan Offline.";
 
-        // --- FUNGSI TOGGLE PASSWORD ---
         window.togglePassword = () => {
             const input = document.getElementById('app-password');
             const icon = document.getElementById('password-eye-icon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
+            if (input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } 
+            else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
         };
 
-        // --- FUNGSI FORMAT TEKS SEBELUM DISIMPAN ---
         window.formatTextData = (str) => {
             if(!str) return str;
-            if (window.appTextTransform === 'uppercase') {
-                return str.toUpperCase();
-            } else if (window.appTextTransform === 'capitalize') {
-                return str.toLowerCase().replace(/(^\w|\s\w)/g, m => m.toUpperCase());
-            }
+            if (window.appTextTransform === 'uppercase') return str.toUpperCase();
+            else if (window.appTextTransform === 'capitalize') return str.toLowerCase().replace(/(^\w|\s\w)/g, m => m.toUpperCase());
             return str;
         };
 
-        // Terapkan Typografi CSS secara Dinamis
         window.applyTypography = (font, transform) => {
-            const styleElement = document.getElementById('dynamic-typography');
-            styleElement.innerHTML = `
-                body, input, textarea, select, button, .tracking-wide, .tracking-widest {
-                    font-family: ${font} !important;
-                }
-                * {
-                    text-transform: ${transform};
-                }
-                i[class^="fa-"], .fa-solid, .fa-regular, .fas, .far, script, style, .uppercase_override {
-                    text-transform: none !important;
-                }
+            document.getElementById('dynamic-typography').innerHTML = `
+                body, input, textarea, select, button, .tracking-wide, .tracking-widest { font-family: ${font} !important; }
+                * { text-transform: ${transform}; }
+                i[class^="fa-"], .fa-solid, .fa-regular, .fas, .far, script, style, .uppercase_override { text-transform: none !important; }
                 .uppercase_override { text-transform: uppercase !important; }
             `;
             const fontInput = document.getElementById('setting-font-family');
@@ -977,7 +899,6 @@
         };
         applyTypography(window.appFontFamily, window.appTextTransform);
 
-        // Terapkan Informasi Aplikasi
         window.applyAppInfo = (title, desc) => {
             const titleEl = document.getElementById('dashboard-title-text');
             const descEl = document.getElementById('dashboard-desc-text');
@@ -994,21 +915,17 @@
 
         window.updateJenisSuratDropdown = () => {
             const select = document.getElementById('jenis_surat');
-            if (select) {
-                select.innerHTML = window.appJenisSurat.map(j => `<option value="${j}">${j}</option>`).join('');
-            }
+            if (select) select.innerHTML = window.appJenisSurat.map(j => `<option value="${j}">${j}</option>`).join('');
         };
 
         window.updateFormatNomorDropdown = () => {
             const select = document.getElementById('pilih_format_nomor');
             if (select) {
                 select.innerHTML = window.appFormatNomor.map(f => {
-                    let label = f;
-                    let val = f;
+                    let label = f; let val = f;
                     if (f.includes(':')) {
                         const parts = f.split(':');
-                        label = parts[0].trim();
-                        val = parts.slice(1).join(':').trim(); 
+                        label = parts[0].trim(); val = parts.slice(1).join(':').trim(); 
                         return `<option value="${val}">${label}</option>`;
                     }
                     return `<option value="${val}">${val}</option>`;
@@ -1021,16 +938,13 @@
             const wrapper = document.getElementById('setting-format-nomor-wrapper');
             if (wrapper) {
                 wrapper.innerHTML = ''; 
-                if (window.appFormatNomor.length === 0) {
-                    addFormatNomorRow('', '');
-                } else {
+                if (window.appFormatNomor.length === 0) { addFormatNomorRow('', ''); } 
+                else {
                     window.appFormatNomor.forEach(item => {
-                        let label = '';
-                        let format = item;
+                        let label = ''; let format = item;
                         if (item.includes(':')) {
                             const parts = item.split(':');
-                            label = parts[0].trim();
-                            format = parts.slice(1).join(':').trim();
+                            label = parts[0].trim(); format = parts.slice(1).join(':').trim();
                         }
                         addFormatNomorRow(label, format);
                     });
@@ -1052,9 +966,7 @@
                     <input type="text" placeholder="Contoh: 500/{NO}/2026" class="template-format w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-bold text-slate-700 text-sm shadow-sm" value="${format}">
                 </div>
                 <div class="flex items-end pb-[1px]">
-                    <button type="button" onclick="this.parentElement.parentElement.remove()" class="bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-500 h-[38px] w-[38px] rounded-xl transition-colors border border-slate-200 hover:border-rose-200 shadow-sm flex items-center justify-center" title="Hapus Template">
-                        <i class="fa-solid fa-trash text-sm"></i>
-                    </button>
+                    <button type="button" onclick="this.parentElement.parentElement.remove()" class="bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-500 h-[38px] w-[38px] rounded-xl transition-colors border border-slate-200 hover:border-rose-200 shadow-sm flex items-center justify-center" title="Hapus Template"><i class="fa-solid fa-trash text-sm"></i></button>
                 </div>
             `;
             wrapper.appendChild(row);
@@ -1068,13 +980,9 @@
         applyTheme(window.appThemeColor);
 
         window.applyAppLogo = (logoUrl) => {
-            const sidebarIcon = document.getElementById('sidebar-logo-icon');
-            const sidebarImg = document.getElementById('sidebar-logo-img');
-            const previewIcon = document.getElementById('preview-logo-icon');
-            const previewImg = document.getElementById('preview-logo-img');
-            
-            const bannerIcon = document.getElementById('dashboard-banner-icon');
-            const bannerImg = document.getElementById('dashboard-banner-img');
+            const sidebarIcon = document.getElementById('sidebar-logo-icon'); const sidebarImg = document.getElementById('sidebar-logo-img');
+            const previewIcon = document.getElementById('preview-logo-icon'); const previewImg = document.getElementById('preview-logo-img');
+            const bannerIcon = document.getElementById('dashboard-banner-icon'); const bannerImg = document.getElementById('dashboard-banner-img');
             
             if (logoUrl) {
                 if (sidebarIcon) sidebarIcon.classList.add('hidden');
@@ -1096,35 +1004,19 @@
         window.previewLogoSetting = async (input) => {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
-                if (file.size > 5 * 1024 * 1024) {
-                    input.value = '';
-                    return showToast('error', 'Ukuran logo maksimal 5MB');
-                }
+                if (file.size > 5 * 1024 * 1024) { input.value = ''; return showToast('error', 'Ukuran logo maksimal 5MB'); }
                 
                 const compressedBase64 = await new Promise((resolve) => {
                     const reader = new FileReader();
                     reader.onload = (event) => {
                         const img = new Image();
                         img.onload = () => {
-                            const MAX_WIDTH = 100;
-                            const MAX_HEIGHT = 100;
-                            let width = img.width;
-                            let height = img.height;
-
-                            if (width > height) {
-                                if (width > MAX_WIDTH) { height = Math.round((height * MAX_WIDTH) / width); width = MAX_WIDTH; }
-                            } else {
-                                if (height > MAX_HEIGHT) { width = Math.round((width * MAX_HEIGHT) / height); height = MAX_HEIGHT; }
-                            }
-
-                            const canvas = document.createElement('canvas');
-                            canvas.width = width;
-                            canvas.height = height;
-                            const ctx = canvas.getContext('2d');
-                            ctx.fillStyle = '#ffffff';
-                            ctx.fillRect(0, 0, width, height);
-                            ctx.drawImage(img, 0, 0, width, height);
-                            
+                            const MAX_WIDTH = 100; const MAX_HEIGHT = 100;
+                            let width = img.width; let height = img.height;
+                            if (width > height) { if (width > MAX_WIDTH) { height = Math.round((height * MAX_WIDTH) / width); width = MAX_WIDTH; } } 
+                            else { if (height > MAX_HEIGHT) { width = Math.round((width * MAX_HEIGHT) / height); height = MAX_HEIGHT; } }
+                            const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height;
+                            const ctx = canvas.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, width, height); ctx.drawImage(img, 0, 0, width, height);
                             resolve(canvas.toDataURL('image/jpeg', 0.5));
                         };
                         img.src = event.target.result;
@@ -1135,38 +1027,38 @@
                 document.getElementById('logo-base64').value = compressedBase64;
                 document.getElementById('logo-name').value = file.name;
                 
-                const previewIcon = document.getElementById('preview-logo-icon');
-                const previewImg = document.getElementById('preview-logo-img');
-                previewIcon.classList.add('hidden');
-                previewImg.src = compressedBase64;
-                previewImg.classList.remove('hidden');
+                const previewIcon = document.getElementById('preview-logo-icon'); const previewImg = document.getElementById('preview-logo-img');
+                previewIcon.classList.add('hidden'); previewImg.src = compressedBase64; previewImg.classList.remove('hidden');
             }
         };
 
-        // --- FUNGSI MENDAPATKAN BULAN ROMAWI DAN TAHUN ---
         window.getRomanMonth = (dateString) => {
             const date = dateString ? new Date(dateString) : new Date();
             const roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
             return roman[date.getMonth()];
         };
+        window.getYear = (dateString) => { const date = dateString ? new Date(dateString) : new Date(); return date.getFullYear(); };
 
-        window.getYear = (dateString) => {
-            const date = dateString ? new Date(dateString) : new Date();
-            return date.getFullYear();
+        window.handleSelectNomorInti = () => {
+            const select = document.getElementById('select_nomor_inti');
+            const manualWrapper = document.getElementById('manual-nomor-wrapper');
+            const inputInti = document.getElementById('input_nomor_inti');
+            
+            if (select.value === 'MANUAL') {
+                manualWrapper.classList.remove('hidden'); inputInti.value = ''; inputInti.focus();
+            } else {
+                manualWrapper.classList.add('hidden'); inputInti.value = select.value;
+            }
+            generateFinalNomor();
         };
 
-        // FUNGSI KOMBINASI NOMOR SURAT DAN TEMPLATE
         window.generateFinalNomor = () => {
             const isMasuk = window.currentTab === 'masuk';
             const inputIntiElement = document.getElementById('input_nomor_inti');
             const inputNo = inputIntiElement.value;
             const finalInput = document.getElementById('nomor_surat');
             
-            // JIKA SURAT MASUK, TANPA TEMPLATE / MANUAL
             if(isMasuk) {
-                inputIntiElement.readOnly = false;
-                inputIntiElement.classList.remove('bg-slate-100', 'cursor-not-allowed');
-                inputIntiElement.classList.add('bg-white');
                 finalInput.value = inputNo; 
                 checkDuplicateNomor();
                 return;
@@ -1176,39 +1068,20 @@
             const format = selectFormat.value;
             const tglSurat = document.getElementById('tanggal_surat').value;
             
-            // --- PENGUNCIAN OTOMATIS SESUAI PERMINTAAN (KHUSUS SURAT KELUAR) ---
-            if (format === '{NO}') {
-                inputIntiElement.readOnly = false;
-                inputIntiElement.classList.remove('bg-slate-100', 'cursor-not-allowed');
-                inputIntiElement.classList.add('bg-white');
-            } else {
-                inputIntiElement.readOnly = true;
-                inputIntiElement.classList.remove('bg-white');
-                inputIntiElement.classList.add('bg-slate-100', 'cursor-not-allowed');
-            }
-            // ---------------------------------------------
-
-            if (!inputNo) {
-                finalInput.value = '';
-            } else {
+            if (!inputNo) { finalInput.value = ''; } 
+            else {
                 const romawi = window.getRomanMonth(tglSurat);
                 const tahun = window.getYear(tglSurat);
                 let generatedFormat = format;
 
-                if (generatedFormat.includes('{NO}')) {
-                    generatedFormat = generatedFormat.replace(/{NO}/g, inputNo);
-                } else {
-                    generatedFormat = `${inputNo}/${generatedFormat}`;
-                }
+                if (generatedFormat.includes('{NO}')) { generatedFormat = generatedFormat.replace(/{NO}/g, inputNo); } 
+                else { generatedFormat = `${inputNo}/${generatedFormat}`; }
                 
-                // Konversi Bulan Romawi dan Tahun
                 generatedFormat = generatedFormat.replace(/{BLN}/g, romawi);
                 generatedFormat = generatedFormat.replace(/{THN}/g, tahun);
-
                 finalInput.value = generatedFormat;
             }
 
-            // Sync jenis_surat automatically based on select label
             if (window.currentTab === 'keluar') {
                 const selectedText = selectFormat.options[selectFormat.selectedIndex].text;
                 const jenisSuratInput = document.getElementById('jenis_surat');
@@ -1217,15 +1090,12 @@
                     normalizedText = window.formatTextData(selectedText);
                     let exists = Array.from(jenisSuratInput.options).some(opt => opt.value === normalizedText);
                     if (!exists) {
-                        const opt = document.createElement('option');
-                        opt.value = normalizedText;
-                        opt.text = normalizedText;
+                        const opt = document.createElement('option'); opt.value = normalizedText; opt.text = normalizedText;
                         jenisSuratInput.appendChild(opt);
                     }
                     jenisSuratInput.value = normalizedText;
                 }
 
-                // Pengaturan Isi Ringkasan otomatis berdasarkan template/nomor 
                 const isiSuratInput = document.getElementById('isi_surat');
                 const nomorFinal = finalInput.value || '[Nomor]';
                 const jenisTeks = normalizedText || 'Surat Keluar';
@@ -1235,46 +1105,89 @@
             checkDuplicateNomor();
         }
         
-        // FUNGSI CEK NOMOR SURAT GANDA DARI INPUT INTI (STRICT DUPLICATE)
+        // FUNGSI UNTUK MENDAPATKAN DAFTAR NOMOR TERPAKAI (MURNI DARI ARSIP SURAT KELUAR)
+        window.updateUsedNomorList = () => {
+            const listContainer = document.getElementById('used-nomor-list');
+            if (window.currentTab !== 'keluar') {
+                listContainer.classList.add('hidden');
+                return;
+            }
+            
+            const usedNumbers = window.letters
+                .filter(l => l.jenis === 'keluar' && l.nomor_inti)
+                .map(l => l.nomor_inti.toString().trim())
+                .sort((a, b) => {
+                    const numA = parseInt(a.replace(/\D/g, '')) || 0;
+                    const numB = parseInt(b.replace(/\D/g, '')) || 0;
+                    return numA - numB;
+                });
+                
+            const uniqueUsed = [...new Set(usedNumbers)];
+            const badgesContainer = document.getElementById('used-nomor-badges');
+            
+            if (uniqueUsed.length > 0) {
+                badgesContainer.innerHTML = uniqueUsed.map(n => `<span class="bg-rose-100 text-rose-600 border border-rose-200 px-1.5 py-0.5 rounded text-[10px] font-bold shadow-sm">${n}</span>`).join('');
+                listContainer.classList.remove('hidden');
+            } else {
+                listContainer.classList.add('hidden');
+            }
+        };
+
+        // FUNGSI CEK DUPLIKAT BERDASARKAN ARSIP
         window.checkDuplicateNomor = () => {
             const inputInti = document.getElementById('input_nomor_inti').value.trim();
+            const finalNomor = document.getElementById('nomor_surat').value.trim();
             const warning = document.getElementById('warning-nomor');
+            const warnMessage = document.getElementById('warn-message');
             const btnSave = document.getElementById('btn-save');
             const currentId = document.getElementById('surat-id').value;
-            const finalInput = document.getElementById('nomor_surat');
+            const finalInputUI = document.getElementById('nomor_surat');
+            const iconFinal = document.getElementById('icon-final-nomor');
             
-            if (!inputInti) {
+            if (!inputInti && !finalNomor) {
                 warning.classList.add('hidden');
-                finalInput.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700');
-                finalInput.classList.add('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
+                finalInputUI.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700', 'ring-rose-500/30', 'ring-2');
+                finalInputUI.classList.add('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
+                iconFinal.classList.replace('text-rose-500', 'text-amber-500/80');
+                
                 btnSave.disabled = false;
-                btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnSave.classList.remove('opacity-50', 'cursor-not-allowed', 'hover:bg-brand-700', 'bg-rose-500');
+                btnSave.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Data';
                 return false;
             }
 
-            const isDuplicate = window.letters.some(l => {
+            // 1. CEK DARI ARSIP SURAT YANG SUDAH TERSIMPAN DI SISTEM
+            const isArsipDuplicate = window.letters.some(l => {
                 if (l.jenis !== window.currentTab || l.id === currentId) return false;
-                
-                // Perketat Penomoran: Cek berdasarkan nomor inti yang disimpan sebelumnya
-                if (l.nomor_inti && l.nomor_inti === inputInti) return true;
-                
+                if (inputInti && l.nomor_inti && l.nomor_inti.toString().trim().toLowerCase() === inputInti.toLowerCase()) return true;
+                if (finalNomor && l.nomor_surat && l.nomor_surat.toString().trim().toLowerCase() === finalNomor.toLowerCase()) return true;
                 return false;
             });
 
-            if (isDuplicate) {
-                document.getElementById('warn-inti').innerText = inputInti;
+            if (isArsipDuplicate) {
+                warnMessage.innerHTML = `Nomor <b class="bg-rose-200/50 px-1 py-0.5 rounded">${inputInti || finalNomor}</b> telah ditolak karena <b>sudah pernah diinput</b> pada riwayat data arsip. Silakan pilih/ketik nomor urut yang lain.`;
+
                 warning.classList.remove('hidden');
-                finalInput.classList.remove('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
-                finalInput.classList.add('border-rose-500', 'bg-rose-50/50', 'text-rose-700');
+                
+                finalInputUI.classList.remove('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
+                finalInputUI.classList.add('border-rose-500', 'bg-rose-50/50', 'text-rose-700', 'ring-rose-500/30', 'ring-2');
+                iconFinal.classList.replace('text-amber-500/80', 'text-rose-500');
+                
                 btnSave.disabled = true;
-                btnSave.classList.add('opacity-50', 'cursor-not-allowed');
+                btnSave.classList.add('opacity-50', 'cursor-not-allowed', 'bg-rose-500');
+                btnSave.classList.remove('hover:bg-brand-700');
+                btnSave.innerHTML = '<i class="fa-solid fa-lock"></i> Terkunci (Nomor Terpakai)';
                 return true;
             } else {
                 warning.classList.add('hidden');
-                finalInput.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700');
-                finalInput.classList.add('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
+                finalInputUI.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700', 'ring-rose-500/30', 'ring-2');
+                finalInputUI.classList.add('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
+                iconFinal.classList.replace('text-rose-500', 'text-amber-500/80');
+                
                 btnSave.disabled = false;
-                btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnSave.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-rose-500');
+                btnSave.classList.add('hover:bg-brand-700');
+                btnSave.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Data';
                 return false;
             }
         };
@@ -1290,44 +1203,34 @@
             else if (input === window.appPasswords.staff) role = 'staff';
             
             if (role) {
-                sessionStorage.setItem('isAuthenticated', 'true');
-                sessionStorage.setItem('userRole', role);
-                
+                sessionStorage.setItem('isAuthenticated', 'true'); sessionStorage.setItem('userRole', role);
                 window.selectedYear = 'all';
+                
                 const modal = document.getElementById('login-modal');
                 modal.classList.add('opacity-0');
                 
                 window.applyRoleRestrictions();
-                
-                if (role !== 'superadmin' && window.currentTab === 'pengaturan') {
-                    window.switchTab('dashboard');
-                }
+                if (role !== 'superadmin' && window.currentTab === 'pengaturan') { window.switchTab('dashboard'); }
                 
                 setTimeout(() => {
                     modal.classList.add('hidden');
-                    // Reset input and eye icon after successful login
                     document.getElementById('app-password').value = '';
                     const icon = document.getElementById('password-eye-icon');
                     document.getElementById('app-password').type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
+                    icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye');
                 }, 500);
             } else {
                 errorMsg.classList.remove('hidden');
-                document.getElementById('app-password').value = '';
-                document.getElementById('app-password').focus();
+                document.getElementById('app-password').value = ''; document.getElementById('app-password').focus();
             }
         };
 
         window.logoutApp = () => {
-            sessionStorage.removeItem('isAuthenticated');
-            sessionStorage.removeItem('userRole');
+            sessionStorage.removeItem('isAuthenticated'); sessionStorage.removeItem('userRole');
             document.getElementById('app-password').value = '';
             document.getElementById('login-error').classList.add('hidden');
-            const modal = document.getElementById('login-modal');
-            modal.classList.remove('hidden');
+            const modal = document.getElementById('login-modal'); modal.classList.remove('hidden');
             
-            // Ensure password field stays masked when logged out
             document.getElementById('app-password').type = 'password';
             document.getElementById('password-eye-icon').classList.remove('fa-eye-slash');
             document.getElementById('password-eye-icon').classList.add('fa-eye');
@@ -1368,10 +1271,7 @@
             }
             
             updateYearDropdown(); 
-
-            if (document.getElementById('table-body')) {
-                renderTable(); 
-            }
+            if (document.getElementById('table-body')) { renderTable(); }
         };
 
         window.saveSettings = async (e) => {
@@ -1382,162 +1282,92 @@
 
             const newTitle = document.getElementById('setting-app-title').value || "Sistem E-Surat Fajar Asri";
             const newDesc = document.getElementById('setting-app-desc').value || "Kelola arsip persuratan desa yang tersinkronisasi langsung dengan Google Sheets. Dilengkapi Hak Akses Multi-Level dan Penyimpanan Offline.";
-
-            // Simpan Label Kustom
             const newBrandText = document.getElementById('setting-brand-text').value || "E-Surat";
             const newRoleLabels = {
                 superadmin: document.getElementById('setting-role-superadmin').value || "SUPER ADMIN",
                 admin: document.getElementById('setting-role-admin').value || "ADMINISTRATOR",
                 staff: document.getElementById('setting-role-staff').value || "STAFF"
             };
-
             const newPass = {
                 superadmin: document.getElementById('pass-superadmin').value,
                 admin: document.getElementById('pass-admin').value,
                 staff: document.getElementById('pass-staff').value
             };
-
             const newYears = {
                 start: parseInt(document.getElementById('setting-start-year').value) || 2020,
                 end: parseInt(document.getElementById('setting-end-year').value) || 2050
             };
-
             const newTheme = document.getElementById('setting-theme-color').value;
-
-            // Pengaturan Typografi & Kapital
             const newFontFamily = document.getElementById('setting-font-family').value;
             const newTextTransform = document.getElementById('setting-text-transform').value;
 
-            // Parsing Pengaturan Penomoran Surat (Dari input dinamis)
             const templateRows = document.querySelectorAll('.template-row');
             const newFormatNomor = [];
             templateRows.forEach(row => {
-                const label = row.querySelector('.template-label').value.trim();
-                const format = row.querySelector('.template-format').value.trim();
-                if (label && format) {
-                    newFormatNomor.push(`${label}: ${format}`);
-                } else if (format) { // fallback jika tidak ada label
-                    newFormatNomor.push(format);
-                }
+                const label = row.querySelector('.template-label').value.trim(); const format = row.querySelector('.template-format').value.trim();
+                if (label && format) { newFormatNomor.push(`${label}: ${format}`); } 
+                else if (format) { newFormatNomor.push(format); }
             });
 
-            // Simpan Pengaturan Jenis Surat Dinamis
             const newJenisSuratStr = document.getElementById('setting-jenis-surat').value;
             const newJenisSurat = newJenisSuratStr.split(',').map(s => window.formatTextData(s.trim())).filter(s => s);
 
-            window.appTitle = newTitle;
-            window.appDesc = newDesc;
-            window.appBrandText = newBrandText;
-            window.appRoleLabels = newRoleLabels;
-            window.appPasswords = newPass;
-            window.appYearConfig = newYears;
-            window.appThemeColor = newTheme;
+            window.appTitle = newTitle; window.appDesc = newDesc; window.appBrandText = newBrandText; window.appRoleLabels = newRoleLabels;
+            window.appPasswords = newPass; window.appYearConfig = newYears; window.appThemeColor = newTheme; window.appFontFamily = newFontFamily;
+            window.appTextTransform = newTextTransform; window.appFormatNomor = newFormatNomor.length > 0 ? newFormatNomor : ["{NO}"];
+            window.appJenisSurat = newJenisSurat; 
             
-            window.appFontFamily = newFontFamily;
-            window.appTextTransform = newTextTransform;
+            localStorage.setItem('esurat_title', newTitle); localStorage.setItem('esurat_desc', newDesc); localStorage.setItem('esurat_brand_text', newBrandText);
+            localStorage.setItem('esurat_role_labels', JSON.stringify(newRoleLabels)); localStorage.setItem('esurat_passwords', JSON.stringify(newPass));
+            localStorage.setItem('esurat_years', JSON.stringify(newYears)); localStorage.setItem('esurat_theme', newTheme);
+            localStorage.setItem('esurat_font', newFontFamily); localStorage.setItem('esurat_transform', newTextTransform);
+            localStorage.setItem('esurat_format_nomor', JSON.stringify(window.appFormatNomor)); localStorage.setItem('esurat_jenis_surat', JSON.stringify(newJenisSurat));
             
-            window.appFormatNomor = newFormatNomor.length > 0 ? newFormatNomor : ["{NO}"];
-            window.appJenisSurat = newJenisSurat;
-            
-            localStorage.setItem('esurat_title', newTitle);
-            localStorage.setItem('esurat_desc', newDesc);
-            localStorage.setItem('esurat_brand_text', newBrandText);
-            localStorage.setItem('esurat_role_labels', JSON.stringify(newRoleLabels));
-            localStorage.setItem('esurat_passwords', JSON.stringify(newPass));
-            localStorage.setItem('esurat_years', JSON.stringify(newYears));
-            localStorage.setItem('esurat_theme', newTheme);
-            localStorage.setItem('esurat_font', newFontFamily);
-            localStorage.setItem('esurat_transform', newTextTransform);
-            localStorage.setItem('esurat_format_nomor', JSON.stringify(window.appFormatNomor));
-            localStorage.setItem('esurat_jenis_surat', JSON.stringify(newJenisSurat));
-            
-            applyAppInfo(newTitle, newDesc);
-            applyBrandText(newBrandText);
-            applyRoleRestrictions();
-            applyTheme(newTheme);
-            applyTypography(newFontFamily, newTextTransform);
-            
-            updateJenisSuratDropdown();
-            updateFormatNomorDropdown();
-            
-            // Refresh table to reflect typography properly
-            refreshUI();
+            applyAppInfo(newTitle, newDesc); applyBrandText(newBrandText); applyRoleRestrictions(); applyTheme(newTheme); applyTypography(newFontFamily, newTextTransform);
+            updateJenisSuratDropdown(); updateFormatNomorDropdown(); refreshUI();
             
             try {
                 const configData = {
-                    id: 'SYSTEM_SETTINGS_CONFIG',
-                    jenis: 'system_settings',
-                    isi_surat: JSON.stringify({ 
-                        passwords: newPass, years: newYears, theme: newTheme, 
-                        title: newTitle, desc: newDesc, jenis_surat: newJenisSurat,
-                        font: newFontFamily, transform: newTextTransform, format_nomor: window.appFormatNomor,
-                        brandText: newBrandText, roleLabels: newRoleLabels
-                    }),
+                    id: 'SYSTEM_SETTINGS_CONFIG', jenis: 'system_settings',
+                    isi_surat: JSON.stringify({ passwords: newPass, years: newYears, theme: newTheme, title: newTitle, desc: newDesc, jenis_surat: newJenisSurat, font: newFontFamily, transform: newTextTransform, format_nomor: window.appFormatNomor, brandText: newBrandText, roleLabels: newRoleLabels, acuanNomor: "" }),
                     updated_at: new Date().toISOString()
                 };
                 const payloadConfig = { action: 'create_or_update', data: configData };
                 
-                if (isOnline && isGasConfigured) {
-                    fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payloadConfig) });
-                } else if (isGasConfigured) {
-                    offlineQueue.setItem('SAVE_CONFIG', payloadConfig);
-                    updateQueueBadge();
-                }
-            } catch (error) {
-                console.error("Gagal sinkronisasi pengaturan:", error);
-            }
+                if (isOnline && isGasConfigured) { fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payloadConfig) }); } 
+                else if (isGasConfigured) { offlineQueue.setItem('SAVE_CONFIG', payloadConfig); updateQueueBadge(); }
+            } catch (error) { console.error("Gagal sinkronisasi pengaturan:", error); }
 
             const logoBase64 = document.getElementById('logo-base64').value;
             const logoName = document.getElementById('logo-name').value;
             
             if (logoBase64) {
                 try {
-                    const logoData = {
-                        id: 'SYSTEM_SETTINGS_LOGO',
-                        jenis: 'system_settings',
-                        isi_surat: logoBase64, 
-                        updated_at: new Date().toISOString()
-                    };
+                    const logoData = { id: 'SYSTEM_SETTINGS_LOGO', jenis: 'system_settings', isi_surat: logoBase64, updated_at: new Date().toISOString() };
                     const payloadLogo = { action: 'create_or_update', data: logoData };
                     
                     if (isOnline && isGasConfigured) {
                         const res = await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payloadLogo) });
-                        const result = await res.json();
-                        window.appLogo = logoBase64;
-                        localStorage.setItem('esurat_logo', logoBase64);
-                        applyAppLogo(logoBase64);
+                        window.appLogo = logoBase64; localStorage.setItem('esurat_logo', logoBase64); applyAppLogo(logoBase64);
                     } else if (isGasConfigured) {
                         await offlineQueue.setItem('SAVE_LOGO', payloadLogo);
-                        window.appLogo = logoBase64;
-                        localStorage.setItem('esurat_logo', logoBase64);
-                        applyAppLogo(logoBase64);
-                        updateQueueBadge();
+                        window.appLogo = logoBase64; localStorage.setItem('esurat_logo', logoBase64); applyAppLogo(logoBase64); updateQueueBadge();
                     }
                     
-                    document.getElementById('logo-base64').value = '';
-                    document.getElementById('logo-name').value = '';
-                    document.getElementById('input-logo').value = '';
-                } catch (error) {
-                    console.error("Gagal sinkronisasi logo:", error);
-                    showToast('error', 'Gagal sinkronisasi logo.');
-                }
+                    document.getElementById('logo-base64').value = ''; document.getElementById('logo-name').value = ''; document.getElementById('input-logo').value = '';
+                } catch (error) { console.error("Gagal sinkronisasi logo:", error); showToast('error', 'Gagal sinkronisasi logo.'); }
             }
             
             updateYearDropdown(); 
-            
             setTimeout(() => {
                 showToast('success', 'Pengaturan berhasil diperbarui ke semua perangkat!');
-                btn.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Pengaturan';
-                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Pengaturan'; btn.disabled = false;
             }, 500);
         };
 
         window.currentTab = 'dashboard';
-        window.letters = []; 
-        window.selectedYear = 'all'; 
-        window.selectedMonth = 'all'; 
-        let dashboardChart = null;
-        let isOnline = navigator.onLine;
+        window.letters = []; window.selectedYear = 'all'; window.selectedMonth = 'all'; 
+        let dashboardChart = null; let isOnline = navigator.onLine;
 
         const offlineQueue = localforage.createInstance({ name: "ESurat_Queue" });
         const localCache = localforage.createInstance({ name: "ESurat_Cache" });
@@ -1556,47 +1386,31 @@
             const modal = document.getElementById('confirm-modal');
             const content = document.getElementById('confirm-modal-content');
             content.classList.replace('scale-100', 'scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                currentConfirmCallback = null;
-            }, 300);
+            setTimeout(() => { modal.classList.add('hidden'); currentConfirmCallback = null; }, 300);
         };
 
         document.getElementById('confirm-btn-cancel').addEventListener('click', hideConfirmModal);
-        document.getElementById('confirm-btn-ok').addEventListener('click', () => {
-            if (currentConfirmCallback) currentConfirmCallback();
-            hideConfirmModal();
-        });
+        document.getElementById('confirm-btn-ok').addEventListener('click', () => { if (currentConfirmCallback) currentConfirmCallback(); hideConfirmModal(); });
 
         async function initApp() {
-            setupNetworkListeners();
-            updateConnectionUI(isOnline);
-            updateQueueBadge();
-            
-            applyAppLogo(window.appLogo);
-            updateJenisSuratDropdown();
-            updateFormatNomorDropdown();
+            setupNetworkListeners(); updateConnectionUI(isOnline); updateQueueBadge();
+            applyAppLogo(window.appLogo); updateJenisSuratDropdown(); updateFormatNomorDropdown();
             
             if (!sessionStorage.getItem('isAuthenticated')) {
                 const loginModal = document.getElementById('login-modal');
                 loginModal.classList.remove('hidden');
                 setTimeout(() => { loginModal.classList.remove('opacity-0'); }, 50);
             } else {
-                document.getElementById('login-modal').classList.add('hidden', 'opacity-0');
-                window.applyRoleRestrictions();
+                document.getElementById('login-modal').classList.add('hidden', 'opacity-0'); window.applyRoleRestrictions();
             }
             
             const cached = await localCache.getItem('letters');
             if(cached) {
                 window.letters = cached.filter(item => item.id !== 'SYSTEM_SETTINGS_PASSWORDS' && item.jenis !== 'system_settings');
-                updateYearDropdown();
-                refreshUI();
+                updateYearDropdown(); refreshUI();
             }
 
-            if(isOnline) {
-                await processOfflineQueue();
-                fetchDataFromServer(); 
-            }
+            if(isOnline) { await processOfflineQueue(); fetchDataFromServer(); }
         }
 
         async function fetchDataFromServer() {
@@ -1609,87 +1423,37 @@
                 if (result.status === 'success') {
                     const logoItem = result.data.find(item => item.id === 'SYSTEM_SETTINGS_LOGO');
                     const savedLogo = logoItem ? (logoItem.isi_surat || logoItem.bukti_dukung) : null;
-                    if (savedLogo) {
-                        window.appLogo = savedLogo;
-                        localStorage.setItem('esurat_logo', savedLogo);
-                        applyAppLogo(savedLogo);
-                    }
+                    if (savedLogo) { window.appLogo = savedLogo; localStorage.setItem('esurat_logo', savedLogo); applyAppLogo(savedLogo); }
 
                     const configItem = result.data.find(item => item.id === 'SYSTEM_SETTINGS_CONFIG');
                     if (configItem && configItem.isi_surat) {
                         try {
                             const parsedConfig = JSON.parse(configItem.isi_surat);
-                            if (parsedConfig.passwords) {
-                                window.appPasswords = parsedConfig.passwords;
-                                localStorage.setItem('esurat_passwords', JSON.stringify(parsedConfig.passwords));
-                            }
-                            if (parsedConfig.years) {
-                                window.appYearConfig = parsedConfig.years;
-                                localStorage.setItem('esurat_years', JSON.stringify(parsedConfig.years));
-                            }
-                            if (parsedConfig.theme) {
-                                window.appThemeColor = parsedConfig.theme;
-                                localStorage.setItem('esurat_theme', parsedConfig.theme);
-                                applyTheme(parsedConfig.theme);
-                            }
-                            if (parsedConfig.title) {
-                                window.appTitle = parsedConfig.title;
-                                localStorage.setItem('esurat_title', parsedConfig.title);
-                            }
-                            if (parsedConfig.desc) {
-                                window.appDesc = parsedConfig.desc;
-                                localStorage.setItem('esurat_desc', parsedConfig.desc);
-                            }
-                            if (parsedConfig.font) {
-                                window.appFontFamily = parsedConfig.font;
-                                localStorage.setItem('esurat_font', parsedConfig.font);
-                            }
-                            if (parsedConfig.transform) {
-                                window.appTextTransform = parsedConfig.transform;
-                                localStorage.setItem('esurat_transform', parsedConfig.transform);
-                            }
-                            if (parsedConfig.brandText) {
-                                window.appBrandText = parsedConfig.brandText;
-                                localStorage.setItem('esurat_brand_text', parsedConfig.brandText);
-                                applyBrandText(window.appBrandText);
-                            }
-                            if (parsedConfig.roleLabels) {
-                                window.appRoleLabels = parsedConfig.roleLabels;
-                                localStorage.setItem('esurat_role_labels', JSON.stringify(parsedConfig.roleLabels));
-                                applyRoleRestrictions();
-                            }
+                            if (parsedConfig.passwords) { window.appPasswords = parsedConfig.passwords; localStorage.setItem('esurat_passwords', JSON.stringify(parsedConfig.passwords)); }
+                            if (parsedConfig.years) { window.appYearConfig = parsedConfig.years; localStorage.setItem('esurat_years', JSON.stringify(parsedConfig.years)); }
+                            if (parsedConfig.theme) { window.appThemeColor = parsedConfig.theme; localStorage.setItem('esurat_theme', parsedConfig.theme); applyTheme(parsedConfig.theme); }
+                            if (parsedConfig.title) { window.appTitle = parsedConfig.title; localStorage.setItem('esurat_title', parsedConfig.title); }
+                            if (parsedConfig.desc) { window.appDesc = parsedConfig.desc; localStorage.setItem('esurat_desc', parsedConfig.desc); }
+                            if (parsedConfig.font) { window.appFontFamily = parsedConfig.font; localStorage.setItem('esurat_font', parsedConfig.font); }
+                            if (parsedConfig.transform) { window.appTextTransform = parsedConfig.transform; localStorage.setItem('esurat_transform', parsedConfig.transform); }
+                            if (parsedConfig.brandText) { window.appBrandText = parsedConfig.brandText; localStorage.setItem('esurat_brand_text', parsedConfig.brandText); applyBrandText(window.appBrandText); }
+                            if (parsedConfig.roleLabels) { window.appRoleLabels = parsedConfig.roleLabels; localStorage.setItem('esurat_role_labels', JSON.stringify(parsedConfig.roleLabels)); applyRoleRestrictions(); }
                             applyTypography(window.appFontFamily, window.appTextTransform);
                             
-                            if (parsedConfig.format_nomor) {
-                                window.appFormatNomor = parsedConfig.format_nomor;
-                                localStorage.setItem('esurat_format_nomor', JSON.stringify(parsedConfig.format_nomor));
-                                updateFormatNomorDropdown();
-                            }
-                            if (parsedConfig.jenis_surat) {
-                                window.appJenisSurat = parsedConfig.jenis_surat;
-                                localStorage.setItem('esurat_jenis_surat', JSON.stringify(parsedConfig.jenis_surat));
-                                updateJenisSuratDropdown();
-                            }
+                            if (parsedConfig.format_nomor) { window.appFormatNomor = parsedConfig.format_nomor; localStorage.setItem('esurat_format_nomor', JSON.stringify(parsedConfig.format_nomor)); updateFormatNomorDropdown(); }
+                            if (parsedConfig.jenis_surat) { window.appJenisSurat = parsedConfig.jenis_surat; localStorage.setItem('esurat_jenis_surat', JSON.stringify(parsedConfig.jenis_surat)); updateJenisSuratDropdown(); }
                             applyAppInfo(window.appTitle, window.appDesc);
                         } catch(e) { console.error("Error parsing config", e); }
                     }
 
                     window.letters = result.data.filter(item => item.jenis !== 'system_settings').sort((a, b) => {
-                        const valA = a.nomor_urut ? a.nomor_urut.toString() : '';
-                        const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
+                        const valA = a.nomor_urut ? a.nomor_urut.toString() : ''; const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
                         return valB.localeCompare(valA, undefined, { numeric: true, sensitivity: 'base' });
                     });
                     localCache.setItem('letters', window.letters);
-                    updateYearDropdown();
-                    refreshUI();
-                    updateConnectionUI(true, 'Terhubung');
-                } else {
-                    throw new Error(result.message);
-                }
-            } catch (error) {
-                console.error("Gagal mengambil data:", error);
-                updateConnectionUI(true, 'Gagal Sinkron');
-            }
+                    updateYearDropdown(); refreshUI(); updateConnectionUI(true, 'Terhubung');
+                } else { throw new Error(result.message); }
+            } catch (error) { console.error("Gagal mengambil data:", error); updateConnectionUI(true, 'Gagal Sinkron'); }
         }
 
         async function processOfflineQueue() {
@@ -1703,56 +1467,30 @@
             for (let key of keys) {
                 try {
                     const queueData = await offlineQueue.getItem(key);
-                    const response = await fetch(GAS_WEB_APP_URL, {
-                        method: 'POST',
-                        body: JSON.stringify(queueData)
-                    });
+                    const response = await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(queueData) });
                     const result = await response.json();
                     
-                    if (result.status === 'success') {
-                        await offlineQueue.removeItem(key);
-                        successCount++;
-                    }
-                } catch (error) {
-                    console.error("Gagal sinkron data ID:", key, error);
-                }
+                    if (result.status === 'success') { await offlineQueue.removeItem(key); successCount++; }
+                } catch (error) { console.error("Gagal sinkron data ID:", key, error); }
             }
 
-            if (successCount > 0) {
-                showToast('success', `${successCount} antrean offline disinkronkan!`);
-                fetchDataFromServer();
-            }
-            updateQueueBadge();
-            updateConnectionUI(true, 'Terhubung');
+            if (successCount > 0) { showToast('success', `${successCount} antrean offline disinkronkan!`); fetchDataFromServer(); }
+            updateQueueBadge(); updateConnectionUI(true, 'Terhubung');
         }
 
         function updateYearDropdown() {
             const role = sessionStorage.getItem('userRole');
             const selects = [document.getElementById('year-filter'), document.getElementById('mobile-year-filter')];
             let currentVal = window.selectedYear;
-            
-            // Karena kita menyembunyikan filter tahun, pastikan dia tetap 'all' secara logic agar data tidak terpotong
-            window.selectedYear = 'all';
-            currentVal = 'all';
+            window.selectedYear = 'all'; currentVal = 'all';
 
             let html = '';
-            if (role === 'superadmin') {
-                html += '<option value="all">Semua Tahun</option>';
-            }
+            if (role === 'superadmin') { html += '<option value="all">Semua Tahun</option>'; }
             
-            const start = window.appYearConfig.start;
-            const end = window.appYearConfig.end;
+            const start = window.appYearConfig.start; const end = window.appYearConfig.end;
+            for (let y = start; y <= end; y++) { html += `<option value="${y}">${y}</option>`; }
             
-            for (let y = start; y <= end; y++) {
-                html += `<option value="${y}">${y}</option>`;
-            }
-            
-            selects.forEach(select => {
-                if(select){
-                   select.innerHTML = html;
-                   select.value = currentVal; 
-                }
-            });
+            selects.forEach(select => { if(select){ select.innerHTML = html; select.value = currentVal; } });
         }
 
         window.changeYear = (val) => { window.selectedYear = val; updateYearDropdown(); refreshUI(); };
@@ -1770,10 +1508,7 @@
                 });
             }
             
-            if (window.selectedYear !== 'all') {
-                data = data.filter(l => l.tanggal_surat && new Date(l.tanggal_surat).getFullYear().toString() === window.selectedYear);
-            }
-            
+            if (window.selectedYear !== 'all') { data = data.filter(l => l.tanggal_surat && new Date(l.tanggal_surat).getFullYear().toString() === window.selectedYear); }
             if (window.selectedMonth !== 'all') {
                 data = data.filter(l => {
                     if (!l.tanggal_surat) return false;
@@ -1796,57 +1531,35 @@
         async function updateQueueBadge() {
             const keys = await offlineQueue.keys();
             const badge = document.getElementById('queue-badge');
-            if (keys.length > 0) {
-                document.getElementById('queue-count').innerText = keys.length;
-                badge.classList.remove('hidden'); badge.classList.add('flex');
-            } else {
-                badge.classList.add('hidden'); badge.classList.remove('flex');
-            }
+            if (keys.length > 0) { document.getElementById('queue-count').innerText = keys.length; badge.classList.remove('hidden'); badge.classList.add('flex'); } 
+            else { badge.classList.add('hidden'); badge.classList.remove('flex'); }
         }
 
-        window.forceSync = async () => {
-            if(!isOnline) return showToast('error', 'Tidak ada koneksi internet.');
-            await processOfflineQueue(); fetchDataFromServer();
-        };
+        window.forceSync = async () => { if(!isOnline) return showToast('error', 'Tidak ada koneksi internet.'); await processOfflineQueue(); fetchDataFromServer(); };
 
         window.selectedBulkIds = [];
         
         window.toggleSelectAll = (el) => {
             const checkboxes = document.querySelectorAll('.row-checkbox');
             window.selectedBulkIds = [];
-            checkboxes.forEach(cb => {
-                cb.checked = el.checked;
-                if (el.checked) window.selectedBulkIds.push(cb.value);
-            });
+            checkboxes.forEach(cb => { cb.checked = el.checked; if (el.checked) window.selectedBulkIds.push(cb.value); });
             checkBulkEditUI();
         };
         
         window.toggleRowSelect = (el) => {
-            if (el.checked) {
-                if (!window.selectedBulkIds.includes(el.value)) window.selectedBulkIds.push(el.value);
-            } else {
-                window.selectedBulkIds = window.selectedBulkIds.filter(id => id !== el.value);
-            }
+            if (el.checked) { if (!window.selectedBulkIds.includes(el.value)) window.selectedBulkIds.push(el.value); } 
+            else { window.selectedBulkIds = window.selectedBulkIds.filter(id => id !== el.value); }
             const selectAll = document.getElementById('selectAllCheckbox');
             const allCheckboxes = document.querySelectorAll('.row-checkbox');
-            if(selectAll && allCheckboxes.length > 0) {
-                selectAll.checked = allCheckboxes.length === window.selectedBulkIds.length;
-            }
+            if(selectAll && allCheckboxes.length > 0) { selectAll.checked = allCheckboxes.length === window.selectedBulkIds.length; }
             checkBulkEditUI();
         };
         
         window.checkBulkEditUI = () => {
-            const btn = document.getElementById('btn-bulk-edit');
-            const count = document.getElementById('bulk-count');
+            const btn = document.getElementById('btn-bulk-edit'); const count = document.getElementById('bulk-count');
             if (btn && count) {
-                if (window.selectedBulkIds.length > 0) {
-                    btn.classList.remove('hidden');
-                    btn.classList.add('flex');
-                    count.innerText = window.selectedBulkIds.length;
-                } else {
-                    btn.classList.add('hidden');
-                    btn.classList.remove('flex');
-                }
+                if (window.selectedBulkIds.length > 0) { btn.classList.remove('hidden'); btn.classList.add('flex'); count.innerText = window.selectedBulkIds.length; } 
+                else { btn.classList.add('hidden'); btn.classList.remove('flex'); }
             }
         };
 
@@ -1854,17 +1567,13 @@
             const select = document.getElementById('bulk-jenis-surat');
             select.innerHTML = window.appJenisSurat.map(j => `<option value="${j}">${j}</option>`).join('');
             
-            const modal = document.getElementById('bulk-edit-modal');
-            const content = document.getElementById('bulk-edit-modal-content');
-            modal.classList.remove('hidden');
-            setTimeout(() => content.classList.replace('scale-95', 'scale-100'), 10);
+            const modal = document.getElementById('bulk-edit-modal'); const content = document.getElementById('bulk-edit-modal-content');
+            modal.classList.remove('hidden'); setTimeout(() => content.classList.replace('scale-95', 'scale-100'), 10);
         };
 
         window.closeBulkEditModal = () => {
-            const modal = document.getElementById('bulk-edit-modal');
-            const content = document.getElementById('bulk-edit-modal-content');
-            content.classList.replace('scale-100', 'scale-95');
-            setTimeout(() => modal.classList.add('hidden'), 300);
+            const modal = document.getElementById('bulk-edit-modal'); const content = document.getElementById('bulk-edit-modal-content');
+            content.classList.replace('scale-100', 'scale-95'); setTimeout(() => modal.classList.add('hidden'), 300);
         };
 
         window.applyBulkEdit = async () => {
@@ -1876,8 +1585,7 @@
             closeBulkEditModal();
 
             try {
-                let promises = [];
-                let offlineSaves = [];
+                let promises = []; let offlineSaves = [];
                 
                 window.selectedBulkIds.forEach(id => {
                     const index = window.letters.findIndex(l => l.id === id);
@@ -1886,65 +1594,36 @@
                         window.letters[index].updated_at = new Date().toISOString();
 
                         const payload = { action: 'create_or_update', data: window.letters[index] };
-                        if (isOnline && isGasConfigured) {
-                            promises.push(fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) }));
-                        } else {
-                            offlineSaves.push({ key: 'SAVE_' + id, payload });
-                        }
+                        if (isOnline && isGasConfigured) { promises.push(fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) })); } 
+                        else { offlineSaves.push({ key: 'SAVE_' + id, payload }); }
                     }
                 });
 
                 localCache.setItem('letters', window.letters);
 
-                if (isOnline && isGasConfigured) {
-                    await Promise.all(promises);
-                } else {
-                    for (let item of offlineSaves) {
-                        await offlineQueue.setItem(item.key, item.payload);
-                    }
-                    updateQueueBadge();
-                }
+                if (isOnline && isGasConfigured) { await Promise.all(promises); } 
+                else { for (let item of offlineSaves) { await offlineQueue.setItem(item.key, item.payload); } updateQueueBadge(); }
 
-                window.selectedBulkIds = [];
-                checkBulkEditUI();
-                refreshUI();
+                window.selectedBulkIds = []; checkBulkEditUI(); refreshUI();
                 showToast('success', 'Berhasil merubah data secara massal!');
-            } catch (error) {
-                console.error(error);
-                showToast('error', 'Terjadi kesalahan saat menyimpan perubahan massal.');
-            } finally {
-                document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
-                document.getElementById('loading-text').innerText = 'Memproses Data';
-            }
+            } catch (error) { console.error(error); showToast('error', 'Terjadi kesalahan saat menyimpan perubahan massal.'); } 
+            finally { document.getElementById('loading-overlay').classList.replace('flex', 'hidden'); document.getElementById('loading-text').innerText = 'Memproses Data'; }
         };
 
         function updateChart(masukCount, keluarCount) {
-            const ctx = document.getElementById('suratChart');
-            const emptyText = document.getElementById('chart-empty-text');
+            const ctx = document.getElementById('suratChart'); const emptyText = document.getElementById('chart-empty-text');
             if (!ctx) return;
 
             if (masukCount === 0 && keluarCount === 0) {
-                emptyText.classList.remove('hidden');
-                if (dashboardChart) { dashboardChart.destroy(); dashboardChart = null; }
+                emptyText.classList.remove('hidden'); if (dashboardChart) { dashboardChart.destroy(); dashboardChart = null; }
                 return;
             }
             emptyText.classList.add('hidden');
 
             const config = {
                 type: 'doughnut', 
-                data: {
-                    labels: ['Surat Masuk', 'Surat Keluar'],
-                    datasets: [{
-                        data: [masukCount, keluarCount],
-                        backgroundColor: ['#0ea5e9', '#10b981'],
-                        borderWidth: 0, hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true, cutout: '75%',
-                    plugins: { legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 12 }, usePointStyle: true, boxWidth: 8 } } },
-                    animation: { animateScale: true, animateRotate: true }
-                }
+                data: { labels: ['Surat Masuk', 'Surat Keluar'], datasets: [{ data: [masukCount, keluarCount], backgroundColor: ['#0ea5e9', '#10b981'], borderWidth: 0, hoverOffset: 4 }] },
+                options: { responsive: true, cutout: '75%', plugins: { legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 12 }, usePointStyle: true, boxWidth: 8 } } }, animation: { animateScale: true, animateRotate: true } }
             };
 
             if (dashboardChart) dashboardChart.destroy();
@@ -1952,12 +1631,9 @@
         }
 
         window.updateRincianSuratKeluar = () => {
-            const container = document.getElementById('dashboard-rincian-keluar');
-            const emptyState = document.getElementById('rincian-empty-state');
-            
+            const container = document.getElementById('dashboard-rincian-keluar'); const emptyState = document.getElementById('rincian-empty-state');
             if (!container) return;
 
-            // Ambil semua surat keluar (Abaikan filter bulan agar ditotal secara keseluruhan)
             let semuaSuratKeluar = window.letters.filter(l => l.jenis === 'keluar');
             const role = sessionStorage.getItem('userRole');
 
@@ -1969,20 +1645,11 @@
                 });
             }
             
-            // Tetap hormati filter Tahun jika dipilih (tapi mengabaikan bulan)
-            if (window.selectedYear !== 'all') {
-                semuaSuratKeluar = semuaSuratKeluar.filter(l => l.tanggal_surat && new Date(l.tanggal_surat).getFullYear().toString() === window.selectedYear);
-            }
+            if (window.selectedYear !== 'all') { semuaSuratKeluar = semuaSuratKeluar.filter(l => l.tanggal_surat && new Date(l.tanggal_surat).getFullYear().toString() === window.selectedYear); }
 
-            if (semuaSuratKeluar.length === 0) {
-                container.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                return;
-            }
-
+            if (semuaSuratKeluar.length === 0) { container.innerHTML = ''; emptyState.classList.remove('hidden'); return; }
             emptyState.classList.add('hidden');
 
-            // Hitung total tiap jenis surat (Gunakan trim & toUpperCase agar seragam dan otomatis tergabung tanpa error)
             const counts = {};
             semuaSuratKeluar.forEach(item => {
                 const jenisRaw = item.jenis_surat || 'TIDAK DIKETAHUI';
@@ -1990,7 +1657,6 @@
                 counts[jenis] = (counts[jenis] || 0) + 1;
             });
 
-            // Urutkan berdasarkan jumlah terbanyak
             const sortedJenis = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
 
             let html = '';
@@ -1998,16 +1664,10 @@
                 html += `
                     <div onclick="filterByJenis('${jenis}')" class="relative cursor-pointer bg-slate-50/50 border border-slate-200/80 rounded-2xl p-4 flex items-center justify-between group hover:border-brand-300 hover:bg-brand-50/50 transition-all duration-300 shadow-sm hover:-translate-y-0.5">
                         <div class="flex items-center gap-3 overflow-hidden pr-2">
-                            <div class="w-8 h-8 rounded-lg bg-white text-brand-500 flex items-center justify-center shadow-sm border border-slate-200 group-hover:border-brand-300 shrink-0 transition-colors">
-                                <i class="fa-solid fa-file-lines text-xs"></i>
-                            </div>
+                            <div class="w-8 h-8 rounded-lg bg-white text-brand-500 flex items-center justify-center shadow-sm border border-slate-200 group-hover:border-brand-300 shrink-0 transition-colors"><i class="fa-solid fa-file-lines text-xs"></i></div>
                             <h5 class="text-[11px] font-bold text-slate-700 truncate uppercase_override leading-snug">${jenis}</h5>
                         </div>
-                        <div class="bg-white px-3 py-1.5 rounded-xl shadow-sm border border-slate-200 text-brand-600 font-black text-sm shrink-0 min-w-[2.5rem] text-center relative z-10">
-                            ${counts[jenis]}
-                        </div>
-                        
-                        <!-- Tooltip Hover Custom -->
+                        <div class="bg-white px-3 py-1.5 rounded-xl shadow-sm border border-slate-200 text-brand-600 font-black text-sm shrink-0 min-w-[2.5rem] text-center relative z-10">${counts[jenis]}</div>
                         <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[250px] opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-300 bg-slate-800 text-white text-[10px] font-bold px-3 py-2 rounded-lg shadow-xl z-50 text-center leading-relaxed uppercase_override flex flex-col items-center">
                             ${jenis}
                             <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-[1px] border-[5px] border-transparent border-t-slate-800"></div>
@@ -2020,32 +1680,19 @@
         }
 
         window.filterByJenis = (jenis) => {
-            // Reset filter bulan agar semua surat yang diklik di rincian benar-benar muncul
             window.selectedMonth = 'all';
             const monthDropdown = document.getElementById('month-filter');
             if (monthDropdown) monthDropdown.value = 'all';
-
-            // Pindah ke tab surat keluar
             window.switchTab('keluar');
-            
-            // Isi input pencarian dengan jenis surat yang diklik dan langsung filter tabel
             const searchInput = document.getElementById('search-input');
-            if (searchInput) {
-                searchInput.value = jenis;
-                renderTable();
-            }
+            if (searchInput) { searchInput.value = jenis; renderTable(); }
         };
 
         function refreshUI() {
-            const masukData = getFilteredDataForTab('masuk');
-            const keluarData = getFilteredDataForTab('keluar');
-            
-            document.getElementById('count-masuk').innerText = masukData.length;
-            document.getElementById('count-keluar').innerText = keluarData.length;
-            
+            const masukData = getFilteredDataForTab('masuk'); const keluarData = getFilteredDataForTab('keluar');
+            document.getElementById('count-masuk').innerText = masukData.length; document.getElementById('count-keluar').innerText = keluarData.length;
             updateChart(masukData.length, keluarData.length);
             if (typeof updateRincianSuratKeluar === 'function') updateRincianSuratKeluar(); 
-            
             if (window.currentTab !== 'dashboard' && window.currentTab !== 'pengaturan' && document.getElementById('view-form').classList.contains('hidden')) { renderTable(); }
         }
 
@@ -2056,17 +1703,15 @@
 
             const role = sessionStorage.getItem('userRole');
             const canEdit = role === 'superadmin' || role === 'admin';
-            const canBulkEdit = role === 'superadmin'; // Hanya superadmin yang bisa Edit Massal
+            const canBulkEdit = role === 'superadmin'; 
 
-            const tbody = document.getElementById('table-body');
-            const emptyState = document.getElementById('empty-state');
+            const tbody = document.getElementById('table-body'); const emptyState = document.getElementById('empty-state');
             tbody.innerHTML = '';
             
             const filteredData = getFilteredDataForTab(window.currentTab);
             
             filteredData.sort((a, b) => {
-                const valA = a.nomor_urut ? a.nomor_urut.toString() : '';
-                const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
+                const valA = a.nomor_urut ? a.nomor_urut.toString() : ''; const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
                 return valB.localeCompare(valA, undefined, { numeric: true, sensitivity: 'base' });
             });
             
@@ -2075,11 +1720,9 @@
             const checkboxHeader = (canBulkEdit && !isMasuk) ? '<th class="p-4 font-bold text-center w-12 no-print"><input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="w-4 h-4 text-brand-600 rounded border-slate-300 focus:ring-brand-500 cursor-pointer"></th>' : '';
 
             if (filteredData.length === 0) {
-                emptyState.classList.remove('hidden');
-                document.getElementById('data-table').classList.add('hidden');
+                emptyState.classList.remove('hidden'); document.getElementById('data-table').classList.add('hidden');
             } else {
-                emptyState.classList.add('hidden');
-                document.getElementById('data-table').classList.remove('hidden');
+                emptyState.classList.add('hidden'); document.getElementById('data-table').classList.remove('hidden');
                 
                 document.getElementById('table-head').innerHTML = isMasuk ? 
                     `<tr class="bg-slate-50/50 text-slate-500 text-[10px] uppercase_override tracking-widest border-b border-slate-200/80"><th class="p-4 font-bold w-28 text-slate-500">Pencatatan</th><th class="p-4 font-bold w-48 text-slate-500">Surat & Tgl</th><th class="p-4 font-bold text-slate-500">Instansi</th><th class="p-4 font-bold text-slate-500">Perihal</th><th class="p-4 font-bold text-center w-32 text-slate-500">Lampiran</th>${aksiHeader}</tr>` :
@@ -2091,11 +1734,8 @@
                     
                     let buktiHtml = '<span class="text-[10px] text-slate-400 font-bold tracking-widest uppercase_override">Kosong</span>';
                     if (item.bukti_dukung) {
-                        if (item.bukti_dukung.startsWith('http')) {
-                            buktiHtml = `<a href="${item.bukti_dukung}" target="_blank" class="text-sky-600 hover:text-white hover:bg-sky-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-200 transition-colors mx-auto w-max shadow-sm"><i class="fa-solid fa-cloud"></i> Drive</a>`;
-                        } else {
-                            buktiHtml = `<button onclick="viewPDFBase64('${item.id}')" class="text-brand-600 hover:text-white hover:bg-brand-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-brand-50 px-3 py-1.5 rounded-full border border-brand-200 transition-colors mx-auto w-max shadow-sm"><i class="fa-solid fa-eye"></i> Lihat</button>`;
-                        }
+                        if (item.bukti_dukung.startsWith('http')) { buktiHtml = `<a href="${item.bukti_dukung}" target="_blank" class="text-sky-600 hover:text-white hover:bg-sky-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-200 transition-colors mx-auto w-max shadow-sm"><i class="fa-solid fa-cloud"></i> Drive</a>`; } 
+                        else { buktiHtml = `<button onclick="viewPDFBase64('${item.id}')" class="text-brand-600 hover:text-white hover:bg-brand-500 text-xs font-bold flex items-center justify-center gap-1.5 bg-brand-50 px-3 py-1.5 rounded-full border border-brand-200 transition-colors mx-auto w-max shadow-sm"><i class="fa-solid fa-eye"></i> Lihat</button>`; }
                     }
 
                     const displayDate = item.tanggal_surat ? new Date(item.tanggal_surat).toLocaleDateString('id-ID') : '-';
@@ -2137,7 +1777,7 @@
             e.preventDefault();
             
             if (checkDuplicateNomor()) {
-                return showToast('error', 'Nomor inti sudah pernah dipakai! Inputan ditolak otomatis.');
+                return showToast('error', 'Gagal menyimpan: Nomor sudah terdaftar di riwayat Surat Keluar!');
             }
 
             const btnSave = document.getElementById('btn-save');
@@ -2148,9 +1788,7 @@
                 const id = document.getElementById('surat-id').value || 'SRT-' + Date.now();
                 
                 let fileInput = document.getElementById('bukti_foto');
-                if (!fileInput.files || fileInput.files.length === 0) {
-                    fileInput = document.getElementById('bukti_pdf');
-                }
+                if (!fileInput.files || fileInput.files.length === 0) { fileInput = document.getElementById('bukti_pdf'); }
                 
                 let base64File = document.getElementById('existing_bukti').value;
                 let fileName = document.getElementById('existing_bukti_name').value;
@@ -2193,14 +1831,12 @@
                 }
                 
                 window.letters.sort((a, b) => {
-                    const valA = a.nomor_urut ? a.nomor_urut.toString() : '';
-                    const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
+                    const valA = a.nomor_urut ? a.nomor_urut.toString() : ''; const valB = b.nomor_urut ? b.nomor_urut.toString() : '';
                     return valB.localeCompare(valA, undefined, { numeric: true, sensitivity: 'base' });
                 });
                 
                 localCache.setItem('letters', window.letters);
-                updateYearDropdown(); 
-                refreshUI();
+                updateYearDropdown(); refreshUI();
 
                 const payload = { action: 'create_or_update', data: newData };
 
@@ -2246,153 +1882,102 @@
                     if (isOnline && isGasConfigured) {
                         document.getElementById('loading-text').innerText = 'Menghapus Data';
                         document.getElementById('loading-overlay').classList.replace('hidden', 'flex');
-                        
                         await fetch(GAS_WEB_APP_URL, { method: 'POST', body: JSON.stringify(payload) });
-                        
                         document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
                         document.getElementById('loading-text').innerText = 'Memproses Data';
                         showToast('success', 'Data berhasil dihapus.');
                     } else {
                         await offlineQueue.setItem('DEL_' + id, payload);
-                        updateQueueBadge();
-                        showToast('info', 'Penghapusan dijadwalkan secara offline.');
+                        updateQueueBadge(); showToast('info', 'Penghapusan dijadwalkan secara offline.');
                     }
-                } catch(e) {
-                    document.getElementById('loading-overlay').classList.replace('flex', 'hidden');
-                    showToast('error', 'Gagal menghapus data.');
-                }
+                } catch(e) { document.getElementById('loading-overlay').classList.replace('flex', 'hidden'); showToast('error', 'Gagal menghapus data.'); }
             });
         };
 
         window.switchTab = (tab) => {
             const role = sessionStorage.getItem('userRole');
-            if (tab === 'pengaturan' && role !== 'superadmin') {
-                return showToast('error', 'Akses ditolak!');
-            }
+            if (tab === 'pengaturan' && role !== 'superadmin') { return showToast('error', 'Akses ditolak!'); }
 
-            window.currentTab = tab;
-            window.selectedBulkIds = [];
+            window.currentTab = tab; window.selectedBulkIds = [];
             if(typeof window.checkBulkEditUI === 'function') window.checkBulkEditUI();
 
             const s = document.getElementById('sidebar');
-            
             if (window.innerWidth < 768 && !s.classList.contains('-translate-x-full')) { toggleSidebar(); }
 
             ['dashboard', 'masuk', 'keluar', 'pengaturan'].forEach(t => {
                 const nav = document.getElementById(`nav-${t}`);
                 if(nav) {
-                    if (t === tab) {
-                        nav.className = 'w-full text-left px-4 py-3 rounded-xl bg-brand-50 text-brand-700 font-bold transition-all flex items-center group shadow-sm border border-brand-100/50';
-                    } else {
-                        nav.className = 'w-full text-left px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-medium transition-all flex items-center group border border-transparent';
-                    }
+                    if (t === tab) { nav.className = 'w-full text-left px-4 py-3 rounded-xl bg-brand-50 text-brand-700 font-bold transition-all flex items-center group shadow-sm border border-brand-100/50'; } 
+                    else { nav.className = 'w-full text-left px-4 py-3 rounded-xl hover:bg-slate-50 text-slate-500 hover:text-slate-800 font-medium transition-all flex items-center group border border-transparent'; }
                 }
             });
             
             if (role !== 'superadmin') {
                 const navPeng = document.getElementById('nav-pengaturan');
-                if (navPeng) { 
-                    navPeng.classList.add('hidden'); 
-                    navPeng.classList.remove('flex'); 
-                }
+                if (navPeng) { navPeng.classList.add('hidden'); navPeng.classList.remove('flex'); }
             }
 
-            document.getElementById('view-form').classList.add('hidden');
-            document.getElementById('view-data').classList.add('hidden');
-            document.getElementById('view-dashboard').classList.add('hidden');
-            document.getElementById('view-pengaturan').classList.add('hidden');
+            document.getElementById('view-form').classList.add('hidden'); document.getElementById('view-data').classList.add('hidden');
+            document.getElementById('view-dashboard').classList.add('hidden'); document.getElementById('view-pengaturan').classList.add('hidden');
             
-            const searchInput = document.getElementById('search-input');
-            if (searchInput) searchInput.value = '';
+            const searchInput = document.getElementById('search-input'); if (searchInput) searchInput.value = '';
 
             if (tab === 'dashboard') {
-                document.getElementById('view-dashboard').classList.remove('hidden');
-                document.getElementById('page-title').innerText = 'Dashboard Overview';
+                document.getElementById('view-dashboard').classList.remove('hidden'); document.getElementById('page-title').innerText = 'Dashboard Overview';
             } else if (tab === 'pengaturan') {
-                document.getElementById('view-pengaturan').classList.remove('hidden');
-                document.getElementById('page-title').innerText = 'Pengaturan Sistem';
-                document.getElementById('pass-superadmin').value = window.appPasswords.superadmin;
-                document.getElementById('pass-admin').value = window.appPasswords.admin;
-                document.getElementById('pass-staff').value = window.appPasswords.staff;
-                
-                document.getElementById('setting-brand-text').value = window.appBrandText;
-                document.getElementById('setting-role-admin').value = window.appRoleLabels.admin;
-                document.getElementById('setting-role-superadmin').value = window.appRoleLabels.superadmin;
-                document.getElementById('setting-role-staff').value = window.appRoleLabels.staff;
-
-                document.getElementById('setting-start-year').value = window.appYearConfig.start;
-                document.getElementById('setting-end-year').value = window.appYearConfig.end;
-                document.getElementById('setting-theme-color').value = window.appThemeColor;
-                document.getElementById('setting-font-family').value = window.appFontFamily;
-                document.getElementById('setting-text-transform').value = window.appTextTransform;
-                
-                // Render form tambah terus untuk format nomor
+                document.getElementById('view-pengaturan').classList.remove('hidden'); document.getElementById('page-title').innerText = 'Pengaturan Sistem';
+                document.getElementById('pass-superadmin').value = window.appPasswords.superadmin; document.getElementById('pass-admin').value = window.appPasswords.admin; document.getElementById('pass-staff').value = window.appPasswords.staff;
+                document.getElementById('setting-brand-text').value = window.appBrandText; document.getElementById('setting-role-admin').value = window.appRoleLabels.admin; document.getElementById('setting-role-superadmin').value = window.appRoleLabels.superadmin; document.getElementById('setting-role-staff').value = window.appRoleLabels.staff;
+                document.getElementById('setting-start-year').value = window.appYearConfig.start; document.getElementById('setting-end-year').value = window.appYearConfig.end; document.getElementById('setting-theme-color').value = window.appThemeColor; document.getElementById('setting-font-family').value = window.appFontFamily; document.getElementById('setting-text-transform').value = window.appTextTransform;
                 renderFormatNomorSettings();
-                
-                document.getElementById('setting-app-title').value = window.appTitle;
-                document.getElementById('setting-app-desc').value = window.appDesc;
-
-                document.getElementById('setting-jenis-surat').value = window.appJenisSurat.join(', ');
-                
-                const logoInput = document.getElementById('input-logo');
-                if(logoInput) logoInput.value = '';
-                document.getElementById('logo-base64').value = '';
-                document.getElementById('logo-name').value = '';
-                applyAppLogo(window.appLogo); 
+                document.getElementById('setting-app-title').value = window.appTitle; document.getElementById('setting-app-desc').value = window.appDesc; document.getElementById('setting-jenis-surat').value = window.appJenisSurat.join(', ');
+                const logoInput = document.getElementById('input-logo'); if(logoInput) logoInput.value = '';
+                document.getElementById('logo-base64').value = ''; document.getElementById('logo-name').value = ''; applyAppLogo(window.appLogo); 
             } else {
                 document.getElementById('view-data').classList.remove('hidden');
-                
                 const isMasuk = tab === 'masuk';
                 document.getElementById('page-title').innerText = isMasuk ? 'Arsip Surat Masuk' : 'Arsip Surat Keluar';
                 document.getElementById('table-title').innerText = isMasuk ? 'Daftar Surat Masuk' : 'Daftar Surat Keluar';
-                
                 renderTable();
             }
         };
 
         window.openForm = (id = null) => {
-            document.getElementById('view-data').classList.add('hidden');
-            document.getElementById('view-form').classList.remove('hidden');
-            document.getElementById('surat-form').reset();
-            removeExistingFile();
+            document.getElementById('view-data').classList.add('hidden'); document.getElementById('view-form').classList.remove('hidden');
+            document.getElementById('surat-form').reset(); removeExistingFile();
             
-            const warning = document.getElementById('warning-nomor');
-            const finalInputNomor = document.getElementById('nomor_surat');
-            const btnSave = document.getElementById('btn-save');
+            const warning = document.getElementById('warning-nomor'); const finalInputNomor = document.getElementById('nomor_surat');
+            const btnSave = document.getElementById('btn-save'); const iconFinal = document.getElementById('icon-final-nomor');
             warning.classList.add('hidden');
-            finalInputNomor.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700');
+            finalInputNomor.classList.remove('border-rose-500', 'bg-rose-50/50', 'text-rose-700', 'ring-rose-500/30', 'ring-2');
             finalInputNomor.classList.add('border-amber-200', 'bg-amber-50/50', 'text-amber-800');
-            btnSave.disabled = false;
-            btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
+            iconFinal.classList.replace('text-rose-500', 'text-amber-500/80');
+            btnSave.disabled = false; btnSave.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-rose-500'); btnSave.classList.add('hover:bg-brand-700'); btnSave.innerHTML = '<i class="fa-solid fa-floppy-disk opacity-90"></i> Simpan Data';
 
             const isMasuk = window.currentTab === 'masuk';
-            document.getElementById('form-group-masuk').classList.toggle('hidden', !isMasuk);
-            document.getElementById('form-group-keluar').classList.toggle('hidden', isMasuk);
+            document.getElementById('form-group-masuk').classList.toggle('hidden', !isMasuk); document.getElementById('form-group-keluar').classList.toggle('hidden', isMasuk);
             
-            // Penyesuaian form khusus Surat Masuk
             const formatContainer = document.getElementById('format-nomor-container');
             const inputIntiContainer = document.getElementById('input-inti-container');
             const inputInti = document.getElementById('input_nomor_inti');
+            const selectInti = document.getElementById('select_nomor_inti');
+            const manualWrapper = document.getElementById('manual-nomor-wrapper');
             
+            if(selectInti) selectInti.classList.add('hidden'); 
+            manualWrapper.classList.remove('hidden');
+
             if (isMasuk) {
-                formatContainer.classList.add('hidden');
-                inputIntiContainer.classList.remove('flex-[2]');
-                inputIntiContainer.classList.add('w-full');
-                inputInti.placeholder = "Ketik Nomor Surat Lengkap...";
+                formatContainer.classList.add('hidden'); inputIntiContainer.classList.remove('flex-[2]'); inputIntiContainer.classList.add('w-full'); inputInti.placeholder = "Ketik Nomor Surat Lengkap...";
             } else {
-                formatContainer.classList.remove('hidden');
-                inputIntiContainer.classList.remove('w-full');
-                inputIntiContainer.classList.add('flex-[2]');
-                inputInti.placeholder = "Ketik No...";
+                formatContainer.classList.remove('hidden'); inputIntiContainer.classList.remove('w-full'); inputIntiContainer.classList.add('flex-[2]'); inputInti.placeholder = "Ketik No..."; 
             }
 
-            document.getElementById('pengirim').required = isMasuk;
-            document.getElementById('perihal_masuk').required = isMasuk;
-            document.getElementById('jenis_surat').required = !isMasuk;
-            document.getElementById('isi_surat').required = !isMasuk;
-            document.getElementById('pemohon').required = !isMasuk;
-            
+            document.getElementById('pengirim').required = isMasuk; document.getElementById('perihal_masuk').required = isMasuk;
+            document.getElementById('jenis_surat').required = !isMasuk; document.getElementById('isi_surat').required = !isMasuk; document.getElementById('pemohon').required = !isMasuk;
             document.getElementById('form-title').innerText = id ? "Perbarui Arsip Data" : "Pencatatan Arsip Baru";
+
+            // PERBARUI LIST NOMOR YANG TELAH DIGUNAKAN KETIKA MEMBUKA FORM
+            updateUsedNomorList();
 
             if (id) {
                 const item = window.letters.find(l => l.id === id);
@@ -2400,109 +1985,65 @@
                     document.getElementById('surat-id').value = item.id;
                     document.getElementById('nomor_urut').value = item.nomor_urut || '';
                     
-                    // Pastikan format tanggal murni TYYYY-MM-DD saat diedit agar tidak mereset inputan browser
                     let dateVal = item.tanggal_surat || '';
                     if(dateVal.includes('T')) dateVal = dateVal.split('T')[0];
                     document.getElementById('tanggal_surat').value = dateVal;
                     
-                    // Parsing Nomor Surat saat ini dengan dukungan strict cek 
-                    document.getElementById('input_nomor_inti').value = item.nomor_inti || ''; // Ambil dari data asli jika ada
+                    document.getElementById('input_nomor_inti').value = item.nomor_inti || ''; 
                     document.getElementById('pilih_format_nomor').value = '{NO}';
                     document.getElementById('nomor_surat').value = item.nomor_surat || '';
 
-                    // Buka kunci field saat mode edit
-                    const inputIntiEl = document.getElementById('input_nomor_inti');
-                    inputIntiEl.readOnly = false;
-                    inputIntiEl.classList.remove('bg-slate-100', 'cursor-not-allowed');
-                    inputIntiEl.classList.add('bg-white');
-
-                    if (isMasuk) {
-                        document.getElementById('pengirim').value = item.pengirim || '';
-                        document.getElementById('perihal_masuk').value = item.perihal || '';
-                    } else {
+                    if (!isMasuk) {
                         const selectJenis = document.getElementById('jenis_surat');
                         if (item.jenis_surat) {
                             const normalizedItem = window.formatTextData(item.jenis_surat);
                             if (!window.appJenisSurat.includes(normalizedItem) && !window.appJenisSurat.map(j => window.formatTextData(j)).includes(normalizedItem)) {
-                                const opt = document.createElement('option');
-                                opt.value = normalizedItem;
-                                opt.text = normalizedItem;
+                                const opt = document.createElement('option'); opt.value = normalizedItem; opt.text = normalizedItem;
                                 selectJenis.appendChild(opt);
                             }
                             selectJenis.value = normalizedItem;
                         }
                         document.getElementById('isi_surat').value = item.isi_surat || '';
                         document.getElementById('pemohon').value = item.pemohon || '';
+                    } else {
+                        document.getElementById('pengirim').value = item.pengirim || '';
+                        document.getElementById('perihal_masuk').value = item.perihal || '';
                     }
+
                     if (item.bukti_dukung) {
-                        document.getElementById('existing_bukti').value = item.bukti_dukung;
-                        document.getElementById('file-name-text').innerText = item.bukti_dukung_name || 'Berkas Terlampir';
-                        document.getElementById('file-name-display').classList.remove('hidden');
-                        
+                        document.getElementById('existing_bukti').value = item.bukti_dukung; document.getElementById('file-name-text').innerText = item.bukti_dukung_name || 'Berkas Terlampir'; document.getElementById('file-name-display').classList.remove('hidden');
                         const preview = document.getElementById('image-preview');
-                        if (item.bukti_dukung.startsWith('data:image/') || (item.bukti_dukung_name && item.bukti_dukung_name.match(/\.(jpg|jpeg|png|gif)$/i))) {
-                            preview.src = item.bukti_dukung;
-                            preview.classList.remove('hidden');
-                        } else {
-                            preview.classList.add('hidden');
-                            preview.src = '';
-                        }
+                        if (item.bukti_dukung.startsWith('data:image/') || (item.bukti_dukung_name && item.bukti_dukung_name.match(/\.(jpg|jpeg|png|gif)$/i))) { preview.src = item.bukti_dukung; preview.classList.remove('hidden'); } 
+                        else { preview.classList.add('hidden'); preview.src = ''; }
                     }
                 }
             } else {
                 document.getElementById('surat-id').value = '';
-                const currentData = getFilteredDataForTab(window.currentTab);
                 
-                const maxUrut = currentData.reduce((max, item) => {
-                    const num = parseInt(item.nomor_urut, 10);
-                    return isNaN(num) ? max : Math.max(max, num);
-                }, 0);
+                const allTabData = window.letters.filter(l => l.jenis === window.currentTab);
+                const maxUrut = allTabData.reduce((max, item) => { const num = parseInt(item.nomor_urut, 10); return isNaN(num) ? max : Math.max(max, num); }, 0);
                 
                 document.getElementById('nomor_urut').value = (maxUrut + 1).toString().padStart(3, '0');
-                const today = new Date();
-                document.getElementById('tanggal_surat').value = today.toISOString().split('T')[0];
+                const today = new Date(); document.getElementById('tanggal_surat').value = today.toISOString().split('T')[0];
                 
-                // MENGAMBIL DAN MENAMPILKAN NOMOR INTI TERAKHIR SECARA OTOMATIS BERDASARKAN ANGKA TERTINGGI
-                let maxInti = 0;
-                let padLength = 3; // Default 001
-                
-                currentData.forEach(item => {
-                    if (item.nomor_inti) {
-                        let numStr = item.nomor_inti.replace(/\D/g, ''); // Ambil angkanya saja jika ada huruf
-                        if(numStr) {
-                            let num = parseInt(numStr, 10);
-                            if (!isNaN(num) && num > maxInti) {
-                                maxInti = num;
-                                padLength = numStr.length > padLength ? numStr.length : padLength; // Pertahankan format padding terpanjang misal 0001
-                            }
+                if (isMasuk) { inputInti.value = ""; } 
+                else {
+                    let maxInti = 0; let padLength = 3; 
+                    allTabData.forEach(item => {
+                        if (item.nomor_inti) {
+                            let numStr = item.nomor_inti.toString().replace(/\D/g, '');
+                            if(numStr) { let num = parseInt(numStr, 10); if (!isNaN(num) && num > maxInti) { maxInti = num; padLength = numStr.length > padLength ? numStr.length : padLength; } }
                         }
-                    }
-                });
-                
-                // Surat Masuk Default kosong karena nomor tidak berurutan dan berasal dari instansi luar
-                if (isMasuk) {
-                    document.getElementById('input_nomor_inti').value = ""; 
-                } else {
-                    let nextInti = maxInti + 1;
-                    let lastNomorInti = nextInti.toString().padStart(padLength, '0');
-                    document.getElementById('input_nomor_inti').value = lastNomorInti;
+                    });
+                    let nextInti = maxInti + 1; inputInti.value = nextInti.toString().padStart(padLength, '0');
                 }
 
                 document.getElementById('nomor_surat').value = '';
-
-                // Setel default template dropdown ke template pertama yang valid (bukan {NO}) jika ada, 
-                // agar form otomatis terkunci dari awal.
                 const selectFormat = document.getElementById('pilih_format_nomor');
                 if(selectFormat.options.length > 0) {
                     let defaultOpt = Array.from(selectFormat.options).find(o => o.value !== '{NO}');
-                    if(defaultOpt) {
-                        selectFormat.value = defaultOpt.value;
-                    } else {
-                        selectFormat.selectedIndex = 0;
-                    }
+                    if(defaultOpt) { selectFormat.value = defaultOpt.value; } else { selectFormat.selectedIndex = 0; }
                 }
-                
-                // Trigger kalkulasi sekaligus mengunci form karena sudah ada isinya
                 generateFinalNomor(); 
             }
         };
@@ -2510,56 +2051,28 @@
         window.goBackToData = () => { document.getElementById('view-form').classList.add('hidden'); document.getElementById('view-data').classList.remove('hidden'); };
         
         window.toggleSidebar = () => { 
-            const s = document.getElementById('sidebar');
-            const backdrop = document.getElementById('sidebar-backdrop');
-            
+            const s = document.getElementById('sidebar'); const backdrop = document.getElementById('sidebar-backdrop');
             if (window.innerWidth < 768) {
                 const isClosed = s.classList.contains('-translate-x-full');
-                
-                if (isClosed) {
-                    s.classList.remove('-translate-x-full');
-                    backdrop.classList.remove('hidden');
-                    setTimeout(() => { 
-                        backdrop.classList.remove('opacity-0'); 
-                        backdrop.classList.add('opacity-100'); 
-                    }, 10);
-                } else {
-                    s.classList.add('-translate-x-full');
-                    backdrop.classList.remove('opacity-100');
-                    backdrop.classList.add('opacity-0');
-                    setTimeout(() => { backdrop.classList.add('hidden'); }, 500);
-                }
-            } else {
-                s.classList.toggle('md:-ml-[260px]');
-            }
+                if (isClosed) { s.classList.remove('-translate-x-full'); backdrop.classList.remove('hidden'); setTimeout(() => { backdrop.classList.remove('opacity-0'); backdrop.classList.add('opacity-100'); }, 10); } 
+                else { s.classList.add('-translate-x-full'); backdrop.classList.remove('opacity-100'); backdrop.classList.add('opacity-0'); setTimeout(() => { backdrop.classList.add('hidden'); }, 500); }
+            } else { s.classList.toggle('md:-ml-[260px]'); }
         };
 
         window.displayFileName = (input, type) => { 
             if(input.files[0]) { 
                 const file = input.files[0];
-                if(type === 'foto') { document.getElementById('bukti_pdf').value = ''; } 
-                else { document.getElementById('bukti_foto').value = ''; }
-                
-                document.getElementById('file-name-text').innerText = file.name; 
-                document.getElementById('file-name-display').classList.remove('hidden'); 
-                
+                if(type === 'foto') { document.getElementById('bukti_pdf').value = ''; } else { document.getElementById('bukti_foto').value = ''; }
+                document.getElementById('file-name-text').innerText = file.name; document.getElementById('file-name-display').classList.remove('hidden'); 
                 const preview = document.getElementById('image-preview');
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => { preview.src = e.target.result; preview.classList.remove('hidden'); };
-                    reader.readAsDataURL(file);
-                } else {
-                    preview.classList.add('hidden');
-                    preview.src = '';
-                }
+                if (file.type.startsWith('image/')) { const reader = new FileReader(); reader.onload = (e) => { preview.src = e.target.result; preview.classList.remove('hidden'); }; reader.readAsDataURL(file); } 
+                else { preview.classList.add('hidden'); preview.src = ''; }
             }
         };
         
         window.removeExistingFile = () => { 
-            document.getElementById('existing_bukti').value = ''; document.getElementById('bukti_foto').value = ''; 
-            document.getElementById('bukti_pdf').value = ''; document.getElementById('file-name-display').classList.add('hidden'); 
-            const preview = document.getElementById('image-preview');
-            preview.classList.add('hidden'); preview.src = '';
+            document.getElementById('existing_bukti').value = ''; document.getElementById('bukti_foto').value = ''; document.getElementById('bukti_pdf').value = ''; document.getElementById('file-name-display').classList.add('hidden'); 
+            const preview = document.getElementById('image-preview'); preview.classList.add('hidden'); preview.src = '';
         };
         
         function getBase64(file) { return new Promise((res, rej) => { const r = new FileReader(); r.readAsDataURL(file); r.onload = () => res(r.result); r.onerror = error => rej(error); }); }
@@ -2568,18 +2081,13 @@
             const item = window.letters.find(l => l.id === id);
             if (item && item.bukti_dukung) {
                 const fileWindow = window.open("");
-                if (item.bukti_dukung.startsWith('data:image/')) {
-                    fileWindow.document.write(`<title>Lihat Berkas - ${item.nomor_surat}</title><body style="margin:0; background-color:#0f172a; display:flex; justify-content:center; align-items:center; height:100vh;"><img src='${item.bukti_dukung}' style="max-width:90%; max-height:90%; object-fit:contain; border-radius:12px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);" /></body>`);
-                } else {
-                    fileWindow.document.write(`<title>Lihat Berkas - ${item.nomor_surat}</title><body style="margin:0;"><iframe width='100%' height='100%' src='${item.bukti_dukung}' style="border:none;"></iframe></body>`);
-                }
+                if (item.bukti_dukung.startsWith('data:image/')) { fileWindow.document.write(`<title>Lihat Berkas - ${item.nomor_surat}</title><body style="margin:0; background-color:#0f172a; display:flex; justify-content:center; align-items:center; height:100vh;"><img src='${item.bukti_dukung}' style="max-width:90%; max-height:90%; object-fit:contain; border-radius:12px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);" /></body>`); } 
+                else { fileWindow.document.write(`<title>Lihat Berkas - ${item.nomor_surat}</title><body style="margin:0;"><iframe width='100%' height='100%' src='${item.bukti_dukung}' style="border:none;"></iframe></body>`); }
             }
         };
 
         window.showToast = (type, message) => {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = message;
-            
+            const toast = document.getElementById('toast'); document.getElementById('toast-message').innerText = message;
             let iconHtml = '', borderCls = '';
             if(type==='success'){ iconHtml = '<div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><i class="fa-solid fa-check"></i></div>'; borderCls = 'border-l-4 border-l-emerald-500'; }
             else if(type==='error'){ iconHtml = '<div class="w-10 h-10 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center"><i class="fa-solid fa-exclamation"></i></div>'; borderCls = 'border-l-4 border-l-rose-500'; }
@@ -2600,8 +2108,7 @@
             const statusEl = document.getElementById('connection-status');
             if (!isGasConfigured) {
                 statusEl.innerHTML = `<span class="w-2 h-2 bg-sky-400 rounded-full"></span> Lokal Saja`;
-                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-sky-500 text-[10px] font-bold mb-3 tracking-wide uppercase_override";
-                return;
+                statusEl.className = "inline-flex items-center justify-center w-full gap-2 text-sky-500 text-[10px] font-bold mb-3 tracking-wide uppercase_override"; return;
             }
             if (online) {
                 statusEl.innerHTML = `<span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span> Terhubung Server`;
@@ -2616,26 +2123,19 @@
             const dataToExport = getFilteredDataForTab(window.currentTab).map(l => {
                 const inputDate = (l.created_at || l.updated_at) ? new Date(l.created_at || l.updated_at).toLocaleDateString('id-ID') : '-';
                 let r = { 'No. Urut': l.nomor_urut, 'Tanggal Input': inputDate, 'No Surat': l.nomor_surat, 'Tanggal Surat': l.tanggal_surat };
-                if (window.currentTab === 'masuk') { r['Pengirim'] = l.pengirim; r['Perihal'] = l.perihal; } 
-                else { r['Tujuan'] = l.pemohon; r['Jenis'] = l.jenis_surat; r['Isi'] = l.isi_surat; }
+                if (window.currentTab === 'masuk') { r['Pengirim'] = l.pengirim; r['Perihal'] = l.perihal; } else { r['Tujuan'] = l.pemohon; r['Jenis'] = l.jenis_surat; r['Isi'] = l.isi_surat; }
                 return r;
             });
             if(dataToExport.length === 0) return showToast('error', 'Data masih kosong.');
             const ws = XLSX.utils.json_to_sheet(dataToExport); const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, `Data`); 
-            XLSX.writeFile(wb, `Arsip_${window.currentTab.toUpperCase()}_${window.selectedYear !== 'all' ? window.selectedYear : 'Semua'}.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, `Data`); XLSX.writeFile(wb, `Arsip_${window.currentTab.toUpperCase()}_${window.selectedYear !== 'all' ? window.selectedYear : 'Semua'}.xlsx`);
         };
 
         window.exportPDF = () => {
-            const { jsPDF } = window.jspdf; const doc = new jsPDF('l', 'mm', 'a4'); 
-            doc.setFontSize(14);
+            const { jsPDF } = window.jspdf; const doc = new jsPDF('l', 'mm', 'a4'); doc.setFontSize(14);
             doc.text(`Rekapitulasi Arsip Surat ${window.currentTab === 'masuk' ? 'Masuk' : 'Keluar'} - Desa Fajar Asri ${window.selectedYear !== 'all' ? '('+window.selectedYear+')' : ''}`.toUpperCase(), 14, 20);
             
-            const head = window.currentTab === 'masuk' 
-                ? [['Urut', 'Tgl Pencatatan', 'Nomor Surat', 'Tgl Surat', 'Instansi / Pengirim', 'Perihal']]
-                : [['Urut', 'Tgl Pencatatan', 'Nomor Surat', 'Tgl Surat', 'Jenis Surat', 'Isi Surat', 'Tujuan']];
-
-            // Map data
+            const head = window.currentTab === 'masuk' ? [['Urut', 'Tgl Pencatatan', 'Nomor Surat', 'Tgl Surat', 'Instansi / Pengirim', 'Perihal']] : [['Urut', 'Tgl Pencatatan', 'Nomor Surat', 'Tgl Surat', 'Jenis Surat', 'Isi Surat', 'Tujuan']];
             const dataToExport = getFilteredDataForTab(window.currentTab).map(l => {
                 const tgl = l.tanggal_surat ? new Date(l.tanggal_surat).toLocaleDateString('id-ID') : '-';
                 const inputDate = (l.created_at || l.updated_at) ? new Date(l.created_at || l.updated_at).toLocaleDateString('id-ID') : '-';
@@ -2644,13 +2144,7 @@
             });
 
             if(dataToExport.length === 0) return showToast('error', 'Data masih kosong.');
-            
-            doc.autoTable({ 
-                head: head, body: dataToExport, startY: 28, 
-                headStyles: { fillColor: [15, 23, 42], textColor: [255,255,255], fontStyle: 'bold' }, 
-                alternateRowStyles: { fillColor: [248, 250, 252] },
-                styles: { fontSize: 9, cellPadding: 4, lineColor: [226, 232, 240], lineWidth: 0.1 }
-            });
+            doc.autoTable({ head: head, body: dataToExport, startY: 28, headStyles: { fillColor: [15, 23, 42], textColor: [255,255,255], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 250, 252] }, styles: { fontSize: 9, cellPadding: 4, lineColor: [226, 232, 240], lineWidth: 0.1 } });
             doc.save(`Arsip_${window.currentTab.toUpperCase()}_${window.selectedYear !== 'all' ? window.selectedYear : new Date().toISOString().slice(0,10)}.pdf`);
         };
 
