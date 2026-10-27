@@ -121,7 +121,7 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                             <i class="fa-solid fa-key text-slate-400"></i>
                         </div>
-                        <input type="password" id="app-password" required class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-center font-bold tracking-widest text-lg uppercase_override shadow-sm" placeholder="••••••••">
+                        <input type="password" id="app-password" required class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all text-center font-bold tracking-widest text-lg shadow-sm" placeholder="••••••••" oninput="this.value = this.value.replace(/[0-9]/g, '')" style="text-transform: none !important;">
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3">
                             <button type="button" onclick="togglePassword()" class="p-2 text-slate-400 hover:text-brand-500 focus:outline-none transition-colors">
                                 <i id="password-eye-icon" class="fa-solid fa-eye"></i>
@@ -2026,16 +2026,11 @@
                 document.getElementById('nomor_urut').value = (maxUrut + 1).toString().padStart(3, '0');
                 const today = new Date(); document.getElementById('tanggal_surat').value = today.toISOString().split('T')[0];
                 
-                if (isMasuk) { inputInti.value = ""; } 
-                else {
-                    let maxInti = 0; let padLength = 3; 
-                    allTabData.forEach(item => {
-                        if (item.nomor_inti) {
-                            let numStr = item.nomor_inti.toString().replace(/\D/g, '');
-                            if(numStr) { let num = parseInt(numStr, 10); if (!isNaN(num) && num > maxInti) { maxInti = num; padLength = numStr.length > padLength ? numStr.length : padLength; } }
-                        }
-                    });
-                    let nextInti = maxInti + 1; inputInti.value = nextInti.toString().padStart(padLength, '0');
+                // MENGOSONGKAN INPUT NOMOR KETIKA TAMBAH DATA (SESUAI PERMINTAAN)
+                if (isMasuk) { 
+                    inputInti.value = ""; 
+                } else {
+                    inputInti.value = ""; 
                 }
 
                 document.getElementById('nomor_surat').value = '';
